@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UrbanStay — Rent Collection Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #08A63F;
+      --green-dark: #068237;
+      --green-light: #EBF8EE;
+      --green-tint: rgba(8, 166, 63, 0.08);
+      --ink: #111111;
+      --ink-secondary: #374151;
+      --muted: #6B7280;
+      --light-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-card: #E5E7EB;
+      --bg-page: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --blue-pill: #EEF2FF;
+      --blue-text: #4F46E5;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg-page);
+      font-family: var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-screen {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 40px;
+    }
+
+    /* Top Sticky Header */
+    .top-header {
+      background: #FFFFFF;
+      padding: 14px 18px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:active {
+      background: #E5E7EB;
+    }
+
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .header-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .cycle-select-pill {
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    /* Main Container */
+    .main-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* 3-Pill Financial Summary Strip */
+    .stats-strip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .stat-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.015);
+    }
+
+    .stat-num {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-num.blue { color: #2563EB; }
+    .stat-num.green { color: var(--green-dark); }
+    .stat-num.red { color: var(--danger); }
+
+    .stat-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* Primary Broadcast Reminders Action (Clean White Card with Emerald Button) */
+    .broadcast-reminders-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .broadcast-left-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .broadcast-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .broadcast-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    .btn-send-all-reminders {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-send-all-reminders:active {
+      background: var(--green-dark);
+      transform: scale(0.96);
+    }
+
+    /* Filter Chips Bar */
+    .filter-tabs-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .filter-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip-btn {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 99px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .filter-chip-btn.active {
+      background: var(--green);
+      color: #FFFFFF;
+      border-color: var(--green);
+      font-weight: 700;
+    }
+
+    /* Search Input */
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 42px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 14px 0 38px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 13px;
+      color: var(--muted);
+    }
+
+    /* Rent Cards List */
+    .rent-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Spacious Rent Collection Card */
+    .rent-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: all 0.25s ease;
+    }
+
+    /* Card Top: Resident Info + Amount */
+    .rent-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .resident-info-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .avatar-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 99px;
+      background: #F3F4F6;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .resident-details-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .resident-name-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .resident-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .status-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .status-badge.paid {
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .status-badge.overdue {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .status-badge.partial {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+
+    .resident-sub-meta {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .amount-display-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+
+    .amount-main {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .amount-main.green { color: var(--green-dark); }
+    .amount-main.red { color: var(--danger); }
+
+    .amount-sub-label {
+      font-size: 10.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Breakdown Box */
+    .breakdown-box {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--ink-secondary);
+    }
+
+    .breakdown-items {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .breakdown-dot {
+      color: var(--light-muted);
+    }
+
+    /* Actions Strip */
+    .card-actions-grid {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-btn-neutral {
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-decoration: none;
+      flex: 1;
+      transition: all 0.15s ease;
+    }
+
+    .action-btn-neutral:active {
+      background: #F3F4F6;
+    }
+
+    .action-btn-neutral.primary {
+      background: var(--green);
+      color: #FFFFFF;
+      border-color: var(--green);
+      font-weight: 700;
+    }
+
+    .action-btn-neutral.primary:active {
+      background: var(--green-dark);
+    }
+
+    .action-icon-only {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .action-icon-only:active {
+      background: #F3F4F6;
+    }
+
+    .action-icon-only svg {
+      width: 15px;
+      height: 15px;
+      color: var(--ink-secondary);
+    }
+
+    /* Modals & Sheets */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 430px;
+      background: #FFFFFF;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: popUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    @keyframes popUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .close-icon-btn {
+      border: none;
+      background: #F3F4F6;
+      width: 28px;
+      height: 28px;
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 42px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0 12px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .btn-submit-primary {
+      width: 100%;
+      height: 46px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-submit-primary:active {
+      background: var(--green-dark);
+    }
+
+    /* PDF Receipt Modal Preview Box */
+    .receipt-mock-box {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+    }
+
+    .receipt-stamp-badge {
+      align-self: center;
+      border: 1.5px solid var(--green);
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-90px);
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 99px;
+      z-index: 200;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-screen">
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <a href="owner_dashboard.html" class="back-btn" title="Back to Dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </a>
+        <div class="header-title-block">
+          <span class="header-title">Rent Collection</span>
+          <span class="header-sub">Greenview PG • 31 Beds</span>
+        </div>
+      </div>
+
+      <select class="cycle-select-pill">
+        <option>August 2026</option>
+        <option>July 2026</option>
+        <option>June 2026</option>
+      </select>
+    </header>
+
+    <!-- Main Body -->
+    <main class="main-body">
+
+      <!-- 3-Pill Financial Summary Strip -->
+      <div class="stats-strip-grid">
+        <div class="stat-pill">
+          <span class="stat-num blue">₹2,63,500</span>
+          <span class="stat-label">Total Expected</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num green">₹2,12,000</span>
+          <span class="stat-label">Collected (81%)</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num red" id="totalOverdueSum">₹51,500</span>
+          <span class="stat-label" id="defaulterCountLabel">6 Overdue</span>
+        </div>
+      </div>
+
+      <!-- Broadcast Reminders to All Overdue Card -->
+      <div class="broadcast-reminders-card">
+        <div class="broadcast-left-meta">
+          <span class="broadcast-title">6 Defaulters Pending</span>
+          <span class="broadcast-sub">Send 1-tap WhatsApp payment links</span>
+        </div>
+        <button class="btn-send-all-reminders" onclick="sendBroadcastReminders()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+          <span>Remind All</span>
+        </button>
+      </div>
+
+      <!-- Filter Chips Bar (Only Status Filters) -->
+      <div class="filter-tabs-scroll">
+        <button class="filter-chip-btn active" onclick="filterRentCategory('all', this)">All Tenants (31)</button>
+        <button class="filter-chip-btn" onclick="filterRentCategory('overdue', this)">Overdue (6)</button>
+        <button class="filter-chip-btn" onclick="filterRentCategory('paid', this)">Paid (25)</button>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="rentSearchInput" onkeyup="searchRentCards()" placeholder="Search by resident name or room..." class="search-input">
+      </div>
+
+      <!-- Rent Cards Stack -->
+      <div class="rent-cards-stack" id="rentStack">
+
+        <!-- Rent Card 1: Amit Verma (Overdue) -->
+        <div class="rent-card" data-status="overdue" data-floor="1st" data-name="amit verma" data-room="101">
+          <div class="rent-card-top">
+            <div class="resident-info-cluster">
+              <div class="avatar-circle">AV</div>
+              <div class="resident-details-col">
+                <div class="resident-name-line">
+                  <span class="resident-name">Amit Verma</span>
+                  <span class="status-badge overdue">3 Days Overdue</span>
+                </div>
+                <span class="resident-sub-meta">Room 101 • Bed B • Christ Univ</span>
+              </div>
+            </div>
+            <div class="amount-display-block">
+              <span class="amount-main red">₹8,500</span>
+              <span class="amount-sub-label">Due since 15 Aug</span>
+            </div>
+          </div>
+
+          <div class="breakdown-box">
+            <div class="breakdown-items">
+              <span>Monthly Rent: ₹8,500</span>
+              <span class="breakdown-dot">•</span>
+              <span>All Utilities Included</span>
+            </div>
+            <span style="font-weight: 700; color: var(--danger);">Unpaid</span>
+          </div>
+
+          <div class="card-actions-grid">
+            <a href="tel:+919988776655" class="action-icon-only" title="Call">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </a>
+            <button class="action-icon-only" onclick="sendWhatsAppRentLink('Amit Verma', '8500', 'Room 101-B')" title="Send WhatsApp Payment Link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+            </button>
+            <button class="action-btn-neutral" onclick="openRecordCashModal('Amit Verma', '101', '8500')">
+              <span>+ Record Cash</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Rent Card 2: Rohan Patil (Overdue) -->
+        <div class="rent-card" data-status="overdue" data-floor="2nd" data-name="rohan patil" data-room="202">
+          <div class="rent-card-top">
+            <div class="resident-info-cluster">
+              <div class="avatar-circle">RP</div>
+              <div class="resident-details-col">
+                <div class="resident-name-line">
+                  <span class="resident-name">Rohan Patil</span>
+                  <span class="status-badge overdue">5 Days Overdue</span>
+                </div>
+                <span class="resident-sub-meta">Room 202 • Bed A • Wipro</span>
+              </div>
+            </div>
+            <div class="amount-display-block">
+              <span class="amount-main red">₹7,500</span>
+              <span class="amount-sub-label">Due since 13 Aug</span>
+            </div>
+          </div>
+
+          <div class="breakdown-box">
+            <div class="breakdown-items">
+              <span>Monthly Rent: ₹7,500</span>
+              <span class="breakdown-dot">•</span>
+              <span>All Utilities Included</span>
+            </div>
+            <span style="font-weight: 700; color: var(--danger);">Unpaid</span>
+          </div>
+
+          <div class="card-actions-grid">
+            <a href="tel:+919811223344" class="action-icon-only" title="Call">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </a>
+            <button class="action-icon-only" onclick="sendWhatsAppRentLink('Rohan Patil', '7500', 'Room 202-A')" title="Send WhatsApp Payment Link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+            </button>
+            <button class="action-btn-neutral" onclick="openRecordCashModal('Rohan Patil', '202', '7500')">
+              <span>+ Record Cash</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Rent Card 3: Rahul Sharma (Paid) -->
+        <div class="rent-card" data-status="paid" data-floor="1st" data-name="rahul sharma" data-room="101">
+          <div class="rent-card-top">
+            <div class="resident-info-cluster">
+              <div class="avatar-circle">RS</div>
+              <div class="resident-details-col">
+                <div class="resident-name-line">
+                  <span class="resident-name">Rahul Sharma</span>
+                  <span class="status-badge paid">Paid</span>
+                </div>
+                <span class="resident-sub-meta">Room 101 • Bed A • Infosys</span>
+              </div>
+            </div>
+            <div class="amount-display-block">
+              <span class="amount-main green">₹8,500</span>
+              <span class="amount-sub-label">Paid on 1 Aug (Direct UPI)</span>
+            </div>
+          </div>
+
+          <div class="breakdown-box">
+            <div class="breakdown-items">
+              <span>Rent: ₹8,500</span>
+              <span class="breakdown-dot">•</span>
+              <span>Ref: UTR 423189765412</span>
+            </div>
+            <span style="font-weight: 700; color: var(--green-dark);">Settled 0% Fee</span>
+          </div>
+
+          <div class="card-actions-grid">
+            <button class="action-btn-neutral" onclick="openReceiptModal('Rahul Sharma', '101-A', '₹8,500', '423189765412', '1 Aug 2026')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Receipt (PDF)</span>
+            </button>
+            <button class="action-btn-neutral" onclick="toast('PDF Receipt shared to Rahul on WhatsApp')">
+              <span>Share Receipt</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Rent Card 4: Priya Nair (Paid) -->
+        <div class="rent-card" data-status="paid" data-floor="2nd" data-name="priya nair" data-room="201">
+          <div class="rent-card-top">
+            <div class="resident-info-cluster">
+              <div class="avatar-circle">PN</div>
+              <div class="resident-details-col">
+                <div class="resident-name-line">
+                  <span class="resident-name">Priya Nair</span>
+                  <span class="status-badge paid">Paid</span>
+                </div>
+                <span class="resident-sub-meta">Room 201 • Bed B • Dell</span>
+              </div>
+            </div>
+            <div class="amount-display-block">
+              <span class="amount-main green">₹9,000</span>
+              <span class="amount-sub-label">Paid on 3 Aug (Cash)</span>
+            </div>
+          </div>
+
+          <div class="breakdown-box">
+            <div class="breakdown-items">
+              <span>Rent: ₹9,000</span>
+              <span class="breakdown-dot">•</span>
+              <span>Logged by Warden</span>
+            </div>
+            <span style="font-weight: 700; color: var(--green-dark);">Cash Verified</span>
+          </div>
+
+          <div class="card-actions-grid">
+            <button class="action-btn-neutral" onclick="openReceiptModal('Priya Nair', '201-B', '₹9,000', 'CASH-REC-8902', '3 Aug 2026')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Receipt (PDF)</span>
+            </button>
+            <button class="action-btn-neutral" onclick="toast('PDF Receipt shared to Priya on WhatsApp')">
+              <span>Share Receipt</span>
+            </button>
+          </div>
+      </div>
+
+    </main>
+
+    <!-- Modal: Record Cash / Partial Payment -->
+    <div id="cashModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title" id="cashModalTitle">Record Cash Payment</span>
+          <button class="close-icon-btn" onclick="closeModal('cashModal')">✕</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="form-group">
+            <label class="form-label">Resident</label>
+            <input type="text" id="cashResidentName" class="form-input" readonly style="background: #F9FAFB;">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="form-group">
+              <label class="form-label">Cash Received (₹)</label>
+              <input type="number" id="cashAmountInput" class="form-input" placeholder="e.g. 5000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Total Outstanding (₹)</label>
+              <input type="text" id="cashOutstandingDisplay" class="form-input" readonly style="background: #F9FAFB;">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Payment Date</label>
+            <input type="date" id="cashDateInput" class="form-input" value="2026-08-18">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Internal Notes (Optional)</label>
+            <input type="text" id="cashNotesInput" class="form-input" placeholder="e.g. Paid in 500 notes, balance next week">
+          </div>
+        </div>
+
+        <button class="btn-submit-primary" onclick="submitCashRecord()">
+          Save Cash & Send WhatsApp Receipt
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal: Stamped Digital Rent Receipt Preview -->
+    <div id="receiptModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Digital Rent Receipt (HRA Tax Valid)</span>
+          <button class="close-icon-btn" onclick="closeModal('receiptModal')">✕</button>
+        </div>
+
+        <div class="receipt-mock-box">
+          <div style="text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+            <div style="font-size: 15px; font-weight: 800; color: var(--ink);">Greenview Luxury PG</div>
+            <div style="font-size: 11px; color: var(--muted);">#42, 5th Cross, 4th Block, Koramangala, Bengaluru</div>
+          </div>
+
+          <div class="receipt-row">
+            <span style="color: var(--muted);">Tenant Name:</span>
+            <b id="recName">Rahul Sharma</b>
+          </div>
+          <div class="receipt-row">
+            <span style="color: var(--muted);">Room / Bed:</span>
+            <span id="recRoom">Room 101-A</span>
+          </div>
+          <div class="receipt-row">
+            <span style="color: var(--muted);">Month / Period:</span>
+            <span>August 2026</span>
+          </div>
+          <div class="receipt-row">
+            <span style="color: var(--muted);">Amount Paid:</span>
+            <b style="color: var(--green-dark);" id="recAmount">₹8,500</b>
+          </div>
+          <div class="receipt-row">
+            <span style="color: var(--muted);">Transaction Ref:</span>
+            <span style="font-family: monospace; font-size: 11.5px;" id="recRef">423189765412</span>
+          </div>
+          <div class="receipt-row">
+            <span style="color: var(--muted);">Date of Payment:</span>
+            <span id="recDate">1 Aug 2026</span>
+          </div>
+
+          <div class="receipt-stamp-badge">
+            ✓ Digitally Verified & Stamped
+          </div>
+        </div>
+
+        <button class="btn-submit-primary" onclick="closeModal('receiptModal'); toast('PDF Rent Receipt Downloaded ✓')">
+          Download PDF Receipt
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg">Action completed</div>
+
+  </div>
+
+  <script>
+    let activeCashTarget = { name: '', room: '', outstanding: 0 };
+
+    function filterRentCategory(status, btn) {
+      document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.rent-card');
+      cards.forEach(card => {
+        if (status === 'all' || card.dataset.status === status) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      toast(`Showing ${status === 'all' ? 'All Tenants' : status.toUpperCase()}`);
+    }
+
+    function filterRentFloor(floor, btn) {
+      document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.rent-card');
+      cards.forEach(card => {
+        if (card.dataset.floor === floor) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      toast(`Showing ${floor} Floor`);
+    }
+
+    function searchRentCards() {
+      const query = document.getElementById('rentSearchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.rent-card');
+
+      cards.forEach(card => {
+        const name = card.dataset.name || '';
+        const room = card.dataset.room || '';
+        if (name.includes(query) || room.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function sendWhatsAppRentLink(name, amount, room) {
+      toast(`Direct UPI Payment Link for ₹${amount} sent to ${name} (${room}) via WhatsApp ✓`);
+    }
+
+    function sendBroadcastReminders() {
+      toast('WhatsApp Payment Reminders sent to all 6 Overdue Residents ✓');
+    }
+
+    function openRecordCashModal(name, room, amount) {
+      activeCashTarget = { name, room, outstanding: parseInt(amount) };
+      document.getElementById('cashModalTitle').innerText = `Record Cash: ${name} (Room ${room})`;
+      document.getElementById('cashResidentName').value = `${name} — Room ${room}`;
+      document.getElementById('cashAmountInput').value = amount;
+      document.getElementById('cashOutstandingDisplay').value = `₹${amount}`;
+      openModal('cashModal');
+    }
+
+    function submitCashRecord() {
+      const cashReceived = parseInt(document.getElementById('cashAmountInput').value) || 0;
+      if (cashReceived <= 0) {
+        toast('Please enter a valid cash amount');
+        return;
+      }
+
+      closeModal('cashModal');
+      const balance = activeCashTarget.outstanding - cashReceived;
+      if (balance <= 0) {
+        toast(`₹${cashReceived} Cash recorded for ${activeCashTarget.name}. Rent Marked Paid & Receipt sent ✓`);
+      } else {
+        toast(`₹${cashReceived} Partial Cash logged for ${activeCashTarget.name}. Remaining Balance: ₹${balance}`);
+      }
+    }
+
+    function openReceiptModal(name, room, amount, ref, date) {
+      document.getElementById('recName').innerText = name;
+      document.getElementById('recRoom').innerText = `Room ${room}`;
+      document.getElementById('recAmount').innerText = amount;
+      document.getElementById('recRef').innerText = ref;
+      document.getElementById('recDate').innerText = date;
+      openModal('receiptModal');
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function toast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.classList.add('show');
+      setTimeout(() => {
+        t.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+
+</html>

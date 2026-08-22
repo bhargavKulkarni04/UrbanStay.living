@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UrbanStay — Owner Onboarding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #08A63F;
+      --green-dark: #068237;
+      --green-tint: rgba(8, 166, 63, 0.06);
+      --green-glow: rgba(8, 166, 63, 0.12);
+      --ink: #111111;
+      --muted: #6B7280;
+      --light-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-active: #08A63F;
+      --card-bg: #FAFAFA;
+      --btn-secondary: #F4F4F5;
+      --divider: #F0F0F0;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: #FFFFFF;
+      font-family: var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .screen-wrap {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      max-width: 440px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 20px 24px;
+    }
+
+    /* ============================================================
+     TOP NAVIGATION & SEGMENTED PROGRESS TRACK
+     ============================================================ */
+    .top-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .nav-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-back {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      color: var(--ink);
+      padding: 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    .step-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* Ultra-thin Segmented Progress Track */
+    .progress-track {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 3.5px;
+      border-radius: 99px;
+      background: #EEEEEE;
+      transition: background 0.3s ease;
+    }
+
+    .progress-bar.active {
+      background: var(--green);
+    }
+
+    /* ============================================================
+     HEADLINE & SUBTITLE
+     ============================================================ */
+    .header-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 18px;
+    }
+
+    .title-text {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .subtitle-text {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ============================================================
+     TIGHT COMPACT HAIRLINE DIVIDER (ZERO EXTRA SPACES)
+     ============================================================ */
+    .block-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--divider);
+      margin: 4px 0 6px;
+    }
+
+    /* ============================================================
+     TRUST CALLOUT CARD (DIRECT SETTLEMENT)
+     ============================================================ */
+    .trust-card {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .trust-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--green);
+      margin-top: 1px;
+    }
+
+    .trust-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .trust-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .trust-desc {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ============================================================
+     STEP CONTAINERS
+     ============================================================ */
+    .step-view {
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================================
+     SMART FLOATING LABEL INPUT FIELDS (ZERO GREEN FOCUS BORDER)
+     ============================================================ */
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .floating-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .floating-input {
+      width: 100%;
+      height: 54px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      padding: 18px 16px 6px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .floating-input:focus {
+      border-color: var(--ink);
+      box-shadow: none;
+      outline: none;
+    }
+
+    .floating-label {
+      position: absolute;
+      left: 16px;
+      top: 17px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--light-muted);
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: left top;
+    }
+
+    .floating-input:focus~.floating-label,
+    .floating-input:not(:placeholder-shown)~.floating-label {
+      transform: translateY(-10px) scale(0.78);
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* Mobile Phone Row */
+    .phone-floating-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .country-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 54px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      background: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    /* Upload Pills & Cards */
+    .upload-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .upload-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .upload-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .upload-pill-btn {
+      height: 48px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.2s ease;
+    }
+
+    .upload-pill-btn:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .upload-pill-btn.done {
+      border-style: solid;
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-tint);
+      font-weight: 700;
+    }
+
+    .upload-single-btn {
+      width: 100%;
+      height: 52px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.2s ease;
+    }
+
+    .upload-single-btn:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .upload-single-btn.done {
+      border-style: solid;
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-tint);
+      font-weight: 700;
+    }
+
+    /* ============================================================
+     COMPACT CRISP SELECTORS & CARDS
+     ============================================================ */
+    .section-label-refined {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .interactive-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .interactive-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .interactive-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .interactive-grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .interactive-card {
+      height: 50px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      padding: 0 4px;
+      text-align: center;
+    }
+
+    .interactive-card:active {
+      transform: scale(0.98);
+    }
+
+    .interactive-card:hover {
+      border-color: var(--ink);
+    }
+
+    .interactive-card.active {
+      border-color: var(--green);
+      background: var(--green-tint);
+    }
+
+    .card-main-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      transition: color 0.2s ease;
+    }
+
+    .interactive-card.active .card-main-title {
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    .card-sub-tag {
+      font-size: 9.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .interactive-card.active .card-sub-tag {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* Multi-Select Sharing Pills Row */
+    .sharing-pills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .sharing-pill {
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .sharing-pill:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .sharing-pill.active {
+      border-color: var(--green);
+      background: var(--green-tint);
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    /* Two Column Grid */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* Dynamic Rent Card Container */
+    .dynamic-rent-card {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 10px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .rent-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .rent-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .rent-badge-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--green-tint);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .rent-inputs-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* Clean Divider Subheading */
+    .subheading-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+      margin-bottom: 6px;
+    }
+
+    .subheading-text {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .pincode-resolved-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--green-tint);
+      padding: 2px 6px;
+      border-radius: 5px;
+      display: none;
+    }
+
+    /* ============================================================
+     BOTTOM ACTIONS
+     ============================================================ */
+    .bottom-bar {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 10px;
+    }
+
+    .btn-continue {
+      width: 100%;
+      height: 54px;
+      border-radius: 16px;
+      border: 0;
+      background: var(--green);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      box-shadow: 0 6px 18px -4px rgba(8, 166, 63, 0.3);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-continue:active {
+      transform: scale(0.985);
+      background: var(--green-dark);
+    }
+
+    .btn-skip {
+      width: 100%;
+      height: 50px;
+      border-radius: 16px;
+      border: 0;
+      background: var(--btn-secondary);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-skip:hover {
+      color: var(--ink);
+      background: #E5E7EB;
+    }
+
+    .btn-skip:active {
+      transform: scale(0.99);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="screen-wrap">
+
+    <!-- Minimal Top Navigation -->
+    <div class="top-nav">
+      <div class="nav-header-row">
+        <button class="btn-back" type="button" onclick="handleBack()" aria-label="Back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <span class="step-label" id="stepLabel">Step 1 of 4</span>
+      </div>
+
+      <!-- Segmented Bar -->
+      <div class="progress-track">
+        <div class="progress-bar active" id="prog1"></div>
+        <div class="progress-bar" id="prog2"></div>
+        <div class="progress-bar" id="prog3"></div>
+        <div class="progress-bar" id="prog4"></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 1: OWNER IDENTITY & KYC
+         ============================================================ -->
+    <div id="step1View" class="step-view">
+      <div class="header-group">
+        <h1 class="title-text">Owner Details</h1>
+        <p class="subtitle-text">This will be used to generate your official tenant agreements and police records.</p>
+      </div>
+
+      <div class="form-fields">
+        <div class="floating-group">
+          <input type="text" id="legalName" class="floating-input" placeholder=" " autocomplete="name" autofocus>
+          <label for="legalName" class="floating-label">Full Legal Name (as per Aadhaar)</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="fatherName" class="floating-input" placeholder=" ">
+          <label for="fatherName" class="floating-label">Father / Husband Name</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div class="phone-floating-row">
+          <div class="country-pill">
+            <span>🇮🇳</span>
+            <span>+91</span>
+          </div>
+          <div class="floating-group" style="flex: 1;">
+            <input type="tel" id="whatsapp" class="floating-input" placeholder=" " maxlength="10" pattern="[0-9]{10}">
+            <label for="whatsapp" class="floating-label">WhatsApp Mobile Number</label>
+          </div>
+        </div>
+
+        <div class="floating-group">
+          <input type="email" id="email" class="floating-input" placeholder=" ">
+          <label for="email" class="floating-label">Email Address</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div class="floating-group">
+          <input type="tel" id="aadhaar" class="floating-input" placeholder=" " maxlength="14">
+          <label for="aadhaar" class="floating-label">12-digit Aadhaar Number</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="address" class="floating-input" placeholder=" ">
+          <label for="address" class="floating-label">Permanent Home Address</label>
+        </div>
+
+        <div class="upload-group">
+          <span class="upload-label">Aadhaar Card Photo</span>
+          <div class="upload-row">
+            <button class="upload-pill-btn" type="button" id="frontBtn"
+              onclick="toggleUpload('frontBtn', 'Front Photo')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <span id="frontBtnText">Front Photo</span>
+            </button>
+            <button class="upload-pill-btn" type="button" id="backBtn" onclick="toggleUpload('backBtn', 'Back Photo')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <span id="backBtnText">Back Photo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 2: PROPERTY PROFILE & LOCATION
+         ============================================================ -->
+    <div id="step2View" class="step-view" style="display: none;">
+      <div class="header-group">
+        <h1 class="title-text">Property Details</h1>
+        <p class="subtitle-text">Configure your building type and address for automatic tenant room mapping.</p>
+      </div>
+
+      <div class="form-fields">
+
+        <div class="floating-group">
+          <input type="text" id="pgBrandName" class="floating-input" placeholder=" " autocomplete="organization">
+          <label for="pgBrandName" class="floating-label">PG / Property Name (e.g. Green Nest Luxury)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div>
+          <div class="section-label-refined">Gender Category</div>
+          <div class="interactive-grid-3" id="genderGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'genderGrid')">
+              <span class="card-main-title">Gents</span>
+              <span class="card-sub-tag">Male Only</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'genderGrid')">
+              <span class="card-main-title">Ladies</span>
+              <span class="card-sub-tag">Female Only</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'genderGrid')">
+              <span class="card-main-title">Co-Living</span>
+              <span class="card-sub-tag">Unisex / All</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div>
+          <div class="section-label-refined">Property Structure</div>
+          <div class="interactive-grid-2" id="structGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'structGrid')">
+              <span class="card-main-title">Standard PG</span>
+              <span class="card-sub-tag">Rooms &amp; Beds</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'structGrid')">
+              <span class="card-main-title">Apartment Units</span>
+              <span class="card-sub-tag">1BHK / 2BHK / 3BHK</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div>
+          <div class="section-label-refined">Ownership Type</div>
+          <div class="interactive-grid-2" id="ownerGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'ownerGrid')">
+              <span class="card-main-title">Owned Building</span>
+              <span class="card-sub-tag">Sole Owner</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'ownerGrid')">
+              <span class="card-main-title">Leased Property</span>
+              <span class="card-sub-tag">On Lease</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div class="subheading-row">
+          <span class="subheading-text">PG Address</span>
+          <span class="pincode-resolved-badge" id="pincodeBadge">✓ Bengaluru Verified</span>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="streetAddress" class="floating-input" placeholder=" ">
+          <label for="streetAddress" class="floating-label">Street Address (Door No, Cross, Main Road)</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="areaLocality" class="floating-input" placeholder=" ">
+          <label for="areaLocality" class="floating-label">Area / Locality (e.g. Koramangala 5th Block)</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="landmark" class="floating-input" placeholder=" ">
+          <label for="landmark" class="floating-label">Nearest Landmark (e.g. Near Sony World Signal)</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="cityState" class="floating-input" value="Bengaluru, Karnataka" placeholder=" ">
+          <label for="cityState" class="floating-label">City &amp; State</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="tel" id="pincode" class="floating-input" placeholder=" " maxlength="6" pattern="[0-9]{6}"
+            oninput="handlePincode(this)">
+          <label for="pincode" class="floating-label">6-Digit Pincode (e.g. 560034)</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="url" id="mapsUrl" class="floating-input" placeholder=" ">
+          <label for="mapsUrl" class="floating-label">Google Maps Link / GPS Pin (Optional)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div>
+          <div class="section-label-refined">Elevator / Lift</div>
+          <div class="interactive-grid-4" id="liftGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'liftGrid')">
+              <span class="card-main-title">0</span>
+              <span class="card-sub-tag">No Lift</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'liftGrid')">
+              <span class="card-main-title">1</span>
+              <span class="card-sub-tag">Lift</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'liftGrid')">
+              <span class="card-main-title">2</span>
+              <span class="card-sub-tag">Lifts</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'liftGrid')">
+              <span class="card-main-title">3+</span>
+              <span class="card-sub-tag">Lifts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <div>
+          <div class="section-label-refined">Power Backup Facility</div>
+          <div class="interactive-grid-2" id="backupGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'backupGrid')">
+              <span class="card-main-title">Full Backup</span>
+              <span class="card-sub-tag">Generator / Inverter</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'backupGrid')">
+              <span class="card-main-title">No Backup</span>
+              <span class="card-sub-tag">Standard Line</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 3: ROOMS, DYNAMIC RENT & COLLECTION RULES (COMBINED)
+         ============================================================ -->
+    <div id="step3View" class="step-view" style="display: none;">
+      <div class="header-group">
+        <h1 class="title-text">Rooms &amp; Rent Rules</h1>
+        <p class="subtitle-text">Configure your room inventory, rent matrix, and automated collection rules.</p>
+      </div>
+
+      <div class="form-fields">
+
+        <!-- 1. Ground Floor rooms question -->
+        <div>
+          <div class="section-label-refined">Does your Ground Floor have rooms for rent?</div>
+          <div class="interactive-grid-2" id="gfQuestionGrid">
+            <div class="interactive-card" onclick="toggleGroundFloorRooms(true)">
+              <span class="card-main-title">Yes</span>
+              <span class="card-sub-tag">Has Rent Rooms</span>
+            </div>
+            <div class="interactive-card" onclick="toggleGroundFloorRooms(false)">
+              <span class="card-main-title">No</span>
+              <span class="card-sub-tag">Parking / Reception Only</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-group" id="gfRoomsCountBox" style="display: none; margin-top: 6px;">
+          <input type="number" id="gfRoomsCount" class="floating-input" placeholder=" " min="1">
+          <label for="gfRoomsCount" class="floating-label">Ground Floor Rented Rooms Count (e.g. 2)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 2. Floor Count Selector -->
+        <div>
+          <div class="section-label-refined" id="floorCountLabel">Building Floor Count</div>
+          <div class="interactive-grid-5" id="floorPillsContainer">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 3. Rooms per Floor & Total Rooms -->
+        <div class="grid-2col">
+          <div class="floating-group">
+            <input type="number" id="roomsEachFloor" class="floating-input" placeholder=" " min="1">
+            <label for="roomsEachFloor" class="floating-label">Rooms per Floor (e.g. 4)</label>
+          </div>
+          <div class="floating-group">
+            <input type="number" id="totalRooms" class="floating-input" placeholder=" " min="1">
+            <label for="totalRooms" class="floating-label">Total Rooms (e.g. 18)</label>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 4. Room Numbering Style -->
+        <div>
+          <div class="section-label-refined">Room Numbering Format</div>
+          <div class="interactive-grid-2" id="namingGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'namingGrid')">
+              <span class="card-main-title">101, 102, 201...</span>
+              <span class="card-sub-tag">Floor-Wise Numeric</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'namingGrid')">
+              <span class="card-main-title">A-1, A-2, B-1...</span>
+              <span class="card-sub-tag">Block-Wise Alphabetical</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 5. Sharing Types Available -->
+        <div>
+          <div class="section-label-refined">
+            <span>Sharing Types Available</span>
+            <span class="rent-badge-tag">Select Multiple</span>
+          </div>
+          <div class="sharing-pills-wrap" id="sharingPillsWrap">
+            <div class="sharing-pill" onclick="toggleSharingPill(this, '1-Share')">1-Share</div>
+            <div class="sharing-pill" onclick="toggleSharingPill(this, '2-Share')">2-Share</div>
+            <div class="sharing-pill" onclick="toggleSharingPill(this, '3-Share')">3-Share</div>
+            <div class="sharing-pill" onclick="toggleSharingPill(this, '4-Share')">4-Share</div>
+            <div class="sharing-pill" onclick="toggleSharingPill(this, '5-Share')">5-Share</div>
+            <div class="sharing-pill" onclick="toggleSharingPill(this, '6-Share')">6-Share</div>
+            <div class="sharing-pill" onclick="toggleCustomSharing()">+ Type Sharing</div>
+          </div>
+        </div>
+
+        <div class="floating-group" id="customSharingGroup" style="display: none; margin-top: 6px;">
+          <input type="number" id="customSharingInput" class="floating-input" placeholder=" " min="7" max="15"
+            onchange="addCustomSharing(this)">
+          <label for="customSharingInput" class="floating-label">Enter Custom Sharing (e.g. 7 or 8-Share)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 6. Monthly Rent & Deposit per Bed -->
+        <div class="subheading-row">
+          <span class="subheading-text">Monthly Rent &amp; Deposit per Bed</span>
+        </div>
+
+        <div id="dynamicPricingCards">
+          <!-- Dynamically populated -->
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 7. Monthly Rent Due Day -->
+        <div class="subheading-row">
+          <span class="subheading-text">Automated Rent Collection Rules</span>
+        </div>
+
+        <div>
+          <div class="section-label-refined">Monthly Rent Due Day</div>
+          <div class="interactive-grid-4" id="dueDayGrid">
+            <div class="interactive-card" onclick="selectDueDay(this, '1st')">
+              <span class="card-main-title">1st</span>
+              <span class="card-sub-tag">of Month</span>
+            </div>
+            <div class="interactive-card" onclick="selectDueDay(this, '5th')">
+              <span class="card-main-title">5th</span>
+              <span class="card-sub-tag">Default</span>
+            </div>
+            <div class="interactive-card" onclick="selectDueDay(this, '10th')">
+              <span class="card-main-title">10th</span>
+              <span class="card-sub-tag">of Month</span>
+            </div>
+            <div class="interactive-card" onclick="selectDueDay(this, 'custom')">
+              <span class="card-main-title">+ Day</span>
+              <span class="card-sub-tag">Custom</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-group" id="customDueDayGroup" style="display: none; margin-top: 6px;">
+          <input type="number" id="customDueDayInput" class="floating-input" placeholder=" " min="1" max="28">
+          <label for="customDueDayInput" class="floating-label">Enter Custom Due Day (1 to 28 of every month)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 8. Grace Period Days -->
+        <div>
+          <div class="section-label-refined">Grace Period Days</div>
+          <div class="interactive-grid-4" id="graceGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'graceGrid')">
+              <span class="card-main-title">2 Days</span>
+              <span class="card-sub-tag">Till 7th</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'graceGrid')">
+              <span class="card-main-title">3 Days</span>
+              <span class="card-sub-tag">Default</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'graceGrid')">
+              <span class="card-main-title">5 Days</span>
+              <span class="card-sub-tag">Till 10th</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'graceGrid')">
+              <span class="card-main-title">7 Days</span>
+              <span class="card-sub-tag">1 Week</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 9. Late Fee Daily Penalty -->
+        <div>
+          <div class="section-label-refined">Late Payment Penalty</div>
+          <div class="interactive-grid-4" id="lateFeeGrid">
+            <div class="interactive-card" onclick="selectLateFee(this, '50')">
+              <span class="card-main-title">₹50</span>
+              <span class="card-sub-tag">per day</span>
+            </div>
+            <div class="interactive-card" onclick="selectLateFee(this, '100')">
+              <span class="card-main-title">₹100</span>
+              <span class="card-sub-tag">per day</span>
+            </div>
+            <div class="interactive-card" onclick="selectLateFee(this, '0')">
+              <span class="card-main-title">₹0</span>
+              <span class="card-sub-tag">No Late Fee</span>
+            </div>
+            <div class="interactive-card" onclick="selectLateFee(this, 'custom')">
+              <span class="card-main-title">+ Custom</span>
+              <span class="card-sub-tag">Enter ₹</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-group" id="customLateFeeGroup" style="display: none; margin-top: 6px;">
+          <input type="number" id="customLateFeeInput" class="floating-input" placeholder=" " min="10" step="10">
+          <label for="customLateFeeInput" class="floating-label">Enter Custom Daily Late Fee (₹ / day)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 10. Move-out Notice Period -->
+        <div>
+          <div class="section-label-refined">Move-out Notice Period</div>
+          <div class="interactive-grid-4" id="noticeGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'noticeGrid')">
+              <span class="card-main-title">15 Days</span>
+              <span class="card-sub-tag">Half Month</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'noticeGrid')">
+              <span class="card-main-title">30 Days</span>
+              <span class="card-sub-tag">Default</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'noticeGrid')">
+              <span class="card-main-title">45 Days</span>
+              <span class="card-sub-tag">Standard</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'noticeGrid')">
+              <span class="card-main-title">60 Days</span>
+              <span class="card-sub-tag">2 Months</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 4: BANK & PAYOUT ACCOUNT (DEDICATED STANDALONE FORM)
+         ============================================================ -->
+    <div id="step4View" class="step-view" style="display: none;">
+      <div class="header-group">
+        <h1 class="title-text">Bank &amp; Payout Account</h1>
+        <p class="subtitle-text">Where your tenant monthly rent payments will be directly credited.</p>
+      </div>
+
+      <!-- Clean Trust Callout -->
+      <div class="trust-card">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+        <div class="trust-content">
+          <span class="trust-title">Direct Bank Settlement (0% Commission)</span>
+          <p class="trust-desc">Tenant payments flow 100% directly into your personal bank account. UrbanStay has zero
+            fee deduction and zero holding period.</p>
+        </div>
+      </div>
+
+      <div class="form-fields">
+
+        <!-- Block 1: Banking Account Holder Name & Bank Name -->
+        <div class="floating-group">
+          <input type="text" id="bankHolderName" class="floating-input" placeholder=" " autocomplete="name">
+          <label for="bankHolderName" class="floating-label">Bank Account Holder Name (as per Passbook)</label>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="bankName" class="floating-input" placeholder=" ">
+          <label for="bankName" class="floating-label">Bank Name (e.g. HDFC Bank, SBI, ICICI, Canara)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Block 2: UPI ID & Crediting Phone Number -->
+        <div class="floating-group">
+          <input type="text" id="upiId" class="floating-input" placeholder=" " autocomplete="off" autocapitalize="none">
+          <label for="upiId" class="floating-label">Primary UPI ID / VPA (e.g. yourname@hdfcbank)</label>
+        </div>
+
+        <div class="phone-floating-row">
+          <div class="country-pill">
+            <span>🇮🇳</span>
+            <span>+91</span>
+          </div>
+          <div class="floating-group" style="flex: 1;">
+            <input type="tel" id="creditingPhone" class="floating-input" placeholder=" " maxlength="10"
+              pattern="[0-9]{10}">
+            <label for="creditingPhone" class="floating-label">UPI Linked Phone Number</label>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Block 3: Bank QR Code Upload -->
+        <div class="upload-group">
+          <span class="upload-label">Bank QR Code Photo (Optional)</span>
+          <button class="upload-single-btn" type="button" id="qrBtn"
+            onclick="toggleUpload('qrBtn', 'Upload Bank UPI QR Code')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="3" rx="2" />
+              <path d="M7 7h.01" />
+              <path d="M17 7h.01" />
+              <path d="M7 17h.01" />
+              <path d="M17 17h.01" />
+            </svg>
+            <span id="qrBtnText">Upload Bank UPI QR Code</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="bottom-bar">
+      <button class="btn-continue" id="mainContinueBtn" type="button" onclick="handleContinue()">Continue</button>
+      <button class="btn-skip" id="mainSkipBtn" type="button" onclick="handleSkip()">Skip for now</button>
+    </div>
+
+  </div>
+
+  <script>
+    let currentStep = 1;
+    let groundFloorHasRooms = null;
+    let selectedSharings = [];
+
+    // Format Aadhaar with spaces
+    const aadhaarInput = document.getElementById('aadhaar');
+    aadhaarInput.addEventListener('input', function (e) {
+      let val = e.target.value.replace(/\D/g, '').substring(0, 12);
+      let formatted = val.match(/.{1,4}/g)?.join(' ') || val;
+      e.target.value = formatted;
+    });
+
+    // Tactile Card Selector
+    function selectCard(selectedEl, parentId) {
+      const container = document.getElementById(parentId);
+      const cards = container.querySelectorAll('.interactive-card');
+      cards.forEach(c => c.classList.remove('active'));
+      selectedEl.classList.add('active');
+    }
+
+    // Due Day Logic
+    function selectDueDay(el, val) {
+      selectCard(el, 'dueDayGrid');
+      const customGroup = document.getElementById('customDueDayGroup');
+      if (val === 'custom') {
+        customGroup.style.display = 'block';
+        document.getElementById('customDueDayInput').focus();
+      } else {
+        customGroup.style.display = 'none';
+      }
+    }
+
+    // Late Fee Logic
+    function selectLateFee(el, val) {
+      selectCard(el, 'lateFeeGrid');
+      const customGroup = document.getElementById('customLateFeeGroup');
+      if (val === 'custom') {
+        customGroup.style.display = 'block';
+        document.getElementById('customLateFeeInput').focus();
+      } else {
+        customGroup.style.display = 'none';
+      }
+    }
+
+    // Ground Floor Logic (Yes / No)
+    function toggleGroundFloorRooms(hasRooms) {
+      groundFloorHasRooms = hasRooms;
+      const grid = document.getElementById('gfQuestionGrid');
+      const cards = grid.querySelectorAll('.interactive-card');
+      cards[0].className = hasRooms ? 'interactive-card active' : 'interactive-card';
+      cards[1].className = !hasRooms ? 'interactive-card active' : 'interactive-card';
+
+      document.getElementById('gfRoomsCountBox').style.display = hasRooms ? 'block' : 'none';
+      renderFloorPills(hasRooms);
+    }
+
+    function renderFloorPills(hasGround) {
+      const container = document.getElementById('floorPillsContainer');
+      const label = document.getElementById('floorCountLabel');
+      container.innerHTML = '';
+
+      if (hasGround === true) {
+        label.textContent = 'Building Floor Count (Including Ground Floor)';
+        const options = ['G + 1', 'G + 2', 'G + 3', 'G + 4', 'G + 5+'];
+        options.forEach((opt, idx) => {
+          const card = document.createElement('div');
+          card.className = 'interactive-card';
+          card.onclick = function () { selectCard(this, 'floorPillsContainer'); };
+          card.innerHTML = `
+            <span class="card-main-title">${opt}</span>
+            <span class="card-sub-tag">${idx + 2} Floors</span>
+          `;
+          container.appendChild(card);
+        });
+      } else if (hasGround === false) {
+        label.textContent = 'Upper Floors Count (Excluding Ground Floor)';
+        const options = ['1st Floor', '2 Floors', '3 Floors', '4 Floors', '5+ Floors'];
+        options.forEach((opt, idx) => {
+          const card = document.createElement('div');
+          card.className = 'interactive-card';
+          card.onclick = function () { selectCard(this, 'floorPillsContainer'); };
+          card.innerHTML = `
+            <span class="card-main-title">${opt}</span>
+            <span class="card-sub-tag">${idx + 2} Floors</span>
+          `;
+          container.appendChild(card);
+        });
+      } else {
+        label.textContent = 'Building Floor Count';
+        const options = ['G + 1', 'G + 2', 'G + 3', 'G + 4', 'G + 5+'];
+        options.forEach((opt, idx) => {
+          const card = document.createElement('div');
+          card.className = 'interactive-card';
+          card.onclick = function () { selectCard(this, 'floorPillsContainer'); };
+          card.innerHTML = `
+            <span class="card-main-title">${opt}</span>
+            <span class="card-sub-tag">${idx + 2} Floors</span>
+          `;
+          container.appendChild(card);
+        });
+      }
+    }
+
+    // Multi-Select Sharing Toggle
+    function toggleSharingPill(el, sharingKey) {
+      el.classList.toggle('active');
+      if (el.classList.contains('active')) {
+        if (!selectedSharings.includes(sharingKey)) {
+          selectedSharings.push(sharingKey);
+        }
+      } else {
+        selectedSharings = selectedSharings.filter(s => s !== sharingKey);
+      }
+      renderPricingCards();
+    }
+
+    function toggleCustomSharing() {
+      const group = document.getElementById('customSharingGroup');
+      group.style.display = group.style.display === 'none' ? 'block' : 'none';
+      if (group.style.display === 'block') {
+        document.getElementById('customSharingInput').focus();
+      }
+    }
+
+    function addCustomSharing(input) {
+      const num = parseInt(input.value);
+      if (num && num >= 1) {
+        const key = num + '-Share';
+        if (!selectedSharings.includes(key)) {
+          selectedSharings.push(key);
+
+          const wrap = document.getElementById('sharingPillsWrap');
+          const newPill = document.createElement('div');
+          newPill.className = 'sharing-pill active';
+          newPill.textContent = key;
+          newPill.onclick = function () { toggleSharingPill(this, key); };
+          wrap.insertBefore(newPill, wrap.lastElementChild);
+
+          renderPricingCards();
+        }
+      }
+      document.getElementById('customSharingGroup').style.display = 'none';
+      input.value = '';
+    }
+
+    // Render Dynamic Rent Cards
+    function renderPricingCards() {
+      const container = document.getElementById('dynamicPricingCards');
+      container.innerHTML = '';
+
+      if (selectedSharings.length === 0) {
+        container.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--muted); font-size: 13px; background: #FAFAFA; border-radius: 12px; border: 1px dashed var(--border);">Select sharing types above to configure rent &amp; deposit pricing.</div>';
+        return;
+      }
+
+      selectedSharings.forEach(sharing => {
+        const card = document.createElement('div');
+        card.className = 'dynamic-rent-card';
+        card.innerHTML = `
+          <div class="rent-card-header">
+            <span class="rent-card-title">${sharing} Bed</span>
+            <span class="rent-badge-tag">Per Bed</span>
+          </div>
+          <div class="rent-inputs-2col">
+            <div class="floating-group">
+              <input type="number" id="rent_${sharing}" class="floating-input" placeholder=" ">
+              <label for="rent_${sharing}" class="floating-label">Monthly Rent (₹)</label>
+            </div>
+            <div class="floating-group">
+              <input type="number" id="dep_${sharing}" class="floating-input" placeholder=" ">
+              <label for="dep_${sharing}" class="floating-label">Deposit (₹)</label>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Live Pincode Resolver Badge
+    function handlePincode(input) {
+      const badge = document.getElementById('pincodeBadge');
+      if (input.value.length === 6) {
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    function toggleUpload(id, defaultText) {
+      const btn = document.getElementById(id);
+      const text = document.getElementById(id + 'Text');
+      btn.classList.toggle('done');
+      if (btn.classList.contains('done')) {
+        text.textContent = '✓ Attached';
+      } else {
+        text.textContent = defaultText;
+      }
+    }
+
+    function handleContinue() {
+      if (currentStep === 1) {
+        const name = document.getElementById('legalName').value.trim();
+        if (!name) {
+          alert('Please enter your full legal name.');
+          return;
+        }
+        goToStep(2);
+      } else if (currentStep === 2) {
+        const pgName = document.getElementById('pgBrandName').value.trim();
+        if (!pgName) {
+          alert('Please enter your PG Brand Name.');
+          return;
+        }
+        goToStep(3);
+      } else if (currentStep === 3) {
+        goToStep(4);
+      } else if (currentStep === 4) {
+        const holder = document.getElementById('bankHolderName').value.trim();
+        const upi = document.getElementById('upiId').value.trim();
+        if (!holder || !upi) {
+          alert('Please enter your Bank Account Name and UPI ID.');
+          return;
+        }
+        alert('🎉 Setup Complete! Your PG is ready for live tenant onboarding.');
+      }
+    }
+
+    function handleBack() {
+      if (currentStep === 4) {
+        goToStep(3);
+      } else if (currentStep === 3) {
+        goToStep(2);
+      } else if (currentStep === 2) {
+        goToStep(1);
+      } else {
+        history.back();
+      }
+    }
+
+    function handleSkip() {
+      if (currentStep === 1) {
+        goToStep(2);
+      } else if (currentStep === 2) {
+        goToStep(3);
+      } else if (currentStep === 3) {
+        goToStep(4);
+      } else {
+        alert('Skipped Step 4.');
+      }
+    }
+
+    function goToStep(step) {
+      currentStep = step;
+      document.getElementById('step1View').style.display = step === 1 ? 'flex' : 'none';
+      document.getElementById('step2View').style.display = step === 2 ? 'flex' : 'none';
+      document.getElementById('step3View').style.display = step === 3 ? 'flex' : 'none';
+      document.getElementById('step4View').style.display = step === 4 ? 'flex' : 'none';
+
+      document.getElementById('stepLabel').textContent = `Step ${step} of 4`;
+
+      document.getElementById('prog1').className = 'progress-bar active';
+      document.getElementById('prog2').className = step >= 2 ? 'progress-bar active' : 'progress-bar';
+      document.getElementById('prog3').className = step >= 3 ? 'progress-bar active' : 'progress-bar';
+      document.getElementById('prog4').className = step >= 4 ? 'progress-bar active' : 'progress-bar';
+
+      const continueBtn = document.getElementById('mainContinueBtn');
+      if (step === 4) {
+        continueBtn.textContent = 'Complete Setup & Launch PG';
+      } else {
+        continueBtn.textContent = 'Continue';
+      }
+
+      if (step === 3) {
+        renderFloorPills(groundFloorHasRooms);
+        renderPricingCards();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initial render
+    renderFloorPills(null);
+    renderPricingCards();
+  </script>
+</body>
+
+</html>

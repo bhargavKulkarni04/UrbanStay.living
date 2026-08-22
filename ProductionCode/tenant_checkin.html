@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>UrbanStay — Tenant Check-In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #08A63F;
+    --green-dark: #068237;
+    --green-tint: rgba(8, 166, 63, 0.06);
+    --green-glow: rgba(8, 166, 63, 0.12);
+    --ink: #111111;
+    --muted: #6B7280;
+    --light-muted: #9CA3AF;
+    --border: #E5E7EB;
+    --card-bg: #FAFAFA;
+    --btn-secondary: #F4F4F5;
+    --divider: #F0F0F0;
+    --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    background: #FFFFFF;
+    font-family: var(--font);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .screen-wrap {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    max-width: 440px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 24px;
+  }
+
+  /* ============================================================
+     TOP NAVIGATION & SEGMENTED PROGRESS TRACK (3 STEPS)
+     ============================================================ */
+  .top-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .nav-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .btn-back {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    color: var(--ink);
+    padding: 0;
+    width: 24px;
+    height: 24px;
+  }
+
+  .step-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .progress-track {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 3.5px;
+    border-radius: 99px;
+    background: #EEEEEE;
+    transition: background 0.3s ease;
+  }
+  .progress-bar.active {
+    background: var(--green);
+  }
+
+  /* ============================================================
+     HEADLINE & SUBTITLE
+     ============================================================ */
+  .header-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 18px;
+  }
+  .title-text {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .subtitle-text {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ============================================================
+     STEP VIEWS
+     ============================================================ */
+  .step-view {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================================
+     TIGHT COMPACT HAIRLINE DIVIDER (ZERO EXTRA SPACES)
+     ============================================================ */
+  .block-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--divider);
+    margin: 4px 0 6px;
+  }
+
+  /* ============================================================
+     SMART FLOATING LABEL INPUT FIELDS (ZERO GREEN FOCUS BORDER)
+     ============================================================ */
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .floating-group {
+    position: relative;
+    width: 100%;
+  }
+
+  .floating-input {
+    width: 100%;
+    height: 54px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: #FFFFFF;
+    padding: 18px 16px 6px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .floating-input:focus {
+    border-color: var(--ink);
+    box-shadow: none;
+    outline: none;
+  }
+
+  .floating-label {
+    position: absolute;
+    left: 16px;
+    top: 17px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--light-muted);
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: left top;
+  }
+
+  .floating-input:focus ~ .floating-label,
+  .floating-input:not(:placeholder-shown) ~ .floating-label {
+    transform: translateY(-10px) scale(0.78);
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* Mobile Phone Row */
+  .phone-floating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .country-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 54px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    background: #FFFFFF;
+    flex-shrink: 0;
+  }
+
+  /* 2-Column Grid */
+  .grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* ============================================================
+     COMPACT CRISP SELECTORS & CARDS (ZERO PRE-SELECTED STATES)
+     ============================================================ */
+  .section-label-refined {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .interactive-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .interactive-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .interactive-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .interactive-grid-5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .interactive-grid-6 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .interactive-card {
+    height: 50px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    padding: 0 4px;
+    text-align: center;
+  }
+  .interactive-card:active {
+    transform: scale(0.98);
+  }
+  .interactive-card:hover {
+    border-color: var(--ink);
+  }
+  .interactive-card.active {
+    border-color: var(--green);
+    background: var(--green-tint);
+  }
+
+  .card-main-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    transition: color 0.2s ease;
+  }
+  .interactive-card.active .card-main-title {
+    color: var(--green-dark);
+    font-weight: 700;
+  }
+  .card-sub-tag {
+    font-size: 9.5px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .interactive-card.active .card-sub-tag {
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* Upload Pills & Cards */
+  .upload-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .upload-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .upload-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .upload-pill-btn {
+    height: 48px;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all 0.2s ease;
+  }
+  .upload-pill-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .upload-pill-btn.done {
+    border-style: solid;
+    border-color: var(--green);
+    color: var(--green);
+    background: var(--green-tint);
+    font-weight: 700;
+  }
+
+  .upload-single-btn {
+    width: 100%;
+    height: 50px;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all 0.2s ease;
+  }
+  .upload-single-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .upload-single-btn.done {
+    border-style: solid;
+    border-color: var(--green);
+    color: var(--green);
+    background: var(--green-tint);
+    font-weight: 700;
+  }
+
+  /* Clean Subheading Row */
+  .subheading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+  .subheading-text {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .optional-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: #F4F4F5;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Empty State Prompt for Rooms */
+  .room-empty-prompt {
+    padding: 14px 12px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    background: #FAFAFA;
+    border-radius: 12px;
+    border: 1px dashed var(--border);
+  }
+
+  /* ============================================================
+     STEP 4: INSTANT DIGITAL RESIDENT PASS (COMPLETION SCREEN)
+     ============================================================ */
+  .pass-card {
+    background: #FAFAFA;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .pass-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .pass-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .pass-status-pill {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    background: var(--green-tint);
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+  .pass-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pass-room-val {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .pass-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .pass-info-box {
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .pass-info-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .pass-info-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ============================================================
+     BOTTOM ACTIONS
+     ============================================================ */
+  .bottom-bar {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 10px;
+  }
+
+  .btn-continue {
+    width: 100%;
+    height: 54px;
+    border-radius: 16px;
+    border: 0;
+    background: var(--green);
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    box-shadow: 0 6px 18px -4px rgba(8, 166, 63, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .btn-continue:active {
+    transform: scale(0.985);
+    background: var(--green-dark);
+  }
+
+  .btn-skip {
+    width: 100%;
+    height: 50px;
+    border-radius: 16px;
+    border: 0;
+    background: var(--btn-secondary);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .btn-skip:hover {
+    color: var(--ink);
+    background: #E5E7EB;
+  }
+  .btn-skip:active {
+    transform: scale(0.99);
+  }
+</style>
+</head>
+<body>
+
+  <div class="screen-wrap">
+
+    <!-- Top Navigation (3 Steps) -->
+    <div class="top-nav" id="topNav">
+      <div class="nav-header-row">
+        <button class="btn-back" type="button" onclick="handleBack()" aria-label="Back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <span class="step-label" id="stepLabel">Step 1 of 3</span>
+      </div>
+
+      <!-- Segmented Bar -->
+      <div class="progress-track">
+        <div class="progress-bar active" id="prog1"></div>
+        <div class="progress-bar" id="prog2"></div>
+        <div class="progress-bar" id="prog3"></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 1: USER DETAILS
+         ============================================================ -->
+    <div id="step1View" class="step-view">
+      <div class="header-group">
+        <h1 class="title-text">User Details</h1>
+        <p class="subtitle-text">Enter your details to register with your PG property.</p>
+      </div>
+
+      <div class="form-fields">
+        <!-- PG Code Input -->
+        <div class="floating-group">
+          <input type="text" id="pgCodeInput" class="floating-input" placeholder=" " autocomplete="off" autocapitalize="characters" autofocus>
+          <label for="pgCodeInput" class="floating-label">PG Code (e.g. AR-101)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Full Legal Name -->
+        <div class="floating-group">
+          <input type="text" id="tenantName" class="floating-input" placeholder=" " autocomplete="name">
+          <label for="tenantName" class="floating-label">Full Legal Name (as per Aadhaar)</label>
+        </div>
+
+        <!-- Gender Selection (Zero Pre-selected) -->
+        <div>
+          <div class="section-label-refined">Gender</div>
+          <div class="interactive-grid-3" id="genderGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'genderGrid')">
+              <span class="card-main-title">Male</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'genderGrid')">
+              <span class="card-main-title">Female</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'genderGrid')">
+              <span class="card-main-title">Other</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Date of Birth & Move-in Date -->
+        <div class="grid-2col">
+          <div class="floating-group">
+            <input type="date" id="dob" class="floating-input" placeholder=" ">
+            <label for="dob" class="floating-label">Date of Birth</label>
+          </div>
+          <div class="floating-group">
+            <input type="date" id="moveInDate" class="floating-input" placeholder=" ">
+            <label for="moveInDate" class="floating-label">Move-In Date</label>
+          </div>
+        </div>
+
+        <!-- WhatsApp Mobile -->
+        <div class="phone-floating-row">
+          <div class="country-pill">
+            <span>🇮🇳</span>
+            <span>+91</span>
+          </div>
+          <div class="floating-group" style="flex: 1;">
+            <input type="tel" id="tenantPhone" class="floating-input" placeholder=" " maxlength="10" pattern="[0-9]{10}">
+            <label for="tenantPhone" class="floating-label">WhatsApp Mobile Number</label>
+          </div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="floating-group">
+          <input type="email" id="tenantEmail" class="floating-input" placeholder=" ">
+          <label for="tenantEmail" class="floating-label">Email Address</label>
+        </div>
+
+        <!-- Father / Husband / Guardian Name -->
+        <div class="floating-group">
+          <input type="text" id="guardianName" class="floating-input" placeholder=" ">
+          <label for="guardianName" class="floating-label">Father / Husband / Guardian Name</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Permanent Native Address (Optional) -->
+        <div class="subheading-row">
+          <span class="subheading-text">Permanent Home Address</span>
+          <span class="optional-badge">Optional</span>
+        </div>
+
+        <div class="floating-group">
+          <input type="text" id="permAddress" class="floating-input" placeholder=" ">
+          <label for="permAddress" class="floating-label">Street Address / House No (as per Aadhaar)</label>
+        </div>
+
+        <div class="grid-2col">
+          <div class="floating-group">
+            <input type="text" id="permCity" class="floating-input" placeholder=" ">
+            <label for="permCity" class="floating-label">City / District</label>
+          </div>
+          <div class="floating-group">
+            <input type="tel" id="permPincode" class="floating-input" placeholder=" " maxlength="6" pattern="[0-9]{6}">
+            <label for="permPincode" class="floating-label">Pincode</label>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Aadhaar Verification & Photo Uploads -->
+        <div class="subheading-row">
+          <span class="subheading-text">Aadhaar &amp; Photo Verification</span>
+        </div>
+
+        <div class="floating-group">
+          <input type="tel" id="tenantAadhaar" class="floating-input" placeholder=" " maxlength="14">
+          <label for="tenantAadhaar" class="floating-label">12-digit Aadhaar Number</label>
+        </div>
+
+        <div class="upload-group">
+          <span class="upload-label">Aadhaar Card Photos</span>
+          <div class="upload-row">
+            <button class="upload-pill-btn" type="button" id="aadhaarFrontBtn" onclick="toggleUpload('aadhaarFrontBtn', 'Front Photo')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span id="aadhaarFrontBtnText">Front Photo</span>
+            </button>
+            <button class="upload-pill-btn" type="button" id="aadhaarBackBtn" onclick="toggleUpload('aadhaarBackBtn', 'Back Photo')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span id="aadhaarBackBtnText">Back Photo</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="upload-group">
+          <span class="upload-label">Tenant Live Photo / Selfie</span>
+          <button class="upload-single-btn" type="button" id="selfieBtn" onclick="toggleUpload('selfieBtn', 'Take Live Selfie / Upload Photo')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span id="selfieBtnText">Take Live Selfie / Upload Photo</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 2: WORK & STUDY
+         ============================================================ -->
+    <div id="step2View" class="step-view" style="display: none;">
+      <div class="header-group">
+        <h1 class="title-text">Work &amp; Study</h1>
+        <p class="subtitle-text">Tell us about your current occupation or college.</p>
+      </div>
+
+      <div class="form-fields">
+
+        <!-- Mandatory Occupation Type -->
+        <div>
+          <div class="section-label-refined">Occupation Type *</div>
+          <div class="interactive-grid-3" id="occupGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'occupGrid')">
+              <span class="card-main-title">Professional</span>
+              <span class="card-sub-tag">Working</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'occupGrid')">
+              <span class="card-main-title">Student</span>
+              <span class="card-sub-tag">College / Univ</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'occupGrid')">
+              <span class="card-main-title">Job Seeker</span>
+              <span class="card-sub-tag">Intern / Other</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Optional Company / College Name -->
+        <div class="floating-group">
+          <input type="text" id="companyName" class="floating-input" placeholder=" ">
+          <label for="companyName" class="floating-label">Company / College Name (Optional)</label>
+        </div>
+
+        <!-- Optional Workplace / Campus Location -->
+        <div class="floating-group">
+          <input type="text" id="workLocation" class="floating-input" placeholder=" ">
+          <label for="workLocation" class="floating-label">Office / Campus Location (Optional)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- Optional Work / Student ID Upload -->
+        <div class="upload-group">
+          <span class="upload-label">Work / Student ID Card (Optional)</span>
+          <button class="upload-single-btn" type="button" id="workIdBtn" onclick="toggleUpload('workIdBtn', 'Upload Work / Student ID')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="14" x="3" y="5" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M15 9h2"/><path d="M15 13h2"/></svg>
+            <span id="workIdBtnText">Upload Work / Student ID</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 3: ROOM & STAY DETAILS (DYNAMIC FLOOR-LINKED ROOMS)
+         ============================================================ -->
+    <div id="step3View" class="step-view" style="display: none;">
+      <div class="header-group">
+        <h1 class="title-text">Room &amp; Stay Details</h1>
+        <p class="subtitle-text">Select your sharing type, floor, and pick your allocated room number.</p>
+      </div>
+
+      <div class="form-fields">
+
+        <!-- 1. Sharing Selection -->
+        <div>
+          <div class="section-label-refined">Sharing Type</div>
+          <div class="interactive-grid-6" id="sharingGrid">
+            <div class="interactive-card" onclick="selectCard(this, 'sharingGrid')">
+              <span class="card-main-title">1-Share</span>
+              <span class="card-sub-tag">Single Room</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'sharingGrid')">
+              <span class="card-main-title">2-Share</span>
+              <span class="card-sub-tag">Double Bed</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'sharingGrid')">
+              <span class="card-main-title">3-Share</span>
+              <span class="card-sub-tag">Triple Bed</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'sharingGrid')">
+              <span class="card-main-title">4-Share</span>
+              <span class="card-sub-tag">4 Beds</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'sharingGrid')">
+              <span class="card-main-title">5-Share</span>
+              <span class="card-sub-tag">5 Beds</span>
+            </div>
+            <div class="interactive-card" onclick="selectCard(this, 'sharingGrid')">
+              <span class="card-main-title">6-Share</span>
+              <span class="card-sub-tag">6 Beds</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 2. Floor Selection -->
+        <div>
+          <div class="section-label-refined">Which Floor is your Room on?</div>
+          <div class="interactive-grid-6" id="floorGrid">
+            <div class="interactive-card" onclick="handleFloorSelect(this, 'Ground')">
+              <span class="card-main-title">Ground</span>
+              <span class="card-sub-tag">Floor</span>
+            </div>
+            <div class="interactive-card" onclick="handleFloorSelect(this, '1st')">
+              <span class="card-main-title">1st</span>
+              <span class="card-sub-tag">Floor</span>
+            </div>
+            <div class="interactive-card" onclick="handleFloorSelect(this, '2nd')">
+              <span class="card-main-title">2nd</span>
+              <span class="card-sub-tag">Floor</span>
+            </div>
+            <div class="interactive-card" onclick="handleFloorSelect(this, '3rd')">
+              <span class="card-main-title">3rd</span>
+              <span class="card-sub-tag">Floor</span>
+            </div>
+            <div class="interactive-card" onclick="handleFloorSelect(this, '4th')">
+              <span class="card-main-title">4th</span>
+              <span class="card-sub-tag">Floor</span>
+            </div>
+            <div class="interactive-card" onclick="handleFloorSelect(this, '5+')">
+              <span class="card-main-title">5+</span>
+              <span class="card-sub-tag">Floor</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 3. Dynamic Floor-Wise Room Selector -->
+        <div>
+          <div class="section-label-refined">
+            <span>Select Room Number</span>
+            <span style="font-size: 11px; color: var(--muted);">Click room to select</span>
+          </div>
+
+          <div id="dynamicRoomsContainer">
+            <div class="room-empty-prompt">Select a floor above to view available rooms.</div>
+          </div>
+        </div>
+
+        <!-- 4. Manual Fallback Room Input -->
+        <div class="floating-group" id="manualRoomGroup" style="display: none; margin-top: 6px;">
+          <input type="text" id="manualRoomNumber" class="floating-input" placeholder=" ">
+          <label for="manualRoomNumber" class="floating-label">Custom Room Number (e.g. G-05 or A-102)</label>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <!-- 5. Bed / Identifier Input (Optional) -->
+        <div class="floating-group">
+          <input type="text" id="userBedIdentifier" class="floating-input" placeholder=" ">
+          <label for="userBedIdentifier" class="floating-label">Bed / Allocation (e.g. Bed A, Bed B, or Window Bed)</label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 4: INSTANT DIGITAL RESIDENT PASS (COMPLETION SCREEN)
+         ============================================================ -->
+    <div id="step4View" class="step-view" style="display: none;">
+      
+      <div class="header-group" style="margin-bottom: 12px;">
+        <h1 class="title-text">Welcome to Your Stay!</h1>
+        <p class="subtitle-text">Your resident profile is registered and ready.</p>
+      </div>
+
+      <!-- Live Digital Stay Pass Card -->
+      <div class="pass-card">
+        <div class="pass-header">
+          <span class="pass-title">Digital Resident Pass</span>
+          <span class="pass-status-pill">Active Resident</span>
+        </div>
+        
+        <div class="pass-main-row">
+          <div>
+            <span style="font-size: 11px; font-weight: 600; color: var(--muted);">Assigned Room</span>
+            <div class="pass-room-val" id="passRoomDisplay">Room 102</div>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 11px; font-weight: 600; color: var(--muted);">Sharing Type</span>
+            <div style="font-size: 14.5px; font-weight: 700; color: var(--green-dark);" id="passSharingDisplay">2-Share</div>
+          </div>
+        </div>
+
+        <div class="pass-info-grid">
+          <div class="pass-info-box">
+            <span class="pass-info-label">Floor</span>
+            <span class="pass-info-text" id="passFloorDisplay">1st Floor</span>
+          </div>
+          <div class="pass-info-box">
+            <span class="pass-info-label">Bed Identifier</span>
+            <span class="pass-info-text" id="passBedDisplay">Bed A</span>
+          </div>
+          <div class="pass-info-box">
+            <span class="pass-info-label">PG Code</span>
+            <span class="pass-info-text" id="passPgCodeDisplay">AR-101</span>
+          </div>
+          <div class="pass-info-box">
+            <span class="pass-info-label">Resident Name</span>
+            <span class="pass-info-text" id="passTenantName">Resident</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="bottom-bar">
+      <button class="btn-continue" id="mainContinueBtn" type="button" onclick="handleContinue()">Continue</button>
+      <button class="btn-skip" id="mainSkipBtn" type="button" onclick="handleSkip()">Save &amp; Continue Later</button>
+    </div>
+
+  </div>
+
+  <script>
+    let currentStep = 1;
+    let selectedFloor = null;
+    let selectedRoom = null;
+
+    // Set default move-in date to today
+    document.getElementById('moveInDate').valueAsDate = new Date();
+
+    // Format Aadhaar with spaces
+    const aadhaarInput = document.getElementById('tenantAadhaar');
+    aadhaarInput.addEventListener('input', function(e) {
+      let val = e.target.value.replace(/\D/g, '').substring(0, 12);
+      let formatted = val.match(/.{1,4}/g)?.join(' ') || val;
+      e.target.value = formatted;
+    });
+
+    // Tactile Selector (Zero Pre-selection)
+    function selectCard(selectedEl, parentId) {
+      const container = document.getElementById(parentId);
+      const cards = container.querySelectorAll('.interactive-card');
+      cards.forEach(c => c.classList.remove('active'));
+      selectedEl.classList.add('active');
+    }
+
+    // Dynamic Floor Selection & Room Generator
+    function handleFloorSelect(el, floorKey) {
+      selectCard(el, 'floorGrid');
+      selectedFloor = floorKey;
+      selectedRoom = null;
+      renderRoomsForFloor(floorKey);
+    }
+
+    function renderRoomsForFloor(floorKey) {
+      const container = document.getElementById('dynamicRoomsContainer');
+      const manualGroup = document.getElementById('manualRoomGroup');
+      manualGroup.style.display = 'none';
+
+      let roomNumbers = [];
+      if (floorKey === 'Ground') {
+        roomNumbers = ['G-01', 'G-02', 'G-03', 'G-04'];
+      } else if (floorKey === '1st') {
+        roomNumbers = ['101', '102', '103', '104'];
+      } else if (floorKey === '2nd') {
+        roomNumbers = ['201', '202', '203', '204'];
+      } else if (floorKey === '3rd') {
+        roomNumbers = ['301', '302', '303', '304'];
+      } else if (floorKey === '4th') {
+        roomNumbers = ['401', '402', '403', '404'];
+      } else if (floorKey === '5+') {
+        roomNumbers = ['501', '502', '503', '504'];
+      }
+
+      container.innerHTML = `
+        <div class="interactive-grid-5" id="dynamicRoomCardsGrid">
+          ${roomNumbers.map(r => `
+            <div class="interactive-card" onclick="selectRoomCard(this, '${r}')">
+              <span class="card-main-title">${r}</span>
+              <span class="card-sub-tag">Room</span>
+            </div>
+          `).join('')}
+          <div class="interactive-card" onclick="toggleManualRoomInput(this)">
+            <span class="card-main-title">+ Custom</span>
+            <span class="card-sub-tag">Type Room</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectRoomCard(el, roomNum) {
+      selectCard(el, 'dynamicRoomCardsGrid');
+      selectedRoom = roomNum;
+      document.getElementById('manualRoomGroup').style.display = 'none';
+    }
+
+    function toggleManualRoomInput(el) {
+      selectCard(el, 'dynamicRoomCardsGrid');
+      selectedRoom = 'CUSTOM';
+      const manualGroup = document.getElementById('manualRoomGroup');
+      manualGroup.style.display = 'block';
+      document.getElementById('manualRoomNumber').focus();
+    }
+
+    // Upload Toggle
+    function toggleUpload(id, defaultText) {
+      const btn = document.getElementById(id);
+      const text = document.getElementById(id + 'Text');
+      btn.classList.toggle('done');
+      if (btn.classList.contains('done')) {
+        text.textContent = '✓ Attached';
+      } else {
+        text.textContent = defaultText;
+      }
+    }
+
+    function handleContinue() {
+      if (currentStep === 1) {
+        const pgCode = document.getElementById('pgCodeInput').value.trim();
+        const name = document.getElementById('tenantName').value.trim();
+        const phone = document.getElementById('tenantPhone').value.trim();
+        const aadhaar = document.getElementById('tenantAadhaar').value.trim();
+
+        if (!pgCode) {
+          alert('Please enter your PG Code (e.g. AR-101).');
+          return;
+        }
+        if (!name) {
+          alert('Please enter your full legal name.');
+          return;
+        }
+        if (!phone || phone.length < 10) {
+          alert('Please enter a valid 10-digit WhatsApp number.');
+          return;
+        }
+        if (!aadhaar || aadhaar.replace(/\s/g, '').length !== 12) {
+          alert('Please enter your complete 12-digit Aadhaar number.');
+          return;
+        }
+        goToStep(2);
+      } else if (currentStep === 2) {
+        const activeOccup = document.querySelector('#occupGrid .interactive-card.active');
+        if (!activeOccup) {
+          alert('Please select your Occupation Type.');
+          return;
+        }
+        goToStep(3);
+      } else if (currentStep === 3) {
+        const activeSharing = document.querySelector('#sharingGrid .interactive-card.active');
+        if (!activeSharing) {
+          alert('Please select your Sharing Type.');
+          return;
+        }
+        if (!selectedFloor) {
+          alert('Please select your Floor.');
+          return;
+        }
+        
+        let finalRoom = selectedRoom;
+        if (selectedRoom === 'CUSTOM') {
+          finalRoom = document.getElementById('manualRoomNumber').value.trim();
+        }
+
+        if (!finalRoom) {
+          alert('Please select or enter your Room Number.');
+          return;
+        }
+        goToStep(4);
+      } else if (currentStep === 4) {
+        alert('Welcome to your stay hub!');
+      }
+    }
+
+    function handleBack() {
+      if (currentStep === 4) {
+        goToStep(3);
+      } else if (currentStep === 3) {
+        goToStep(2);
+      } else if (currentStep === 2) {
+        goToStep(1);
+      } else {
+        history.back();
+      }
+    }
+
+    function handleSkip() {
+      if (currentStep === 1) {
+        goToStep(2);
+      } else if (currentStep === 2) {
+        goToStep(3);
+      } else if (currentStep === 3) {
+        goToStep(4);
+      }
+    }
+
+    function goToStep(step) {
+      currentStep = step;
+      document.getElementById('step1View').style.display = step === 1 ? 'flex' : 'none';
+      document.getElementById('step2View').style.display = step === 2 ? 'flex' : 'none';
+      document.getElementById('step3View').style.display = step === 3 ? 'flex' : 'none';
+      document.getElementById('step4View').style.display = step === 4 ? 'flex' : 'none';
+
+      const topNav = document.getElementById('topNav');
+      const continueBtn = document.getElementById('mainContinueBtn');
+      const skipBtn = document.getElementById('mainSkipBtn');
+
+      if (step === 4) {
+        topNav.style.display = 'none';
+        continueBtn.textContent = 'Go to Resident Hub';
+        skipBtn.style.display = 'none';
+
+        const name = document.getElementById('tenantName').value.trim() || 'Resident';
+        const pgCode = document.getElementById('pgCodeInput').value.trim() || 'AR-101';
+        const bedId = document.getElementById('userBedIdentifier').value.trim() || 'Bed A';
+
+        let finalRoom = selectedRoom;
+        if (selectedRoom === 'CUSTOM') {
+          finalRoom = document.getElementById('manualRoomNumber').value.trim() || '102';
+        }
+
+        const activeSharingEl = document.querySelector('#sharingGrid .interactive-card.active .card-main-title');
+        const sharingText = activeSharingEl ? activeSharingEl.textContent : '2-Share';
+        const floorText = selectedFloor ? selectedFloor + ' Floor' : '1st Floor';
+
+        document.getElementById('passTenantName').textContent = name;
+        document.getElementById('passPgCodeDisplay').textContent = pgCode;
+        document.getElementById('passRoomDisplay').textContent = `Room ${finalRoom || '102'}`;
+        document.getElementById('passSharingDisplay').textContent = sharingText;
+        document.getElementById('passFloorDisplay').textContent = floorText;
+        document.getElementById('passBedDisplay').textContent = bedId;
+      } else {
+        topNav.style.display = 'flex';
+        skipBtn.style.display = 'block';
+        document.getElementById('stepLabel').textContent = `Step ${step} of 3`;
+
+        document.getElementById('prog1').className = 'progress-bar active';
+        document.getElementById('prog2').className = step >= 2 ? 'progress-bar active' : 'progress-bar';
+        document.getElementById('prog3').className = step >= 3 ? 'progress-bar active' : 'progress-bar';
+
+        if (step === 3) {
+          continueBtn.textContent = 'Complete Check-In';
+        } else {
+          continueBtn.textContent = 'Continue';
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

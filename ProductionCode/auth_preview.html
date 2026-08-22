@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>UrbanStay — Authentication Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #08A63F;
+    --green-dark: #068237;
+    --tint: rgba(8, 166, 63, 0.08);
+    --ink: #111111;
+    --muted: #6B7280;
+    --line: #E5E7EB;
+    --input-bg: #F8F9FA;
+    --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background: #FFFFFF;
+    font-family: var(--font);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .screen-wrap {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 22px 28px;
+    overflow: hidden;
+  }
+
+  /* ============================================================
+     ORGANIC S-CURVE WAVE ROLE SWITCHER (TOP)
+     ============================================================ */
+  .scurve-header-wrap {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+    display: flex;
+    background: #F8F9FA;
+    border-radius: 28px;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  }
+
+  .wave-svg-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  body.mode-owner .wave-svg-canvas {
+    transform: scaleX(-1);
+  }
+
+  .scurve-tab {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    z-index: 3;
+    transition: all 0.3s ease;
+    padding: 0 10px;
+    font-family: var(--font);
+  }
+  .scurve-sub {
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.3s ease;
+  }
+  .scurve-main {
+    font-family: var(--font);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    color: #9CA3AF;
+    margin-top: 1px;
+    line-height: 1.1;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Active States */
+  body.mode-tenant .tab-tenant .scurve-main {
+    color: var(--green);
+    transform: scale(1.04);
+  }
+  body.mode-tenant .tab-tenant .scurve-sub {
+    color: var(--ink);
+  }
+
+  body.mode-owner .tab-owner .scurve-main {
+    color: var(--green);
+    transform: scale(1.04);
+  }
+  body.mode-owner .tab-owner .scurve-sub {
+    color: var(--ink);
+  }
+
+  /* ============================================================
+     HERO GREETING
+     ============================================================ */
+  .hero-block {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .hero-title {
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .hero-sub {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ============================================================
+     SEGMENTED TOGGLE (Sign In / Create Account)
+     ============================================================ */
+  .auth-mode-pill {
+    display: flex;
+    background: #F3F4F6;
+    border-radius: 16px;
+    padding: 4px;
+    margin-bottom: 20px;
+  }
+
+  .auth-mode-btn {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 12px;
+    border: 0;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    transition: all 0.25s ease;
+  }
+  .auth-mode-btn.active {
+    background: #FFFFFF;
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  /* ============================================================
+     MAIN FORM CONTAINER
+     ============================================================ */
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .section-headline {
+    font-size: 15.5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .section-desc {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    line-height: 1.45;
+    margin-bottom: 2px;
+  }
+
+  /* Input Fields */
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--input-bg);
+    border: 1.5px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 0 16px;
+    height: 52px;
+    transition: all 0.2s ease;
+  }
+  .input-wrapper:focus-within {
+    border-color: var(--green);
+    background: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(8, 166, 63, 0.12);
+  }
+  .input-icon {
+    width: 19px;
+    height: 19px;
+    margin-right: 12px;
+    color: #9CA3AF;
+    flex-shrink: 0;
+  }
+  .input-wrapper input {
+    flex: 1;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink);
+    outline: none;
+  }
+  .input-wrapper input::placeholder {
+    color: #9CA3AF;
+  }
+
+  .eye-toggle {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: #9CA3AF;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+  }
+  .eye-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ============================================================
+     ACTION BUTTONS
+     ============================================================ */
+  .btn-submit {
+    width: 100%;
+    height: 54px;
+    border-radius: 16px;
+    border: 0;
+    background: var(--green);
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    box-shadow: 0 10px 22px -6px rgba(8, 166, 63, 0.45);
+    transition: transform 0.2s ease, background 0.2s ease;
+    margin-top: 4px;
+  }
+  .btn-submit:active {
+    transform: scale(0.985);
+    background: var(--green-dark);
+  }
+
+  /* Divider */
+  .divider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 0;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .divider-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9CA3AF;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Google Sign-in Button */
+  .btn-google {
+    width: 100%;
+    height: 52px;
+    border-radius: 16px;
+    border: 1.5px solid var(--line);
+    background: #FFFFFF;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+  }
+  .btn-google:hover {
+    border-color: #D1D5DB;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  }
+  .btn-google:active {
+    transform: scale(0.985);
+  }
+  .google-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Bottom Link */
+  .footer-link {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    margin-top: 12px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body class="mode-tenant">
+
+  <div class="screen-wrap">
+
+    <!-- ============================================================
+         ORGANIC S-CURVE WAVE ROLE SWITCHER (TOP)
+         ============================================================ -->
+    <div class="scurve-header-wrap">
+      <svg class="wave-svg-canvas" viewBox="0 0 400 100" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="waveHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF" />
+            <stop offset="100%" stop-color="#FFFFFF" />
+          </linearGradient>
+        </defs>
+        <path d="M 0 0 L 175 0 C 220 0, 180 100, 230 100 L 0 100 Z" fill="url(#waveHighlight)" />
+        <path d="M 175 0 C 220 0, 180 100, 230 100" fill="none" stroke="#E5E7EB" stroke-width="1.5" />
+      </svg>
+
+      <!-- Left Side: Tenant -->
+      <button class="scurve-tab tab-tenant" type="button" onclick="setRole('tenant')">
+        <span class="scurve-sub">Login as</span>
+        <span class="scurve-main">Tenant</span>
+      </button>
+
+      <!-- Right Side: Owner -->
+      <button class="scurve-tab tab-owner" type="button" onclick="setRole('owner')">
+        <span class="scurve-sub">Login as</span>
+        <span class="scurve-main">Owner</span>
+      </button>
+    </div>
+
+    <!-- ============================================================
+         HERO GREETING
+         ============================================================ -->
+    <div class="hero-block">
+      <h1 class="hero-title" id="heroTitle">Welcome back</h1>
+      <p class="hero-sub" id="heroSub">Sign in to manage your stay and room services</p>
+    </div>
+
+    <!-- ============================================================
+         SIGN IN / CREATE ACCOUNT TOGGLE
+         ============================================================ -->
+    <div class="auth-mode-pill">
+      <button class="auth-mode-btn active" type="button" id="btnModeSignIn" onclick="setMode('signin')">Sign In</button>
+      <button class="auth-mode-btn" type="button" id="btnModeRegister" onclick="setMode('register')">Create Account</button>
+    </div>
+
+    <!-- ============================================================
+         INPUT FORM
+         ============================================================ -->
+    <form class="form-section" onsubmit="event.preventDefault();">
+      <div>
+        <h2 class="section-headline" id="sectionHeadline">Sign in to continue</h2>
+        <p class="section-desc" id="sectionDesc">Access your rent invoices, gate passes, and room services.</p>
+      </div>
+
+      <!-- Full Name (Only visible when Creating Account) -->
+      <div class="input-wrapper" id="nameFieldWrap" style="display: none;">
+        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <input type="text" id="nameInput" placeholder="Full Legal Name" autocomplete="name">
+      </div>
+
+      <!-- Mobile / Email -->
+      <div class="input-wrapper">
+        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        <input type="tel" id="phoneInput" placeholder="Mobile Number or Email" required autocomplete="username">
+      </div>
+
+      <!-- Password / PIN -->
+      <div class="input-wrapper">
+        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <input type="password" id="passInput" placeholder="Password or 6-digit PIN" required autocomplete="current-password">
+        <button class="eye-toggle" type="button" onclick="togglePassword()" aria-label="Toggle password visibility">
+          <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Primary Submit Button -->
+      <button class="btn-submit" type="submit" id="btnSubmit">Sign In as Tenant</button>
+
+      <!-- Divider -->
+      <div class="divider-row">
+        <div class="divider-line"></div>
+        <span class="divider-text">or continue with</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Official Google Sign-in Button -->
+      <button class="btn-google" type="button" onclick="alert('Google Sign-In integration ready')">
+        <svg class="google-icon" viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+        </svg>
+        <span>Continue with Google</span>
+      </button>
+
+      <!-- Bottom Switch Link -->
+      <p class="footer-link" id="footerLink" onclick="toggleAuthMode()">No account yet? Create one</p>
+    </form>
+
+  </div>
+
+  <script>
+    let currentRole = 'tenant';
+    let currentMode = 'signin';
+
+    function setRole(role) {
+      currentRole = role;
+      const body = document.body;
+      const heroTitle = document.getElementById('heroTitle');
+      const heroSub = document.getElementById('heroSub');
+      const sectionHeadline = document.getElementById('sectionHeadline');
+      const sectionDesc = document.getElementById('sectionDesc');
+      const btnSubmit = document.getElementById('btnSubmit');
+
+      if (role === 'tenant') {
+        body.className = 'mode-tenant';
+        heroTitle.textContent = currentMode === 'signin' ? 'Welcome back' : 'Create Tenant Account';
+        heroSub.textContent = 'Sign in to manage your stay and room services';
+        sectionHeadline.textContent = currentMode === 'signin' ? 'Sign in to continue' : 'Register your stay';
+        sectionDesc.textContent = 'Access your rent invoices, gate passes, and room services.';
+        btnSubmit.textContent = currentMode === 'signin' ? 'Sign In as Tenant' : 'Create Tenant Account';
+      } else {
+        body.className = 'mode-owner';
+        heroTitle.textContent = currentMode === 'signin' ? 'Welcome back, Owner' : 'Register as PG Owner';
+        heroSub.textContent = 'Manage rooms, collect rent & view property profit';
+        sectionHeadline.textContent = currentMode === 'signin' ? 'Sign in to your property' : 'Start your 3-minute setup';
+        sectionDesc.textContent = 'Access room matrix, 0% rent collection, and analytics.';
+        btnSubmit.textContent = currentMode === 'signin' ? 'Sign In as Owner' : 'Create Owner Account';
+      }
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      const btnSignIn = document.getElementById('btnModeSignIn');
+      const btnRegister = document.getElementById('btnModeRegister');
+      const footerLink = document.getElementById('footerLink');
+      const nameWrap = document.getElementById('nameFieldWrap');
+
+      if (mode === 'signin') {
+        btnSignIn.classList.add('active');
+        btnRegister.classList.remove('active');
+        footerLink.textContent = 'No account yet? Create one';
+        nameWrap.style.display = 'none';
+      } else {
+        btnRegister.classList.add('active');
+        btnSignIn.classList.remove('active');
+        footerLink.textContent = 'Already have an account? Sign In';
+        nameWrap.style.display = 'flex';
+      }
+      setRole(currentRole);
+    }
+
+    function toggleAuthMode() {
+      setMode(currentMode === 'signin' ? 'register' : 'signin');
+    }
+
+    function togglePassword() {
+      const pass = document.getElementById('passInput');
+      pass.type = pass.type === 'password' ? 'text' : 'password';
+    }
+  </script>
+</body>
+</html>

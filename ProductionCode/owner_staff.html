@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UrbanStay — Staff & Payroll Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #08A63F;
+      --green-dark: #068237;
+      --green-light: #EBF8EE;
+      --ink: #111111;
+      --ink-secondary: #374151;
+      --muted: #6B7280;
+      --light-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-card: #E5E7EB;
+      --bg-page: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --blue: #2563EB;
+      --blue-light: #EFF6FF;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg-page);
+      font-family: var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-screen {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 90px;
+    }
+
+    /* Top Sticky Header */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-card);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:active {
+      background: #F3F4F6;
+    }
+
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .header-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .btn-header-add {
+      background: #111111;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 99px;
+      padding: 7px 14px;
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-header-add:active {
+      background: #333333;
+      transform: scale(0.96);
+    }
+
+    /* Main Body Container */
+    .main-body {
+      padding: 18px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 3-Pill Payroll Summary Strip */
+    .stats-strip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr 1.15fr;
+      gap: 8px;
+    }
+
+    .stat-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.015);
+    }
+
+    .stat-num {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-num.blue { color: var(--blue); }
+    .stat-num.ink { color: var(--ink); }
+    .stat-num.amber { color: var(--warning); }
+
+    .stat-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* Role Filter Chips */
+    .filter-tabs-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .filter-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip-btn {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 99px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .filter-chip-btn.active {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      font-weight: 700;
+    }
+
+    /* Search Box */
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 14px 0 40px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--ink);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      color: var(--muted);
+    }
+
+    /* Staff Cards Stack */
+    .staff-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Clean Streamlined Staff Card */
+    .staff-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    /* Card Top Row: Avatar + Name + Work Title + Phone/WhatsApp buttons */
+    .staff-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .staff-info-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .staff-avatar-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 99px;
+      background: #F3F4F6;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .staff-details-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .staff-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .staff-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .work-title-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Clean Neutral Action Buttons */
+    .staff-action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .neutral-action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .neutral-action-btn:active {
+      background: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+
+    .neutral-action-btn svg {
+      width: 15px;
+      height: 15px;
+      color: var(--ink-secondary);
+    }
+
+    /* Middle Salary Box */
+    .salary-summary-box {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .salary-meta-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .salary-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .salary-amount-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .status-badge-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-badge-pill.paid {
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .status-badge-pill.pending {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+
+    /* Bottom Action Row */
+    .staff-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-approve-salary {
+      width: 100%;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-approve-salary:active {
+      background: var(--green-dark);
+      transform: scale(0.98);
+    }
+
+    .btn-paid-settled {
+      width: 100%;
+      height: 38px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: default;
+    }
+
+    /* Bottom Sheet Modal for Add Staff */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 430px;
+      background: #FFFFFF;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: popUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    @keyframes popUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .close-icon-btn {
+      border: none;
+      background: #F3F4F6;
+      width: 28px;
+      height: 28px;
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      color: var(--ink);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .btn-submit-primary {
+      width: 100%;
+      height: 46px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-submit-primary:active {
+      background: var(--green-dark);
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-90px);
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 99px;
+      z-index: 200;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-screen">
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <a href="owner_dashboard.html" class="back-btn" title="Back to Dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </a>
+        <div class="header-title-block">
+          <span class="header-title">Staff & Payroll</span>
+          <span class="header-sub">Greenview PG • 4 Active Staff</span>
+        </div>
+      </div>
+
+      <button class="btn-header-add" onclick="openModal('addStaffModal')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>+ Add Staff</span>
+      </button>
+    </header>
+
+    <!-- Main Body -->
+    <main class="main-body">
+
+      <!-- 3-Pill Payroll Summary Strip -->
+      <div class="stats-strip-grid">
+        <div class="stat-pill">
+          <span class="stat-num blue">4 Staff</span>
+          <span class="stat-label">Active Team</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num ink">₹56,000</span>
+          <span class="stat-label">Monthly Payroll</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num amber" id="pendingSalarySum">₹28,000</span>
+          <span class="stat-label">Pending Payouts</span>
+        </div>
+      </div>
+
+      <!-- Role Filter Chips -->
+      <div class="filter-tabs-scroll">
+        <button class="filter-chip-btn active" onclick="filterStaffRole('all', this)">All Staff (4)</button>
+        <button class="filter-chip-btn" onclick="filterStaffRole('warden', this)">Warden</button>
+        <button class="filter-chip-btn" onclick="filterStaffRole('cook', this)">Cook</button>
+        <button class="filter-chip-btn" onclick="filterStaffRole('housekeeping', this)">Housekeeping</button>
+        <button class="filter-chip-btn" onclick="filterStaffRole('security', this)">Security</button>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="staffSearchInput" onkeyup="searchStaff()" placeholder="Search staff by name or role..." class="search-input">
+      </div>
+
+      <!-- Staff Cards Stack -->
+      <div class="staff-stack" id="staffStack">
+
+        <!-- Staff 1: Suresh Kumar (Warden) -->
+        <div class="staff-card" id="staff_card_1" data-role="warden" data-name="suresh kumar">
+          <div class="staff-card-top">
+            <div class="staff-info-cluster">
+              <div class="staff-avatar-circle">SK</div>
+              <div class="staff-details-col">
+                <div class="staff-name-row">
+                  <span class="staff-name">Suresh Kumar</span>
+                </div>
+                <span class="work-title-label">Warden & Operations Manager</span>
+              </div>
+            </div>
+
+            <div class="staff-action-buttons">
+              <a href="tel:+919845122334" class="neutral-action-btn" title="Call Suresh">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </a>
+              <button class="neutral-action-btn" onclick="pingStaffWhatsApp('Suresh Kumar', 'Warden')" title="WhatsApp Suresh">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="salary-summary-box">
+            <div class="salary-meta-left">
+              <span class="salary-label">August Salary</span>
+              <span class="salary-amount-val">₹18,000</span>
+            </div>
+            <span class="status-badge-pill paid" id="badge_suresh">Paid</span>
+          </div>
+
+          <div class="staff-actions-row" id="action_row_suresh">
+            <div class="btn-paid-settled">
+              <span>Salary Settled & Added to Expenses</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Staff 2: Ramesh Chand (Cook) -->
+        <div class="staff-card" id="staff_card_2" data-role="cook" data-name="ramesh chand">
+          <div class="staff-card-top">
+            <div class="staff-info-cluster">
+              <div class="staff-avatar-circle">RC</div>
+              <div class="staff-details-col">
+                <div class="staff-name-row">
+                  <span class="staff-name">Ramesh Chand</span>
+                </div>
+                <span class="work-title-label">Head Cook</span>
+              </div>
+            </div>
+
+            <div class="staff-action-buttons">
+              <a href="tel:+919880144556" class="neutral-action-btn" title="Call Ramesh">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </a>
+              <button class="neutral-action-btn" onclick="pingStaffWhatsApp('Ramesh Chand', 'Cook')" title="WhatsApp Ramesh">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="salary-summary-box">
+            <div class="salary-meta-left">
+              <span class="salary-label">August Salary</span>
+              <span class="salary-amount-val">₹16,000</span>
+            </div>
+            <span class="status-badge-pill pending" id="badge_ramesh">Pending</span>
+          </div>
+
+          <div class="staff-actions-row" id="action_row_ramesh">
+            <button class="btn-approve-salary" onclick="approveStaffSalary('Ramesh Chand', 16000, 'badge_ramesh', 'action_row_ramesh')">
+              <span>Approve & Mark Paid (₹16,000)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Staff 3: Manjula Devi (Housekeeping) -->
+        <div class="staff-card" id="staff_card_3" data-role="housekeeping" data-name="manjula devi">
+          <div class="staff-card-top">
+            <div class="staff-info-cluster">
+              <div class="staff-avatar-circle">MD</div>
+              <div class="staff-details-col">
+                <div class="staff-name-row">
+                  <span class="staff-name">Manjula Devi</span>
+                </div>
+                <span class="work-title-label">Housekeeping</span>
+              </div>
+            </div>
+
+            <div class="staff-action-buttons">
+              <a href="tel:+919741288990" class="neutral-action-btn" title="Call Manjula">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </a>
+              <button class="neutral-action-btn" onclick="pingStaffWhatsApp('Manjula Devi', 'Housekeeping')" title="WhatsApp Manjula">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="salary-summary-box">
+            <div class="salary-meta-left">
+              <span class="salary-label">August Salary</span>
+              <span class="salary-amount-val">₹10,000</span>
+            </div>
+            <span class="status-badge-pill paid" id="badge_manjula">Paid</span>
+          </div>
+
+          <div class="staff-actions-row" id="action_row_manjula">
+            <div class="btn-paid-settled">
+              <span>Salary Settled & Added to Expenses</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Staff 4: Narayana Swamy (Security) -->
+        <div class="staff-card" id="staff_card_4" data-role="security" data-name="narayana swamy">
+          <div class="staff-card-top">
+            <div class="staff-info-cluster">
+              <div class="staff-avatar-circle">NS</div>
+              <div class="staff-details-col">
+                <div class="staff-name-row">
+                  <span class="staff-name">Narayana Swamy</span>
+                </div>
+                <span class="work-title-label">Night Security Guard</span>
+              </div>
+            </div>
+
+            <div class="staff-action-buttons">
+              <a href="tel:+919611033221" class="neutral-action-btn" title="Call Narayana">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </a>
+              <button class="neutral-action-btn" onclick="pingStaffWhatsApp('Narayana Swamy', 'Security')" title="WhatsApp Narayana">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="salary-summary-box">
+            <div class="salary-meta-left">
+              <span class="salary-label">August Salary</span>
+              <span class="salary-amount-val">₹12,000</span>
+            </div>
+            <span class="status-badge-pill pending" id="badge_narayana">Pending</span>
+          </div>
+
+          <div class="staff-actions-row" id="action_row_narayana">
+            <button class="btn-approve-salary" onclick="approveStaffSalary('Narayana Swamy', 12000, 'badge_narayana', 'action_row_narayana')">
+              <span>Approve & Mark Paid (₹12,000)</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Modal: Add New Staff Member -->
+    <div id="addStaffModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Add New Staff Member</span>
+          <button class="close-icon-btn" onclick="closeModal('addStaffModal')">✕</button>
+        </div>
+
+        <form onsubmit="handleAddStaff(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="newStaffName" class="form-input" placeholder="e.g. Rajesh Kumar" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Work Title / Role</label>
+            <input type="text" id="newStaffWorkTitle" class="form-input" placeholder="e.g. Assistant Cook / Cleaner" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="newStaffRole" class="form-input" style="cursor: pointer;">
+                <option value="warden">Warden</option>
+                <option value="cook">Cook</option>
+                <option value="housekeeping">Housekeeping</option>
+                <option value="security">Security</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monthly Salary (₹)</label>
+              <input type="number" id="newStaffSalary" class="form-input" placeholder="₹15,000" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" id="newStaffPhone" class="form-input" placeholder="+91 98765 43210" required>
+          </div>
+
+          <button type="submit" class="btn-submit-primary">
+            Save Staff Member
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg">Action completed</div>
+
+  </div>
+
+  <script>
+    let pendingPayroll = 28000;
+
+    function filterStaffRole(role, btn) {
+      document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.staff-card');
+      cards.forEach(card => {
+        if (role === 'all' || card.dataset.role === role) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      toast(`Showing ${role === 'all' ? 'All Staff' : role.toUpperCase()}`);
+    }
+
+    function searchStaff() {
+      const query = document.getElementById('staffSearchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.staff-card');
+
+      cards.forEach(card => {
+        const name = card.dataset.name || '';
+        const role = card.dataset.role || '';
+        if (name.includes(query) || role.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function pingStaffWhatsApp(name, role) {
+      toast(`WhatsApp chat opened with ${name} (${role})`);
+    }
+
+    function approveStaffSalary(name, amount, badgeId, actionRowId) {
+      // Update badge
+      const badge = document.getElementById(badgeId);
+      if (badge) {
+        badge.innerText = 'Paid';
+        badge.className = 'status-badge-pill paid';
+      }
+
+      // Update action row
+      const actionRow = document.getElementById(actionRowId);
+      if (actionRow) {
+        actionRow.innerHTML = `
+          <div class="btn-paid-settled">
+            <span>Salary Settled & Added to Expenses</span>
+          </div>
+        `;
+      }
+
+      // Update pending counter
+      pendingPayroll = Math.max(0, pendingPayroll - amount);
+      document.getElementById('pendingSalarySum').innerText = `₹${pendingPayroll.toLocaleString('en-IN')}`;
+
+      toast(`₹${amount.toLocaleString('en-IN')} Salary Approved for ${name} • Recorded in PG Expenses`);
+    }
+
+    function handleAddStaff(e) {
+      e.preventDefault();
+      const name = document.getElementById('newStaffName').value;
+      const workTitle = document.getElementById('newStaffWorkTitle').value;
+      const role = document.getElementById('newStaffRole').value;
+      const salary = parseInt(document.getElementById('newStaffSalary').value) || 0;
+      const phone = document.getElementById('newStaffPhone').value;
+
+      const stack = document.getElementById('staffStack');
+      const newCard = document.createElement('div');
+      const cardId = 'staff_' + Date.now();
+      const badgeId = 'badge_' + Date.now();
+      const actionId = 'action_' + Date.now();
+
+      newCard.className = 'staff-card';
+      newCard.dataset.role = role;
+      newCard.dataset.name = name.toLowerCase();
+
+      const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+      newCard.innerHTML = `
+        <div class="staff-card-top">
+          <div class="staff-info-cluster">
+            <div class="staff-avatar-circle">${initials}</div>
+            <div class="staff-details-col">
+              <div class="staff-name-row">
+                <span class="staff-name">${name}</span>
+              </div>
+              <span class="work-title-label">${workTitle}</span>
+            </div>
+          </div>
+
+          <div class="staff-action-buttons">
+            <a href="tel:${phone}" class="neutral-action-btn" title="Call">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </a>
+            <button class="neutral-action-btn" onclick="pingStaffWhatsApp('${name}', '${workTitle}')" title="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="salary-summary-box">
+          <div class="salary-meta-left">
+            <span class="salary-label">August Salary</span>
+            <span class="salary-amount-val">₹${salary.toLocaleString('en-IN')}</span>
+          </div>
+          <span class="status-badge-pill pending" id="${badgeId}">Pending</span>
+        </div>
+
+        <div class="staff-actions-row" id="${actionId}">
+          <button class="btn-approve-salary" onclick="approveStaffSalary('${name}', ${salary}, '${badgeId}', '${actionId}')">
+            <span>Approve & Mark Paid (₹${salary.toLocaleString('en-IN')})</span>
+          </button>
+        </div>
+      `;
+
+      stack.insertBefore(newCard, stack.firstChild);
+      closeModal('addStaffModal');
+      toast(`${name} added to Staff Directory`);
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function toast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.classList.add('show');
+      setTimeout(() => {
+        t.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+
+</html>

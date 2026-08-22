@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UrbanStay — PG Expenses & Profit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #08A63F;
+      --green-dark: #068237;
+      --green-light: #EBF8EE;
+      --ink: #111111;
+      --ink-secondary: #374151;
+      --muted: #6B7280;
+      --light-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-card: #E5E7EB;
+      --bg-page: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --blue: #2563EB;
+      --blue-light: #EFF6FF;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg-page);
+      font-family: var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-screen {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 90px;
+    }
+
+    /* Top Sticky Header */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-card);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:active {
+      background: #F3F4F6;
+    }
+
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .header-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .cycle-select-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 6px 12px;
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Main Content */
+    .main-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 3-Pill Financial & Profit Strip */
+    .stats-strip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.15fr;
+      gap: 8px;
+    }
+
+    .stat-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.015);
+    }
+
+    .stat-num {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-num.blue { color: var(--blue); }
+    .stat-num.green { color: var(--green-dark); }
+    .stat-num.red { color: var(--danger); }
+
+    .stat-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* Quick Export / Summary Banner */
+    .export-strip-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.015);
+    }
+
+    .export-left-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .export-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .export-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .btn-export-ca {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-export-ca:active {
+      background: #F3F4F6;
+    }
+
+    /* Category Filter Chips */
+    .filter-tabs-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .filter-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip-btn {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 99px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .filter-chip-btn.active {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      font-weight: 700;
+    }
+
+    /* Search Box */
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 14px 0 40px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--ink);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      color: var(--muted);
+    }
+
+    /* Expenses List Stack */
+    .expenses-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Clean Expense Card */
+    .expense-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    .expense-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .expense-info-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .category-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .category-icon-box svg {
+      width: 22px;
+      height: 22px;
+      color: var(--ink-secondary);
+    }
+
+    .expense-details-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .expense-title-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .expense-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .expense-vendor-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .expense-amount-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+
+    .expense-amount {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .expense-date-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Meta Details Box */
+    .expense-meta-box {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--ink-secondary);
+    }
+
+    .meta-mode-tag {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* Actions Strip */
+    .expense-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-action-neutral {
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-decoration: none;
+      flex: 1;
+      transition: all 0.15s ease;
+    }
+
+    .btn-action-neutral:active {
+      background: #F3F4F6;
+    }
+
+    /* Floating Action Button (+) */
+    .floating-add-btn {
+      position: fixed;
+      bottom: 24px;
+      right: calc(50% - 200px);
+      width: 54px;
+      height: 54px;
+      border-radius: 99px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      box-shadow: 0 8px 24px rgba(8, 166, 63, 0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .floating-add-btn:active {
+      transform: scale(0.92);
+      background: var(--green-dark);
+    }
+
+    @media (max-width: 430px) {
+      .floating-add-btn {
+        right: 20px;
+      }
+    }
+
+    /* Bottom Sheet Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 430px;
+      background: #FFFFFF;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: popUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    @keyframes popUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .close-icon-btn {
+      border: none;
+      background: #F3F4F6;
+      width: 28px;
+      height: 28px;
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      color: var(--ink);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .category-chips-select {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .cat-select-btn {
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: #F3F4F6;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .cat-select-btn.selected {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+    }
+
+    .payment-mode-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .mode-btn {
+      height: 40px;
+      border-radius: 10px;
+      background: #F9FAFB;
+      border: 1.5px solid var(--border);
+      font-family: var(--font);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .mode-btn.selected {
+      background: var(--green-light);
+      border-color: var(--green);
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    .photo-upload-box {
+      border: 1.5px dashed var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #F9FAFB;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .btn-submit-primary {
+      width: 100%;
+      height: 46px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-submit-primary:active {
+      background: var(--green-dark);
+    }
+
+    /* Receipt Image Modal Preview */
+    .receipt-preview-box {
+      width: 100%;
+      height: 280px;
+      background: #F3F4F6;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-90px);
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 99px;
+      z-index: 200;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-screen">
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <a href="owner_dashboard.html" class="back-btn" title="Back to Dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </a>
+        <div class="header-title-block">
+          <span class="header-title">PG Expenses & P&L</span>
+          <span class="header-sub">Greenview PG • 31 Beds</span>
+        </div>
+      </div>
+
+      <select class="cycle-select-pill" onchange="toast('Switched Month')">
+        <option>August 2026</option>
+        <option>July 2026</option>
+        <option>June 2026</option>
+      </select>
+    </header>
+
+    <!-- Main Body -->
+    <main class="main-body">
+
+      <!-- 3-Pill Financial & Net Profit Strip -->
+      <div class="stats-strip-grid">
+        <div class="stat-pill">
+          <span class="stat-num blue">₹2,12,000</span>
+          <span class="stat-label">Rent Revenue</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num red" id="totalExpensesSum">₹68,400</span>
+          <span class="stat-label">Total Costs</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num green" id="netProfitSum">₹1,43,600</span>
+          <span class="stat-label">Net Profit (68%)</span>
+        </div>
+      </div>
+
+      <!-- Quick Export / CA Tax Report Banner -->
+      <div class="export-strip-card">
+        <div class="export-left-meta">
+          <span class="export-title">Monthly Expense Statement</span>
+          <span class="export-sub">6 Invoices & receipts recorded this month</span>
+        </div>
+        <button class="btn-export-ca" onclick="exportExpensesReport()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export CA Report</span>
+        </button>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="filter-tabs-scroll">
+        <button class="filter-chip-btn active" onclick="filterExpensesCategory('all', this)">All (6)</button>
+        <button class="filter-chip-btn" onclick="filterExpensesCategory('electricity', this)">Electricity</button>
+        <button class="filter-chip-btn" onclick="filterExpensesCategory('kitchen', this)">Kitchen & Ration</button>
+        <button class="filter-chip-btn" onclick="filterExpensesCategory('water', this)">Water Tankers</button>
+        <button class="filter-chip-btn" onclick="filterExpensesCategory('salary', this)">Staff Salaries</button>
+        <button class="filter-chip-btn" onclick="filterExpensesCategory('repair', this)">Repairs</button>
+        <button class="filter-chip-btn" onclick="filterExpensesCategory('wifi', this)">WiFi & Utilities</button>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="expenseSearchInput" onkeyup="searchExpenses()" placeholder="Search by vendor, bill or item..." class="search-input">
+      </div>
+
+      <!-- Expenses Stack -->
+      <div class="expenses-stack" id="expensesStack">
+
+        <!-- Expense 1: Electricity Bill -->
+        <div class="expense-card" data-category="electricity" data-title="bescom commercial electricity bill" data-vendor="bescom karnataka">
+          <div class="expense-card-top">
+            <div class="expense-info-cluster">
+              <div class="category-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <div class="expense-details-col">
+                <div class="expense-title-line">
+                  <span class="expense-title">Electricity Bill</span>
+                </div>
+                <span class="expense-vendor-sub">BESCOM • Meter #48921 • 3 Floors</span>
+              </div>
+            </div>
+            <div class="expense-amount-block">
+              <span class="expense-amount">₹24,500</span>
+              <span class="expense-date-label">15 Aug 2026</span>
+            </div>
+          </div>
+
+          <div class="expense-meta-box">
+            <span>Mode: <span class="meta-mode-tag">Direct Bank Transfer</span></span>
+            <span style="color: var(--green-dark); font-weight: 600;">Paid (Ref: TXN99120)</span>
+          </div>
+
+          <div class="expense-actions-row">
+            <button class="btn-action-neutral" onclick="openReceiptModal('BESCOM Electricity Bill', '₹24,500', '15 Aug 2026', 'bescom_bill_aug2026.pdf')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Bill Slip</span>
+            </button>
+            <button class="btn-action-neutral" onclick="toast('Edit expense dialog opened')">
+              <span>Edit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Expense 2: Kitchen Groceries & Ration -->
+        <div class="expense-card" data-category="kitchen" data-title="kitchen groceries ration vegetables" data-vendor="annapurna stores">
+          <div class="expense-card-top">
+            <div class="expense-info-cluster">
+              <div class="category-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              </div>
+              <div class="expense-details-col">
+                <div class="expense-title-line">
+                  <span class="expense-title">Kitchen Groceries & Ration</span>
+                </div>
+                <span class="expense-vendor-sub">Annapurna Stores • Monthly Supplies</span>
+              </div>
+            </div>
+            <div class="expense-amount-block">
+              <span class="expense-amount">₹18,200</span>
+              <span class="expense-date-label">12 Aug 2026</span>
+            </div>
+          </div>
+
+          <div class="expense-meta-box">
+            <span>Mode: <span class="meta-mode-tag">Direct UPI</span></span>
+            <span style="color: var(--green-dark); font-weight: 600;">Paid (Ref: UPI-RATION-88)</span>
+          </div>
+
+          <div class="expense-actions-row">
+            <button class="btn-action-neutral" onclick="openReceiptModal('Kitchen Groceries & Ration', '₹18,200', '12 Aug 2026', 'annapurna_grocery_bill.jpg')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Bill Slip</span>
+            </button>
+            <button class="btn-action-neutral" onclick="toast('Edit expense dialog opened')">
+              <span>Edit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Expense 3: Water Tankers (Summer) -->
+        <div class="expense-card" data-category="water" data-title="water tankers 4 trips" data-vendor="kaveri water supplies">
+          <div class="expense-card-top">
+            <div class="expense-info-cluster">
+              <div class="category-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                </svg>
+              </div>
+              <div class="expense-details-col">
+                <div class="expense-title-line">
+                  <span class="expense-title">Water Tankers (4 Trips)</span>
+                </div>
+                <span class="expense-vendor-sub">Kaveri Water Supply • 6000L x 4</span>
+              </div>
+            </div>
+            <div class="expense-amount-block">
+              <span class="expense-amount">₹4,800</span>
+              <span class="expense-date-label">10 Aug 2026</span>
+            </div>
+          </div>
+
+          <div class="expense-meta-box">
+            <span>Mode: <span class="meta-mode-tag">Cash (Petty Cash)</span></span>
+            <span style="color: var(--ink-secondary); font-weight: 600;">Receipt Signed by Driver</span>
+          </div>
+
+          <div class="expense-actions-row">
+            <button class="btn-action-neutral" onclick="openReceiptModal('Water Tankers (4 Trips)', '₹4,800', '10 Aug 2026', 'water_tanker_slips.jpg')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Tanker Slip</span>
+            </button>
+            <button class="btn-action-neutral" onclick="toast('Edit expense dialog opened')">
+              <span>Edit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Expense 4: Staff Salaries (Warden & Cook) -->
+        <div class="expense-card" data-category="salary" data-title="cook warden staff salary" data-vendor="pg staff">
+          <div class="expense-card-top">
+            <div class="expense-info-cluster">
+              <div class="category-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <div class="expense-details-col">
+                <div class="expense-title-line">
+                  <span class="expense-title">Cook & Warden Salaries</span>
+                </div>
+                <span class="expense-vendor-sub">Monthly Payroll • 2 Staff</span>
+              </div>
+            </div>
+            <div class="expense-amount-block">
+              <span class="expense-amount">₹15,000</span>
+              <span class="expense-date-label">1 Aug 2026</span>
+            </div>
+          </div>
+
+          <div class="expense-meta-box">
+            <span>Mode: <span class="meta-mode-tag">Bank Transfer</span></span>
+            <span style="color: var(--green-dark); font-weight: 600;">Salary Vouchers Acknowledged</span>
+          </div>
+
+          <div class="expense-actions-row">
+            <button class="btn-action-neutral" onclick="openReceiptModal('Staff Payroll', '₹15,000', '1 Aug 2026', 'salary_voucher_aug.pdf')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Vouchers</span>
+            </button>
+            <button class="btn-action-neutral" onclick="toast('Edit expense dialog opened')">
+              <span>Edit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Expense 5: Plumbing & Repairs -->
+        <div class="expense-card" data-category="repair" data-title="plumbing tap replacement flush repairs" data-vendor="sridhar plumber">
+          <div class="expense-card-top">
+            <div class="expense-info-cluster">
+              <div class="category-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+              </div>
+              <div class="expense-details-col">
+                <div class="expense-title-line">
+                  <span class="expense-title">Plumbing & Tap Replacements</span>
+                </div>
+                <span class="expense-vendor-sub">Sridhar Plumber • Room 102 & 201</span>
+              </div>
+            </div>
+            <div class="expense-amount-block">
+              <span class="expense-amount">₹3,400</span>
+              <span class="expense-date-label">8 Aug 2026</span>
+            </div>
+          </div>
+
+          <div class="expense-meta-box">
+            <span>Mode: <span class="meta-mode-tag">Cash</span></span>
+            <span style="color: var(--ink-secondary); font-weight: 600;">Work Completed & Verified</span>
+          </div>
+
+          <div class="expense-actions-row">
+            <button class="btn-action-neutral" onclick="openReceiptModal('Plumbing Repairs', '₹3,400', '8 Aug 2026', 'hardware_store_receipt.jpg')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Receipt</span>
+            </button>
+            <button class="btn-action-neutral" onclick="toast('Edit expense dialog opened')">
+              <span>Edit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Expense 6: High Speed WiFi -->
+        <div class="expense-card" data-category="wifi" data-title="act fibernet high speed wifi broadband" data-vendor="act fibernet">
+          <div class="expense-card-top">
+            <div class="expense-info-cluster">
+              <div class="category-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                  <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                  <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                  <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                </svg>
+              </div>
+              <div class="expense-details-col">
+                <div class="expense-title-line">
+                  <span class="expense-title">High-Speed WiFi (300 Mbps)</span>
+                </div>
+                <span class="expense-vendor-sub">ACT Fibernet • Account #889214</span>
+              </div>
+            </div>
+            <div class="expense-amount-block">
+              <span class="expense-amount">₹2,499</span>
+              <span class="expense-date-label">5 Aug 2026</span>
+            </div>
+          </div>
+
+          <div class="expense-meta-box">
+            <span>Mode: <span class="meta-mode-tag">Direct UPI</span></span>
+            <span style="color: var(--green-dark); font-weight: 600;">Paid (Auto-Debit)</span>
+          </div>
+
+          <div class="expense-actions-row">
+            <button class="btn-action-neutral" onclick="openReceiptModal('ACT Fibernet Bill', '₹2,499', '5 Aug 2026', 'act_invoice_aug2026.pdf')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>View Invoice</span>
+            </button>
+            <button class="btn-action-neutral" onclick="toast('Edit expense dialog opened')">
+              <span>Edit</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Floating Action Button (+) -->
+    <button class="floating-add-btn" onclick="openLogExpenseModal()" title="Log New Expense">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
+
+    <!-- Modal: Log New Expense -->
+    <div id="logExpenseModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Log New PG Expense</span>
+          <button class="close-icon-btn" onclick="closeModal('logExpenseModal')">✕</button>
+        </div>
+
+        <form id="newExpenseForm" onsubmit="handleSaveExpense(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          
+          <!-- Category Selector -->
+          <div class="form-group">
+            <label class="form-label">Expense Category</label>
+            <div class="category-chips-select">
+              <button type="button" class="cat-select-btn selected" onclick="selectExpenseCat('Electricity', this)">Electricity</button>
+              <button type="button" class="cat-select-btn" onclick="selectExpenseCat('Kitchen', this)">Kitchen / Food</button>
+              <button type="button" class="cat-select-btn" onclick="selectExpenseCat('Water', this)">Water Tanker</button>
+              <button type="button" class="cat-select-btn" onclick="selectExpenseCat('Salary', this)">Staff Salary</button>
+              <button type="button" class="cat-select-btn" onclick="selectExpenseCat('Repair', this)">Repairs</button>
+              <button type="button" class="cat-select-btn" onclick="selectExpenseCat('WiFi', this)">WiFi / Misc</button>
+            </div>
+            <input type="hidden" id="selectedCatInput" value="Electricity">
+          </div>
+
+          <!-- Expense Title -->
+          <div class="form-group">
+            <label class="form-label">Expense Title / Item Description</label>
+            <input type="text" id="expenseTitleInput" class="form-input" placeholder="e.g. Kaveri Water Tankers (2 Trips)" required>
+          </div>
+
+          <!-- Amount & Date Row -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Amount (₹)</label>
+              <input type="number" id="expenseAmountInput" class="form-input" placeholder="₹ Amount" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input type="text" id="expenseDateInput" class="form-input" value="19 Aug 2026" required>
+            </div>
+          </div>
+
+          <!-- Paid To / Vendor -->
+          <div class="form-group">
+            <label class="form-label">Paid To / Vendor Name</label>
+            <input type="text" id="expenseVendorInput" class="form-input" placeholder="e.g. Kaveri Water Supplies" required>
+          </div>
+
+          <!-- Payment Mode -->
+          <div class="form-group">
+            <label class="form-label">Payment Mode</label>
+            <div class="payment-mode-toggle">
+              <button type="button" class="mode-btn selected" id="modeUpi" onclick="selectPayMode('UPI')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                <span>Direct UPI / Bank</span>
+              </button>
+              <button type="button" class="mode-btn" id="modeCash" onclick="selectPayMode('Cash')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Cash / Petty Cash</span>
+              </button>
+            </div>
+            <input type="hidden" id="selectedPayMode" value="UPI">
+          </div>
+
+          <!-- Bill / Receipt Photo Upload -->
+          <div class="form-group">
+            <label class="form-label">Bill / Invoice Slip Photo</label>
+            <div class="photo-upload-box" onclick="document.getElementById('billFileInput').click()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span id="billPhotoLabel">Tap to Attach Bill Photo / Camera</span>
+              <input type="file" id="billFileInput" accept="image/*" style="display: none;" onchange="handleBillPhotoSelect(this)">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-primary">
+            Save Expense & Update P&L
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: View Bill Receipt Preview -->
+    <div id="receiptModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title" id="receiptModalTitle">Bill Invoice Proof</span>
+          <button class="close-icon-btn" onclick="closeModal('receiptModal')">✕</button>
+        </div>
+
+        <div class="receipt-preview-box">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span id="receiptModalFileName" style="color: var(--ink); font-weight: 700;">invoice_document.pdf</span>
+          <span id="receiptModalMeta" style="font-size: 11px;">Verified & Logged to P&L</span>
+        </div>
+
+        <button class="btn-submit-primary" onclick="closeModal('receiptModal')">
+          Close Preview
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg">Action completed</div>
+
+  </div>
+
+  <script>
+    let currentCategory = 'all';
+
+    function filterExpensesCategory(cat, btn) {
+      document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = cat;
+
+      const cards = document.querySelectorAll('.expense-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.category === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      toast(`Showing ${cat === 'all' ? 'All Expenses' : cat.toUpperCase()}`);
+    }
+
+    function searchExpenses() {
+      const query = document.getElementById('expenseSearchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.expense-card');
+
+      cards.forEach(card => {
+        const title = card.dataset.title || '';
+        const vendor = card.dataset.vendor || '';
+        if (title.includes(query) || vendor.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openLogExpenseModal() {
+      openModal('logExpenseModal');
+    }
+
+    function selectExpenseCat(cat, btn) {
+      document.querySelectorAll('.cat-select-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('selectedCatInput').value = cat;
+    }
+
+    function selectPayMode(mode) {
+      if (mode === 'UPI') {
+        document.getElementById('modeUpi').classList.add('selected');
+        document.getElementById('modeCash').classList.remove('selected');
+        document.getElementById('selectedPayMode').value = 'UPI';
+      } else {
+        document.getElementById('modeCash').classList.add('selected');
+        document.getElementById('modeUpi').classList.remove('selected');
+        document.getElementById('selectedPayMode').value = 'Cash';
+      }
+    }
+
+    function handleBillPhotoSelect(input) {
+      if (input.files && input.files[0]) {
+        document.getElementById('billPhotoLabel').innerText = `Attached: ${input.files[0].name}`;
+        toast('Bill invoice photo attached');
+      }
+    }
+
+    function handleSaveExpense(e) {
+      e.preventDefault();
+      const title = document.getElementById('expenseTitleInput').value;
+      const amount = parseInt(document.getElementById('expenseAmountInput').value) || 0;
+      const vendor = document.getElementById('expenseVendorInput').value;
+      const cat = document.getElementById('selectedCatInput').value.toLowerCase();
+      const mode = document.getElementById('selectedPayMode').value;
+
+      // Update total costs and net profit
+      const currentCosts = 68400 + amount;
+      const netProfit = 212000 - currentCosts;
+
+      document.getElementById('totalExpensesSum').innerText = `₹${currentCosts.toLocaleString('en-IN')}`;
+      document.getElementById('netProfitSum').innerText = `₹${netProfit.toLocaleString('en-IN')}`;
+
+      // Prepend new card
+      const stack = document.getElementById('expensesStack');
+      const newCard = document.createElement('div');
+      newCard.className = 'expense-card';
+      newCard.dataset.category = cat;
+      newCard.dataset.title = title.toLowerCase();
+      newCard.dataset.vendor = vendor.toLowerCase();
+      newCard.innerHTML = `
+        <div class="expense-card-top">
+          <div class="expense-info-cluster">
+            <div class="category-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="expense-details-col">
+              <div class="expense-title-line">
+                <span class="expense-title">${title}</span>
+              </div>
+              <span class="expense-vendor-sub">${vendor} • Logged Just Now</span>
+            </div>
+          </div>
+          <div class="expense-amount-block">
+            <span class="expense-amount">₹${amount.toLocaleString('en-IN')}</span>
+            <span class="expense-date-label">Today</span>
+          </div>
+        </div>
+
+        <div class="expense-meta-box">
+          <span>Mode: <span class="meta-mode-tag">${mode === 'UPI' ? 'Direct UPI / Bank' : 'Cash (Petty Cash)'}</span></span>
+          <span style="color: var(--green-dark); font-weight: 600;">Saved to P&L</span>
+        </div>
+
+        <div class="expense-actions-row">
+          <button class="btn-action-neutral" onclick="openReceiptModal('${title}', '₹${amount}', 'Today', 'attached_bill_receipt.jpg')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            <span>View Bill Slip</span>
+          </button>
+          <button class="btn-action-neutral" onclick="toast('Edit expense dialog opened')">
+            <span>Edit</span>
+          </button>
+        </div>
+      `;
+
+      stack.insertBefore(newCard, stack.firstChild);
+      closeModal('logExpenseModal');
+      document.getElementById('newExpenseForm').reset();
+      toast(`₹${amount.toLocaleString('en-IN')} logged under ${cat.toUpperCase()} • P&L updated`);
+    }
+
+    function openReceiptModal(title, amount, date, filename) {
+      document.getElementById('receiptModalTitle').innerText = title;
+      document.getElementById('receiptModalFileName').innerText = `${filename} (${amount})`;
+      document.getElementById('receiptModalMeta').innerText = `Date: ${date} • Verified in P&L`;
+      openModal('receiptModal');
+    }
+
+    function exportExpensesReport() {
+      toast('Generating CA Tax & Expense Statement (Excel & PDF)... Downloaded');
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function toast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.classList.add('show');
+      setTimeout(() => {
+        t.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+
+</html>

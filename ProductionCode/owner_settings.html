@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UrbanStay — Property & Account Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #08A63F;
+      --green-dark: #068237;
+      --green-light: #EBF8EE;
+      --ink: #111111;
+      --ink-secondary: #374151;
+      --muted: #6B7280;
+      --light-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-card: #E5E7EB;
+      --bg-page: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --blue: #2563EB;
+      --blue-light: #EFF6FF;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg-page);
+      font-family: var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-screen {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 70px;
+    }
+
+    /* Top Sticky Header */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-card);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:active {
+      background: #F3F4F6;
+    }
+
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .header-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* Views Architecture */
+    .view-container {
+      display: none;
+      padding: 18px 16px 40px;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .view-container.active-view {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Search Box in Master View */
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 14px 0 40px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--ink);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      color: var(--muted);
+    }
+
+    /* Master Owner Hero Card */
+    .master-owner-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .master-owner-card:active {
+      background: #F9FAFB;
+      transform: scale(0.99);
+    }
+
+    .master-avatar-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 99px;
+      background: #111111;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .master-owner-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .master-owner-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .master-owner-sub {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Master Menu List Tiles */
+    .master-menu-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .master-menu-tile {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.015);
+      transition: all 0.15s ease;
+    }
+
+    .master-menu-tile:active {
+      transform: scale(0.98);
+      background: #F9FAFB;
+    }
+
+    .menu-tile-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .menu-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #F3F4F6;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .menu-icon-box svg {
+      width: 20px;
+      height: 20px;
+      color: var(--ink);
+    }
+
+    .menu-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .menu-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .menu-desc {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menu-chevron {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Sub-View Elevated Cards */
+    .subview-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .subview-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .subview-card-title-cluster {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subview-card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .btn-card-edit {
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 6px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-card-edit:active {
+      background: #F3F4F6;
+    }
+
+    /* Detail Rows */
+    .detail-row-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      font-size: 12.5px;
+      padding: 3px 0;
+      gap: 10px;
+    }
+
+    .detail-row-item.actionable {
+      padding: 8px 0;
+      cursor: pointer;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .detail-val {
+      font-weight: 700;
+      color: var(--ink);
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .detail-val.green {
+      color: var(--green-dark);
+    }
+
+    .detail-val.code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      letter-spacing: 0.03em;
+    }
+
+    /* Toggle Switches */
+    .toggle-switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .switch-label-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .switch-label-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .switch-label-desc {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .switch-btn-toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: 99px;
+      background: #E5E7EB;
+      position: relative;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .switch-btn-toggle.on {
+      background: var(--green);
+    }
+
+    .switch-circle-knob {
+      width: 18px;
+      height: 18px;
+      border-radius: 99px;
+      background: #FFFFFF;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .switch-btn-toggle.on .switch-circle-knob {
+      left: 23px;
+    }
+
+    /* Rule Highlights Box */
+    .rule-bullets-box {
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--ink-secondary);
+      line-height: 1.4;
+    }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .bullet-icon {
+      color: var(--green);
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* Action Grid in Property View */
+    .subview-action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-subview-action {
+      height: 36px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-subview-action:active {
+      background: #F3F4F6;
+    }
+
+    /* Digital Business Card */
+    .business-card-banner {
+      background: linear-gradient(135deg, #111111 0%, #1F2937 100%);
+      border-radius: 16px;
+      padding: 18px;
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .biz-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .biz-card-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .biz-card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .biz-card-details {
+      font-size: 11.5px;
+      color: #D1D5DB;
+      line-height: 1.4;
+    }
+
+    .biz-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .btn-biz-share {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      color: #111111;
+      border: none;
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Session & Account Buttons */
+    .account-btn-item {
+      width: 100%;
+      height: 44px;
+      border-radius: 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .account-btn-item:active {
+      background: #F3F4F6;
+    }
+
+    .account-btn-item.danger {
+      color: var(--danger);
+      background: #FFFFFF;
+      border-color: #FCA5A5;
+    }
+
+    .account-btn-item.danger:active {
+      background: var(--danger-light);
+    }
+
+    /* Bottom Sheet Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 430px;
+      background: #FFFFFF;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: popUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    @keyframes popUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .close-icon-btn {
+      border: none;
+      background: #F3F4F6;
+      width: 28px;
+      height: 28px;
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      color: var(--ink);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .btn-submit-primary {
+      width: 100%;
+      height: 46px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-submit-primary:active {
+      background: var(--green-dark);
+    }
+
+    .btn-danger-confirm {
+      width: 100%;
+      height: 46px;
+      background: var(--danger);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.15s ease;
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-90px);
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 99px;
+      z-index: 200;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-screen">
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="back-btn" id="headerBackBtn" onclick="handleHeaderBack()" title="Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="header-title-block">
+          <span class="header-title" id="headerTitleText">Settings</span>
+          <span class="header-sub" id="headerSubText">Greenview PG • System Configuration</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         VIEW 0: MASTER SETTINGS DIRECTORY
+         ============================================================ -->
+    <div class="view-container active-view" id="viewMaster">
+
+      <!-- Search Box -->
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="settingsSearchInput" onkeyup="searchSettingsMaster()" placeholder="Search settings or rules..." class="search-input">
+      </div>
+
+      <!-- Owner Profile Hero Card -->
+      <div class="master-owner-card" onclick="openSubView('viewAccount')">
+        <div class="master-avatar-circle" id="masterAvatar">BK</div>
+        <div class="master-owner-meta">
+          <span class="master-owner-name" id="masterOwnerName">Bhargav Kulkarni</span>
+          <span class="master-owner-sub">Primary Owner & Administrator</span>
+          <span style="font-size: 11px; color: var(--green-dark); font-weight: 700; margin-top: 2px;" id="masterPhoneSub">+91 86188 18322 • Pro 0% Fee Tier</span>
+        </div>
+        <span class="menu-chevron">›</span>
+      </div>
+
+      <!-- Master Menu List Tiles -->
+      <div class="master-menu-stack" id="masterMenuStack">
+
+        <!-- 1. Property Settings -->
+        <div class="master-menu-tile" onclick="openSubView('viewProperty')">
+          <div class="menu-tile-left">
+            <div class="menu-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </div>
+            <div class="menu-text-col">
+              <span class="menu-title">Property Settings</span>
+              <span class="menu-desc">Property name, location, curfew & tenant preferences</span>
+            </div>
+          </div>
+          <span class="menu-chevron">›</span>
+        </div>
+
+        <!-- 2. Management Details -->
+        <div class="master-menu-tile" onclick="openSubView('viewManagement')">
+          <div class="menu-tile-left">
+            <div class="menu-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="menu-text-col">
+              <span class="menu-title">Management & Business Details</span>
+              <span class="menu-desc">Business entity, GST, CIN, and admin contact</span>
+            </div>
+          </div>
+          <span class="menu-chevron">›</span>
+        </div>
+
+        <!-- 3. Renting & Stay Rules -->
+        <div class="master-menu-tile" onclick="openSubView('viewStayRules')">
+          <div class="menu-tile-left">
+            <div class="menu-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+            </div>
+            <div class="menu-text-col">
+              <span class="menu-title">Renting & Stay Rules</span>
+              <span class="menu-desc">Rent cycles, lock-in, notice period & daily charges</span>
+            </div>
+          </div>
+          <span class="menu-chevron">›</span>
+        </div>
+
+        <!-- 4. 0% Direct Bank Settlement & Standee -->
+        <div class="master-menu-tile" onclick="openSubView('viewBank')">
+          <div class="menu-tile-left">
+            <div class="menu-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                <circle cx="12" cy="12" r="2"></circle>
+                <path d="M6 12h.01M18 12h.01"></path>
+              </svg>
+            </div>
+            <div class="menu-text-col">
+              <span class="menu-title">0% Direct Bank Settlement</span>
+              <span class="menu-desc">Primary UPI VPA, Bank account & QR standee print</span>
+            </div>
+          </div>
+          <span class="menu-chevron">›</span>
+        </div>
+
+        <!-- 5. Move-In & Move-Out Checklist -->
+        <div class="master-menu-tile" onclick="openSubView('viewChecklist')">
+          <div class="menu-tile-left">
+            <div class="menu-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 11 12 14 22 4"></polyline>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+              </svg>
+            </div>
+            <div class="menu-text-col">
+              <span class="menu-title">Move-In / Out Checklist Settings</span>
+              <span class="menu-desc">Room inspection tasks, deadlines & deposit lock</span>
+            </div>
+          </div>
+          <span class="menu-chevron">›</span>
+        </div>
+
+        <!-- 6. Account & Security -->
+        <div class="master-menu-tile" onclick="openSubView('viewAccount')">
+          <div class="menu-tile-left">
+            <div class="menu-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <div class="menu-text-col">
+              <span class="menu-title">Account & Security</span>
+              <span class="menu-desc">Password, phone/email update, logout & delete account</span>
+            </div>
+          </div>
+          <span class="menu-chevron">›</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 1: PROPERTY SETTINGS DETAIL VIEW
+         ============================================================ -->
+    <div class="view-container" id="viewProperty">
+      
+      <!-- Basic Details Card -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Basic Property Details</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editBasicPropModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Property Name</span>
+          <span class="detail-val" id="val_prop_name">Greenview Luxury Coliving</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Property Type</span>
+          <span class="detail-val" id="val_prop_type">PG & Coliving Rooms</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">UrbanStay Property ID</span>
+          <span class="detail-val code" id="val_prop_id" onclick="copyPropId()">US-560034-A 📋</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Address</span>
+          <span class="detail-val" id="val_prop_loc">Koramangala 5th Block, Bengaluru, 560034</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Google Maps Pin</span>
+          <span class="detail-val code green" id="val_prop_map">maps.google.com/?q=12.9352,77.6245</span>
+        </div>
+
+        <div class="subview-action-grid">
+          <button class="btn-subview-action" onclick="openModal('editBasicPropModal')">Update</button>
+          <button class="btn-subview-action" onclick="sharePropLink()">Share</button>
+          <button class="btn-subview-action" onclick="openMapsUrl()">Open Map</button>
+        </div>
+      </div>
+
+      <!-- Preferred Tenant Type Card -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Preferred Tenant Type</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editTenantPrefModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Available For</span>
+          <span class="detail-val" id="val_available_for">Unisex (Gents & Ladies Floors)</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Preferred Tenants</span>
+          <span class="detail-val" id="val_pref_tenants">Working Professionals & Students</span>
+        </div>
+      </div>
+
+      <!-- Curfew & Gate Timing Card -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Curfew & Gate Timings</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editCurfewModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Night Last Entry Time</span>
+          <span class="detail-val" id="val_curfew_time">10:30 PM</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Morning Gate Open Time</span>
+          <span class="detail-val" id="val_morning_open">6:00 AM</span>
+        </div>
+      </div>
+
+      <!-- Digital Business Card Widget -->
+      <div class="business-card-banner">
+        <div class="biz-card-top">
+          <span class="biz-card-name" id="bizCardPropName">Greenview Luxury Coliving</span>
+          <span class="biz-card-tag">Verified PG</span>
+        </div>
+        <span class="biz-card-details" id="bizCardDetails">
+          Koramangala 5th Block, Bengaluru<br>
+          Direct Bank UPI • Free High-Speed WiFi • 3 Meals Food
+        </span>
+        <div class="biz-card-actions">
+          <button class="btn-biz-share" onclick="sharePropLink()">Share Card Link</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 2: MANAGEMENT & BUSINESS DETAILS VIEW
+         ============================================================ -->
+    <div class="view-container" id="viewManagement">
+
+      <!-- Business Details Card -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Business & Tax Details</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editBusinessModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Verification Status</span>
+          <span class="detail-val green" id="val_biz_status">Verified Business</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Business Entity Type</span>
+          <span class="detail-val" id="val_biz_type">Sole Proprietorship</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Registered Legal Name</span>
+          <span class="detail-val" id="val_biz_name">Greenview Hospitality Services</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">GST Number</span>
+          <span class="detail-val code" id="val_biz_gst">29ABCDE1234F1Z5</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">CIN / License No</span>
+          <span class="detail-val code" id="val_biz_cin">BBMP-TR-2025-8819</span>
+        </div>
+      </div>
+
+      <!-- Account Admin Details Card -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Account Administrator Details</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editAdminContactModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Primary Admin Name</span>
+          <span class="detail-val" id="val_admin_name">Bhargav Kulkarni</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Official Email</span>
+          <span class="detail-val" id="val_admin_email">bhargav@gmail.com</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Registered Phone</span>
+          <span class="detail-val" id="val_admin_phone">+91 86188 18322</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 3: RENTING & STAY RULES VIEW
+         ============================================================ -->
+    <div class="view-container" id="viewStayRules">
+
+      <!-- Renting Terms Card -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Renting Terms</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editRentingTermsModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Rent Addition Cycle</span>
+          <span class="detail-val" id="val_rent_cycle">1st of Every Month</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Grace Period for Payment</span>
+          <span class="detail-val" id="val_grace_period">5th of Month</span>
+        </div>
+      </div>
+
+      <!-- Stay Terms Card -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Stay & Policy Terms</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editStayTermsModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Days in Month Calculation</span>
+          <span class="detail-val" id="val_days_calc">As per Calendar Month</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Daily Pro-Rata Charges</span>
+          <span class="detail-val" id="val_daily_rate">₹500 / day</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Minimum Lock-in Period</span>
+          <span class="detail-val" id="val_lockin_period">3 Months</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Mandatory Notice Period</span>
+          <span class="detail-val" id="val_notice_period">30 Days</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Agreement Duration</span>
+          <span class="detail-val" id="val_agreement_dur">11 Months Standard</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Standard Check-In Time</span>
+          <span class="detail-val" id="val_checkin_time">12:00 PM</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Standard Check-Out Time</span>
+          <span class="detail-val" id="val_checkout_time">11:00 AM</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 4: 0% DIRECT BANK SETTLEMENT VIEW
+         ============================================================ -->
+    <div class="view-container" id="viewBank">
+
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Direct Bank Settlement (0% Fee)</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editBankSettlementModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Primary UPI ID</span>
+          <span class="detail-val code green" id="val_upi_id">bhargav@hdfcbank</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Bank Name</span>
+          <span class="detail-val" id="val_bank_name">HDFC Bank</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Account Number</span>
+          <span class="detail-val code" id="val_bank_acc">501002348921</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">IFSC Code</span>
+          <span class="detail-val code" id="val_ifsc">HDFC0001244</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Account Beneficiary</span>
+          <span class="detail-val" id="val_beneficiary_name">Bhargav Kulkarni</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Gateway Cut</span>
+          <span class="detail-val green">0% (Lifetime Direct Settlement)</span>
+        </div>
+      </div>
+
+      <!-- Standee Generator Card -->
+      <div class="subview-card" style="background: #F9FBFA; border-color: var(--green);">
+        <div class="subview-card-header">
+          <span class="subview-card-title">Reception Desk QR Standee</span>
+        </div>
+        <p style="font-size: 12px; color: var(--muted); line-height: 1.4;">
+          Printable high-resolution QR standee for your reception desk. Tenants scan to check in and pay rent directly to your bank with 0% gateway commission.
+        </p>
+        <button class="btn-submit-primary" onclick="downloadStandeePDF()">
+          Download Standee PDF (Ready to Print)
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 5: MOVE-IN / OUT CHECKLIST SETTINGS
+         ============================================================ -->
+    <div class="view-container" id="viewChecklist">
+
+      <!-- Move-in & Move-out Rules -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Move-In & Move-Out Rules</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editChecklistRulesModal')">Edit</button>
+        </div>
+
+        <div class="toggle-switch-row">
+          <div class="switch-label-col">
+            <span class="switch-label-title">Enable Digital Checklist</span>
+            <span class="switch-label-desc">Verify room condition upon arrival & exit</span>
+          </div>
+          <button class="switch-btn-toggle on" id="toggle_digital_chk" onclick="toggleSettingsSwitch('enableChecklist', this)">
+            <div class="switch-circle-knob"></div>
+          </button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Applicable For</span>
+          <span class="detail-val" id="val_chk_applicable">All Tenants</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Complete Move-In Checklist</span>
+          <span class="detail-val" id="val_chk_timing">After Agreement Signing</span>
+        </div>
+
+        <div class="rule-bullets-box">
+          <div class="bullet-item">
+            <span class="bullet-icon">✓</span>
+            <span>Damage tasks are auto-created for missing or damaged furniture.</span>
+          </div>
+          <div class="bullet-item">
+            <span class="bullet-icon">✓</span>
+            <span>Warden can inspect room and upload photo proof before check-in.</span>
+          </div>
+          <div class="bullet-item">
+            <span class="bullet-icon">✓</span>
+            <span>Automated WhatsApp reminders are sent for pending inspections.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist Configuration -->
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Inspection Deadlines & Deposit Lock</span>
+          </div>
+          <button class="btn-card-edit" onclick="openModal('editChecklistConfigModal')">Edit</button>
+        </div>
+
+        <div class="detail-row-item">
+          <span class="detail-label">Move-In Inspection Deadline</span>
+          <span class="detail-val" id="val_chk_movein_dead">3 Days After Check-in</span>
+        </div>
+        <div class="detail-row-item">
+          <span class="detail-label">Move-Out Inspection Deadline</span>
+          <span class="detail-val" id="val_chk_moveout_dead">1 Day Before Vacating</span>
+        </div>
+
+        <div class="toggle-switch-row" style="margin-top: 6px;">
+          <div class="switch-label-col">
+            <span class="switch-label-title">Auto-Approve Move-In</span>
+            <span class="switch-label-desc">If no damages reported within deadline</span>
+          </div>
+          <button class="switch-btn-toggle on" id="toggle_auto_appr" onclick="toggleSettingsSwitch('autoApproveMoveIn', this)">
+            <div class="switch-circle-knob"></div>
+          </button>
+        </div>
+
+        <div class="toggle-switch-row">
+          <div class="switch-label-col">
+            <span class="switch-label-title">Block Security Deposit Refunds</span>
+            <span class="switch-label-desc">Until exit room inspection is approved</span>
+          </div>
+          <button class="switch-btn-toggle on" id="toggle_block_dep" onclick="toggleSettingsSwitch('blockDepositRefund', this)">
+            <div class="switch-circle-knob"></div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 6: ACCOUNT & SECURITY (APP STORE COMPLIANT)
+         ============================================================ -->
+    <div class="view-container" id="viewAccount">
+
+      <div class="subview-card">
+        <div class="subview-card-header">
+          <div class="subview-card-title-cluster">
+            <span class="subview-card-title">Security & Login Credentials</span>
+          </div>
+        </div>
+
+        <!-- Update Passcode -->
+        <div class="detail-row-item actionable" onclick="openModal('editPasscodeModal')">
+          <span class="detail-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>App Passcode / Password</span>
+          </span>
+          <span style="font-weight: 700; color: var(--ink);" id="sec_disp_pass">•••••••• ›</span>
+        </div>
+
+        <!-- Update Phone -->
+        <div class="detail-row-item actionable" onclick="openModal('editPhoneModal')">
+          <span class="detail-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span>Registered Phone Number</span>
+          </span>
+          <span style="font-weight: 700; color: var(--ink);" id="sec_disp_phone">+91 86188 18322 ›</span>
+        </div>
+
+        <!-- Update Email -->
+        <div class="detail-row-item actionable" onclick="openModal('editEmailModal')">
+          <span class="detail-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Registered Email</span>
+          </span>
+          <span style="font-weight: 700; color: var(--ink);" id="sec_disp_email">bhargav@gmail.com ›</span>
+        </div>
+
+        <!-- Language -->
+        <div class="detail-row-item actionable" onclick="openModal('editLangModal')">
+          <span class="detail-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>App Language</span>
+          </span>
+          <span style="font-weight: 700; color: var(--ink);" id="sec_disp_lang">English ›</span>
+        </div>
+      </div>
+
+      <!-- Session & Account Control Buttons -->
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+        <button class="account-btn-item" onclick="toast('Logged out from current session')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout Current Session</span>
+        </button>
+
+        <button class="account-btn-item" onclick="toast('Logged out from all active sessions (2 devices)')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span>Logout from All Devices</span>
+        </button>
+
+        <!-- Mandatory App Store & Play Store Delete Account -->
+        <button class="account-btn-item danger" onclick="openModal('deleteAccountModal')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+          <span>Delete Account</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         FULL INTERACTIVE EDIT BOTTOM SHEET MODALS
+         ============================================================ -->
+
+    <!-- Modal 1: Edit Basic Property Details -->
+    <div id="editBasicPropModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Basic Property Details</span>
+          <button class="close-icon-btn" onclick="closeModal('editBasicPropModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveBasicProp(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Property Name</label>
+            <input type="text" id="in_prop_name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Property Type</label>
+            <select id="in_prop_type" class="form-input" style="cursor: pointer;">
+              <option value="PG & Coliving Rooms">PG & Coliving Rooms</option>
+              <option value="Luxury Hostel">Luxury Hostel</option>
+              <option value="Shared Apartments">Shared Apartments</option>
+              <option value="Gated Coliving Complex">Gated Coliving Complex</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">UrbanStay Property ID</label>
+            <input type="text" id="in_prop_id" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Complete Address & Landmark</label>
+            <input type="text" id="in_prop_loc" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Google Maps Pin URL</label>
+            <input type="text" id="in_prop_map" class="form-input" required>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save All Property Details</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 2: Edit Tenant Preferences -->
+    <div id="editTenantPrefModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Tenant Preferences</span>
+          <button class="close-icon-btn" onclick="closeModal('editTenantPrefModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveTenantPref(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Available For (Gender Policy)</label>
+            <select id="in_available_for" class="form-input" style="cursor: pointer;">
+              <option value="Unisex (Gents & Ladies Floors)">Unisex (Gents & Ladies Floors)</option>
+              <option value="Gents Only PG">Gents Only PG</option>
+              <option value="Ladies Only PG">Ladies Only PG</option>
+              <option value="Working Men Only">Working Men Only</option>
+              <option value="Working Women Only">Working Women Only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Tenant Background</label>
+            <input type="text" id="in_pref_tenants" class="form-input" required>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save Tenant Policy</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 3: Edit Curfew -->
+    <div id="editCurfewModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Curfew & Gate Timings</span>
+          <button class="close-icon-btn" onclick="closeModal('editCurfewModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveCurfew(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Night Last Entry Time</label>
+              <input type="text" id="in_curfew_time" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Morning Gate Open Time</label>
+              <input type="text" id="in_morning_open" class="form-input" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save Gate Timings</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 4: Edit Business Details -->
+    <div id="editBusinessModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Business & Tax Details</span>
+          <button class="close-icon-btn" onclick="closeModal('editBusinessModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveBusiness(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Business Verification Status</label>
+            <select id="in_biz_status" class="form-input" style="cursor: pointer;">
+              <option value="Verified Business">Verified Business</option>
+              <option value="Pending Verification">Pending Verification</option>
+              <option value="Unregistered">Unregistered</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Entity Type</label>
+            <select id="in_biz_type" class="form-input" style="cursor: pointer;">
+              <option value="Sole Proprietorship">Sole Proprietorship</option>
+              <option value="Partnership Firm">Partnership Firm</option>
+              <option value="Private Limited Company">Private Limited Company</option>
+              <option value="LLP (Limited Liability Partnership)">LLP (Limited Liability Partnership)</option>
+              <option value="Individual Owner">Individual Owner</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Registered Legal Business Name</label>
+            <input type="text" id="in_biz_name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">GST Number (15 Digits)</label>
+            <input type="text" id="in_biz_gst" class="form-input" placeholder="e.g. 29ABCDE1234F1Z5">
+          </div>
+          <div class="form-group">
+            <label class="form-label">CIN / Trade License / Municipal Reg No</label>
+            <input type="text" id="in_biz_cin" class="form-input" placeholder="e.g. BBMP-TR-2025-8819">
+          </div>
+          <button type="submit" class="btn-submit-primary">Save Business Details</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 5: Edit Admin Contact -->
+    <div id="editAdminContactModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Account Administrator</span>
+          <button class="close-icon-btn" onclick="closeModal('editAdminContactModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveAdminContact(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Admin Full Name</label>
+            <input type="text" id="in_admin_name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Official Email Address</label>
+            <input type="email" id="in_admin_email" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Primary Mobile Number</label>
+            <input type="tel" id="in_admin_phone" class="form-input" required>
+          </div>
+          <button type="submit" class="btn-submit-primary">Update Admin Profile</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 6: Edit Renting Terms -->
+    <div id="editRentingTermsModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Renting Terms</span>
+          <button class="close-icon-btn" onclick="closeModal('editRentingTermsModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveRentingTerms(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Rent Addition Cycle</label>
+            <select id="in_rent_cycle" class="form-input" style="cursor: pointer;">
+              <option value="1st of Every Month">1st of Every Month</option>
+              <option value="5th of Every Month">5th of Every Month</option>
+              <option value="10th of Every Month">10th of Every Month</option>
+              <option value="Check-In Anniversary Date">Check-In Anniversary Date</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Grace Period for Rent Payment</label>
+            <select id="in_grace_period" class="form-input" style="cursor: pointer;">
+              <option value="5th of Month">5th of Month (5 Days)</option>
+              <option value="7th of Month">7th of Month (7 Days)</option>
+              <option value="10th of Month">10th of Month (10 Days)</option>
+              <option value="No Grace Period (Immediate)">No Grace Period (Immediate)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save Rent Cycle</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 7: Edit Stay Terms -->
+    <div id="editStayTermsModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Stay & Policy Terms</span>
+          <button class="close-icon-btn" onclick="closeModal('editStayTermsModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveStayTerms(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Days in Month Calculation</label>
+            <select id="in_days_calc" class="form-input" style="cursor: pointer;">
+              <option value="As per Calendar Month">As per Calendar Month (28/30/31 Days)</option>
+              <option value="Fixed 30 Days Cycle">Fixed 30 Days Cycle</option>
+            </select>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Daily Charges (₹)</label>
+              <input type="text" id="in_daily_rate" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Notice Period</label>
+              <input type="text" id="in_notice_period" class="form-input" required>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Lock-in Period</label>
+              <input type="text" id="in_lockin_period" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Agreement Duration</label>
+              <input type="text" id="in_agreement_dur" class="form-input" required>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Check-In Time</label>
+              <input type="text" id="in_checkin_time" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Check-Out Time</label>
+              <input type="text" id="in_checkout_time" class="form-input" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save All Stay Policies</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 8: Edit Bank Settlement & UPI -->
+    <div id="editBankSettlementModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Settlement Bank & UPI (0% Fee)</span>
+          <button class="close-icon-btn" onclick="closeModal('editBankSettlementModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveBankSettlement(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Primary Destination UPI VPA</label>
+            <input type="text" id="in_upi_id" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bank Name</label>
+            <input type="text" id="in_bank_name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Account Number</label>
+            <input type="text" id="in_bank_acc" class="form-input" required>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Bank IFSC Code</label>
+              <input type="text" id="in_ifsc" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Account Holder Name</label>
+              <input type="text" id="in_beneficiary_name" class="form-input" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save Settlement Details</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 9: Edit Checklist Rules -->
+    <div id="editChecklistRulesModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Checklist Applicability</span>
+          <button class="close-icon-btn" onclick="closeModal('editChecklistRulesModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveChecklistRules(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Applicable For</label>
+            <select id="in_chk_applicable" class="form-input" style="cursor: pointer;">
+              <option value="All Tenants">All Tenants</option>
+              <option value="Long-Term Residents Only (6+ Months)">Long-Term Residents Only (6+ Months)</option>
+              <option value="Short-Stay Guests Only">Short-Stay Guests Only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Complete Move-In Checklist Timing</label>
+            <select id="in_chk_timing" class="form-input" style="cursor: pointer;">
+              <option value="After Agreement Signing">After Agreement Signing</option>
+              <option value="At Time of Key Handover">At Time of Key Handover</option>
+              <option value="Within 24 Hours of Entry">Within 24 Hours of Entry</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save Checklist Rules</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 10: Edit Checklist Configuration -->
+    <div id="editChecklistConfigModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Edit Inspection Deadlines</span>
+          <button class="close-icon-btn" onclick="closeModal('editChecklistConfigModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveChecklistConfig(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Move-In Inspection Deadline</label>
+            <select id="in_chk_movein_dead" class="form-input" style="cursor: pointer;">
+              <option value="3 Days After Check-in">3 Days After Check-in</option>
+              <option value="5 Days After Check-in">5 Days After Check-in</option>
+              <option value="7 Days After Check-in">7 Days After Check-in</option>
+              <option value="Same Day Check-in Only">Same Day Check-in Only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Move-Out Inspection Deadline</label>
+            <select id="in_chk_moveout_dead" class="form-input" style="cursor: pointer;">
+              <option value="1 Day Before Vacating">1 Day Before Vacating</option>
+              <option value="2 Days Before Vacating">2 Days Before Vacating</option>
+              <option value="On Vacating Day">On Vacating Day</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit-primary">Save Deadlines</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 11: Edit Passcode -->
+    <div id="editPasscodeModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Change App Passcode</span>
+          <button class="close-icon-btn" onclick="closeModal('editPasscodeModal')">✕</button>
+        </div>
+        <form onsubmit="handleSavePasscode(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Current 4-Digit Passcode</label>
+            <input type="password" id="in_old_pass" class="form-input" placeholder="••••" maxlength="4" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">New 4-Digit Passcode</label>
+            <input type="password" id="in_new_pass" class="form-input" placeholder="••••" maxlength="4" required>
+          </div>
+          <button type="submit" class="btn-submit-primary">Update Passcode</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 12: Edit Phone -->
+    <div id="editPhoneModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Update Registered Phone</span>
+          <button class="close-icon-btn" onclick="closeModal('editPhoneModal')">✕</button>
+        </div>
+        <form onsubmit="handleSavePhone(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">New Mobile Number</label>
+            <input type="tel" id="in_phone_new" class="form-input" placeholder="+91 xxxxx xxxxx" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Enter 6-Digit OTP Sent to Number</label>
+            <input type="text" class="form-input" value="482910" maxlength="6">
+          </div>
+          <button type="submit" class="btn-submit-primary">Verify & Update Phone</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 13: Edit Email -->
+    <div id="editEmailModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Update Registered Email</span>
+          <button class="close-icon-btn" onclick="closeModal('editEmailModal')">✕</button>
+        </div>
+        <form onsubmit="handleSaveEmail(event)" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">New Official Email Address</label>
+            <input type="email" id="in_email_new" class="form-input" placeholder="yourname@gmail.com" required>
+          </div>
+          <button type="submit" class="btn-submit-primary">Send Verification Link</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 14: Edit Language -->
+    <div id="editLangModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title">Choose App Language</span>
+          <button class="close-icon-btn" onclick="closeModal('editLangModal')">✕</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn-subview-action" style="height: 44px;" onclick="setLang('English')">English (India)</button>
+          <button class="btn-subview-action" style="height: 44px;" onclick="setLang('Hindi')">हिन्दी (Hindi)</button>
+          <button class="btn-subview-action" style="height: 44px;" onclick="setLang('Kannada')">ಕನ್ನಡ (Kannada)</button>
+          <button class="btn-subview-action" style="height: 44px;" onclick="setLang('Telugu')">తెలుగు (Telugu)</button>
+          <button class="btn-subview-action" style="height: 44px;" onclick="setLang('Tamil')">தமிழ் (Tamil)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 15: Delete Account (App Store & Play Store Mandatory Compliance) -->
+    <div id="deleteAccountModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title" style="color: var(--danger);">Delete UrbanStay Account</span>
+          <button class="close-icon-btn" onclick="closeModal('deleteAccountModal')">✕</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: var(--danger-light); border: 1px solid #FCA5A5; border-radius: 12px; padding: 12px 14px; font-size: 12px; color: var(--danger); line-height: 1.5;">
+            <strong>Warning: Permanent Action</strong><br>
+            Deleting your account will permanently purge all properties, rooms, resident records, tenant KYC documents, and financial P&L statements. This cannot be undone.
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reason for Deletion (Optional)</label>
+            <select class="form-input" style="cursor: pointer;">
+              <option>Sold or closed PG property</option>
+              <option>Switching to another system</option>
+              <option>Temporary business pause</option>
+              <option>Other reason</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type <strong>DELETE</strong> to confirm</label>
+            <input type="text" id="in_delete_confirm" class="form-input" placeholder="DELETE" required>
+          </div>
+          <button type="button" class="btn-danger-confirm" onclick="handleDeleteAccount()">
+            Permanently Delete My Account & Data
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg">Action completed</div>
+
+  </div>
+
+  <script>
+    // Master State with LocalStorage Persistence
+    const defaultSettings = {
+      // Basic Property Details
+      propName: "Greenview Luxury Coliving",
+      propType: "PG & Coliving Rooms",
+      propId: "US-560034-A",
+      propLoc: "Koramangala 5th Block, Bengaluru, 560034",
+      propMap: "maps.google.com/?q=12.9352,77.6245",
+      
+      // Tenant Preferences
+      availableFor: "Unisex (Gents & Ladies Floors)",
+      prefTenants: "Working Professionals & Students",
+
+      // Curfew
+      curfewTime: "10:30 PM",
+      morningOpen: "6:00 AM",
+
+      // Business & Admin
+      bizStatus: "Verified Business",
+      bizType: "Sole Proprietorship",
+      bizName: "Greenview Hospitality Services",
+      bizGst: "29ABCDE1234F1Z5",
+      bizCin: "BBMP-TR-2025-8819",
+      adminName: "Bhargav Kulkarni",
+      adminEmail: "bhargav@gmail.com",
+      adminPhone: "+91 86188 18322",
+
+      // Rent & Stay Terms
+      rentCycle: "1st of Every Month",
+      gracePeriod: "5th of Month",
+      daysCalc: "As per Calendar Month",
+      dailyRate: "₹500 / day",
+      lockinPeriod: "3 Months",
+      noticePeriod: "30 Days",
+      agreementDur: "11 Months Standard",
+      checkinTime: "12:00 PM",
+      checkoutTime: "11:00 AM",
+
+      // Bank & 0% UPI
+      upiId: "bhargav@hdfcbank",
+      bankName: "HDFC Bank",
+      bankAcc: "501002348921",
+      ifsc: "HDFC0001244",
+      beneficiaryName: "Bhargav Kulkarni",
+
+      // Checklist Settings
+      enableChecklist: true,
+      chkApplicable: "All Tenants",
+      chkTiming: "After Agreement Signing",
+      chkMoveinDead: "3 Days After Check-in",
+      chkMoveoutDead: "1 Day Before Vacating",
+      autoApproveMoveIn: true,
+      blockDepositRefund: true,
+
+      // Security
+      appLang: "English"
+    };
+
+    let appState = JSON.parse(localStorage.getItem('urbanstay_master_settings')) || defaultSettings;
+
+    function saveState() {
+      localStorage.setItem('urbanstay_master_settings', JSON.stringify(appState));
+      renderState();
+    }
+
+    function renderState() {
+      // View 0
+      document.getElementById('masterOwnerName').innerText = appState.adminName;
+      document.getElementById('masterPhoneSub').innerText = `${appState.adminPhone} • Pro 0% Fee Tier`;
+      const initials = appState.adminName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      document.getElementById('masterAvatar').innerText = initials || 'BK';
+
+      // View 1 (Property)
+      document.getElementById('val_prop_name').innerText = appState.propName;
+      document.getElementById('val_prop_type').innerText = appState.propType;
+      document.getElementById('val_prop_id').innerText = `${appState.propId} 📋`;
+      document.getElementById('val_prop_loc').innerText = appState.propLoc;
+      document.getElementById('val_prop_map').innerText = appState.propMap;
+      document.getElementById('val_available_for').innerText = appState.availableFor;
+      document.getElementById('val_pref_tenants').innerText = appState.prefTenants;
+      document.getElementById('val_curfew_time').innerText = appState.curfewTime;
+      document.getElementById('val_morning_open').innerText = appState.morningOpen;
+      document.getElementById('bizCardPropName').innerText = appState.propName;
+      document.getElementById('bizCardDetails').innerHTML = `${appState.propLoc}<br>Direct Bank UPI • Free High-Speed WiFi • 3 Meals Food`;
+
+      // View 2 (Management)
+      document.getElementById('val_biz_status').innerText = appState.bizStatus;
+      document.getElementById('val_biz_type').innerText = appState.bizType;
+      document.getElementById('val_biz_name').innerText = appState.bizName;
+      document.getElementById('val_biz_gst').innerText = appState.bizGst;
+      document.getElementById('val_biz_cin').innerText = appState.bizCin;
+      document.getElementById('val_admin_name').innerText = appState.adminName;
+      document.getElementById('val_admin_email').innerText = appState.adminEmail;
+      document.getElementById('val_admin_phone').innerText = appState.adminPhone;
+
+      // View 3 (Renting & Stay)
+      document.getElementById('val_rent_cycle').innerText = appState.rentCycle;
+      document.getElementById('val_grace_period').innerText = appState.gracePeriod;
+      document.getElementById('val_days_calc').innerText = appState.daysCalc;
+      document.getElementById('val_daily_rate').innerText = appState.dailyRate;
+      document.getElementById('val_lockin_period').innerText = appState.lockinPeriod;
+      document.getElementById('val_notice_period').innerText = appState.noticePeriod;
+      document.getElementById('val_agreement_dur').innerText = appState.agreementDur;
+      document.getElementById('val_checkin_time').innerText = appState.checkinTime;
+      document.getElementById('val_checkout_time').innerText = appState.checkoutTime;
+
+      // View 4 (Bank)
+      document.getElementById('val_upi_id').innerText = appState.upiId;
+      document.getElementById('val_bank_name').innerText = appState.bankName;
+      document.getElementById('val_bank_acc').innerText = `${appState.bankName} • •••• ${appState.bankAcc.slice(-4)}`;
+      document.getElementById('val_ifsc').innerText = appState.ifsc;
+      document.getElementById('val_beneficiary_name').innerText = appState.beneficiaryName;
+
+      // View 5 (Checklist)
+      document.getElementById('val_chk_applicable').innerText = appState.chkApplicable;
+      document.getElementById('val_chk_timing').innerText = appState.chkTiming;
+      document.getElementById('val_chk_movein_dead').innerText = appState.chkMoveinDead;
+      document.getElementById('val_chk_moveout_dead').innerText = appState.chkMoveoutDead;
+
+      // Switch toggles
+      setSwitchUI('toggle_digital_chk', appState.enableChecklist);
+      setSwitchUI('toggle_auto_appr', appState.autoApproveMoveIn);
+      setSwitchUI('toggle_block_dep', appState.blockDepositRefund);
+
+      // View 6 (Account)
+      document.getElementById('sec_disp_phone').innerText = `${appState.adminPhone} ›`;
+      document.getElementById('sec_disp_email').innerText = `${appState.adminEmail} ›`;
+      document.getElementById('sec_disp_lang').innerText = `${appState.appLang} ›`;
+
+      // Populate Form Inputs
+      populateFormInputs();
+    }
+
+    function populateFormInputs() {
+      // Inputs
+      if (document.getElementById('in_prop_name')) document.getElementById('in_prop_name').value = appState.propName;
+      if (document.getElementById('in_prop_type')) document.getElementById('in_prop_type').value = appState.propType;
+      if (document.getElementById('in_prop_id')) document.getElementById('in_prop_id').value = appState.propId;
+      if (document.getElementById('in_prop_loc')) document.getElementById('in_prop_loc').value = appState.propLoc;
+      if (document.getElementById('in_prop_map')) document.getElementById('in_prop_map').value = appState.propMap;
+      if (document.getElementById('in_available_for')) document.getElementById('in_available_for').value = appState.availableFor;
+      if (document.getElementById('in_pref_tenants')) document.getElementById('in_pref_tenants').value = appState.prefTenants;
+      if (document.getElementById('in_curfew_time')) document.getElementById('in_curfew_time').value = appState.curfewTime;
+      if (document.getElementById('in_morning_open')) document.getElementById('in_morning_open').value = appState.morningOpen;
+      if (document.getElementById('in_biz_status')) document.getElementById('in_biz_status').value = appState.bizStatus;
+      if (document.getElementById('in_biz_type')) document.getElementById('in_biz_type').value = appState.bizType;
+      if (document.getElementById('in_biz_name')) document.getElementById('in_biz_name').value = appState.bizName;
+      if (document.getElementById('in_biz_gst')) document.getElementById('in_biz_gst').value = appState.bizGst;
+      if (document.getElementById('in_biz_cin')) document.getElementById('in_biz_cin').value = appState.bizCin;
+      if (document.getElementById('in_admin_name')) document.getElementById('in_admin_name').value = appState.adminName;
+      if (document.getElementById('in_admin_email')) document.getElementById('in_admin_email').value = appState.adminEmail;
+      if (document.getElementById('in_admin_phone')) document.getElementById('in_admin_phone').value = appState.adminPhone;
+      if (document.getElementById('in_rent_cycle')) document.getElementById('in_rent_cycle').value = appState.rentCycle;
+      if (document.getElementById('in_grace_period')) document.getElementById('in_grace_period').value = appState.gracePeriod;
+      if (document.getElementById('in_days_calc')) document.getElementById('in_days_calc').value = appState.daysCalc;
+      if (document.getElementById('in_daily_rate')) document.getElementById('in_daily_rate').value = appState.dailyRate;
+      if (document.getElementById('in_lockin_period')) document.getElementById('in_lockin_period').value = appState.lockinPeriod;
+      if (document.getElementById('in_notice_period')) document.getElementById('in_notice_period').value = appState.noticePeriod;
+      if (document.getElementById('in_agreement_dur')) document.getElementById('in_agreement_dur').value = appState.agreementDur;
+      if (document.getElementById('in_checkin_time')) document.getElementById('in_checkin_time').value = appState.checkinTime;
+      if (document.getElementById('in_checkout_time')) document.getElementById('in_checkout_time').value = appState.checkoutTime;
+      if (document.getElementById('in_upi_id')) document.getElementById('in_upi_id').value = appState.upiId;
+      if (document.getElementById('in_bank_name')) document.getElementById('in_bank_name').value = appState.bankName;
+      if (document.getElementById('in_bank_acc')) document.getElementById('in_bank_acc').value = appState.bankAcc;
+      if (document.getElementById('in_ifsc')) document.getElementById('in_ifsc').value = appState.ifsc;
+      if (document.getElementById('in_beneficiary_name')) document.getElementById('in_beneficiary_name').value = appState.beneficiaryName;
+      if (document.getElementById('in_chk_applicable')) document.getElementById('in_chk_applicable').value = appState.chkApplicable;
+      if (document.getElementById('in_chk_timing')) document.getElementById('in_chk_timing').value = appState.chkTiming;
+      if (document.getElementById('in_chk_movein_dead')) document.getElementById('in_chk_movein_dead').value = appState.chkMoveinDead;
+      if (document.getElementById('in_chk_moveout_dead')) document.getElementById('in_chk_moveout_dead').value = appState.chkMoveoutDead;
+    }
+
+    function setSwitchUI(id, bool) {
+      const el = document.getElementById(id);
+      if (el) {
+        if (bool) el.classList.add('on');
+        else el.classList.remove('on');
+      }
+    }
+
+    function toggleSettingsSwitch(key, btn) {
+      appState[key] = !appState[key];
+      btn.classList.toggle('on');
+      saveState();
+      toast(`Setting ${appState[key] ? 'Enabled' : 'Disabled'}`);
+    }
+
+    // View Navigation
+    let currentView = 'viewMaster';
+
+    const viewMeta = {
+      'viewMaster': { title: 'Settings', sub: 'Greenview PG • System Configuration' },
+      'viewProperty': { title: 'Property Settings', sub: 'Location, Curfew & Preferences' },
+      'viewManagement': { title: 'Management Details', sub: 'Business Entity & Admin Info' },
+      'viewStayRules': { title: 'Renting & Stay Rules', sub: 'Cycles, Notice & Policies' },
+      'viewBank': { title: '0% Bank Settlement', sub: 'Direct UPI & Standee Generator' },
+      'viewChecklist': { title: 'Checklist Settings', sub: 'Move-In & Move-Out Rules' },
+      'viewAccount': { title: 'Account & Security', sub: 'Credentials, Sessions & Compliance' }
+    };
+
+    function openSubView(viewId) {
+      document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active-view'));
+      const target = document.getElementById(viewId);
+      if (target) {
+        target.classList.add('active-view');
+        currentView = viewId;
+        document.getElementById('headerTitleText').innerText = viewMeta[viewId].title;
+        document.getElementById('headerSubText').innerText = viewMeta[viewId].sub;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function handleHeaderBack() {
+      if (currentView === 'viewMaster') {
+        window.location.href = 'owner_dashboard.html';
+      } else {
+        openSubView('viewMaster');
+      }
+    }
+
+    function searchSettingsMaster() {
+      const q = document.getElementById('settingsSearchInput').value.toLowerCase();
+      const tiles = document.querySelectorAll('.master-menu-tile');
+      tiles.forEach(tile => {
+        const text = tile.innerText.toLowerCase();
+        tile.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    // Quick Actions
+    function copyPropId() {
+      navigator.clipboard.writeText(appState.propId);
+      toast(`Property ID copied: ${appState.propId}`);
+    }
+
+    function sharePropLink() {
+      toast(`Property link for "${appState.propName}" copied to clipboard`);
+    }
+
+    function openMapsUrl() {
+      toast(`Opening: https://${appState.propMap}`);
+    }
+
+    function downloadStandeePDF() {
+      toast(`Generating Printable Reception Standee PDF for "${appState.propName}" (UPI: ${appState.upiId})... Downloaded!`);
+    }
+
+    function setLang(lang) {
+      appState.appLang = lang;
+      saveState();
+      closeModal('editLangModal');
+      toast(`App Language changed to ${lang}`);
+    }
+
+    // Form Submissions
+    function handleSaveBasicProp(e) {
+      e.preventDefault();
+      appState.propName = document.getElementById('in_prop_name').value;
+      appState.propType = document.getElementById('in_prop_type').value;
+      appState.propId = document.getElementById('in_prop_id').value;
+      appState.propLoc = document.getElementById('in_prop_loc').value;
+      appState.propMap = document.getElementById('in_prop_map').value;
+      saveState();
+      closeModal('editBasicPropModal');
+      toast('All Basic Property Details updated');
+    }
+
+    function handleSaveTenantPref(e) {
+      e.preventDefault();
+      appState.availableFor = document.getElementById('in_available_for').value;
+      appState.prefTenants = document.getElementById('in_pref_tenants').value;
+      saveState();
+      closeModal('editTenantPrefModal');
+      toast('Tenant Preferences updated');
+    }
+
+    function handleSaveCurfew(e) {
+      e.preventDefault();
+      appState.curfewTime = document.getElementById('in_curfew_time').value;
+      appState.morningOpen = document.getElementById('in_morning_open').value;
+      saveState();
+      closeModal('editCurfewModal');
+      toast('Gate & Curfew Timings updated');
+    }
+
+    function handleSaveBusiness(e) {
+      e.preventDefault();
+      appState.bizStatus = document.getElementById('in_biz_status').value;
+      appState.bizType = document.getElementById('in_biz_type').value;
+      appState.bizName = document.getElementById('in_biz_name').value;
+      appState.bizGst = document.getElementById('in_biz_gst').value;
+      appState.bizCin = document.getElementById('in_biz_cin').value;
+      saveState();
+      closeModal('editBusinessModal');
+      toast('Business Entity & GST details saved');
+    }
+
+    function handleSaveAdminContact(e) {
+      e.preventDefault();
+      appState.adminName = document.getElementById('in_admin_name').value;
+      appState.adminEmail = document.getElementById('in_admin_email').value;
+      appState.adminPhone = document.getElementById('in_admin_phone').value;
+      saveState();
+      closeModal('editAdminContactModal');
+      toast('Administrator Profile updated');
+    }
+
+    function handleSaveRentingTerms(e) {
+      e.preventDefault();
+      appState.rentCycle = document.getElementById('in_rent_cycle').value;
+      appState.gracePeriod = document.getElementById('in_grace_period').value;
+      saveState();
+      closeModal('editRentingTermsModal');
+      toast('Renting terms updated');
+    }
+
+    function handleSaveStayTerms(e) {
+      e.preventDefault();
+      appState.daysCalc = document.getElementById('in_days_calc').value;
+      appState.dailyRate = document.getElementById('in_daily_rate').value;
+      appState.noticePeriod = document.getElementById('in_notice_period').value;
+      appState.lockinPeriod = document.getElementById('in_lockin_period').value;
+      appState.agreementDur = document.getElementById('in_agreement_dur').value;
+      appState.checkinTime = document.getElementById('in_checkin_time').value;
+      appState.checkoutTime = document.getElementById('in_checkout_time').value;
+      saveState();
+      closeModal('editStayTermsModal');
+      toast('All Stay & Policy terms saved');
+    }
+
+    function handleSaveBankSettlement(e) {
+      e.preventDefault();
+      appState.upiId = document.getElementById('in_upi_id').value;
+      appState.bankName = document.getElementById('in_bank_name').value;
+      appState.bankAcc = document.getElementById('in_bank_acc').value;
+      appState.ifsc = document.getElementById('in_ifsc').value;
+      appState.beneficiaryName = document.getElementById('in_beneficiary_name').value;
+      saveState();
+      closeModal('editBankSettlementModal');
+      toast('Settlement Bank & UPI updated');
+    }
+
+    function handleSaveChecklistRules(e) {
+      e.preventDefault();
+      appState.chkApplicable = document.getElementById('in_chk_applicable').value;
+      appState.chkTiming = document.getElementById('in_chk_timing').value;
+      saveState();
+      closeModal('editChecklistRulesModal');
+      toast('Checklist applicability saved');
+    }
+
+    function handleSaveChecklistConfig(e) {
+      e.preventDefault();
+      appState.chkMoveinDead = document.getElementById('in_chk_movein_dead').value;
+      appState.chkMoveoutDead = document.getElementById('in_chk_moveout_dead').value;
+      saveState();
+      closeModal('editChecklistConfigModal');
+      toast('Inspection deadlines updated');
+    }
+
+    function handleSavePasscode(e) {
+      e.preventDefault();
+      const newP = document.getElementById('in_new_pass').value;
+      if (newP.length === 4) {
+        closeModal('editPasscodeModal');
+        toast('Passcode successfully updated');
+      } else {
+        toast('Passcode must be 4 digits');
+      }
+    }
+
+    function handleSavePhone(e) {
+      e.preventDefault();
+      const newPhone = document.getElementById('in_phone_new').value;
+      if (newPhone) {
+        appState.adminPhone = newPhone;
+        saveState();
+        closeModal('editPhoneModal');
+        toast('Phone number verified & updated');
+      }
+    }
+
+    function handleSaveEmail(e) {
+      e.preventDefault();
+      const newEmail = document.getElementById('in_email_new').value;
+      if (newEmail) {
+        appState.adminEmail = newEmail;
+        saveState();
+        closeModal('editEmailModal');
+        toast('Verification link sent to new email');
+      }
+    }
+
+    function handleDeleteAccount() {
+      const confirmVal = document.getElementById('in_delete_confirm').value;
+      if (confirmVal.trim().toUpperCase() === 'DELETE') {
+        localStorage.removeItem('urbanstay_master_settings');
+        closeModal('deleteAccountModal');
+        toast('Account deletion initiated. Purging data...');
+        setTimeout(() => {
+          window.location.href = 'owner_setup.html';
+        }, 1500);
+      } else {
+        toast('Please type DELETE to confirm');
+      }
+    }
+
+    // Modal Helpers
+    function openModal(id) {
+      populateFormInputs();
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function toast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.classList.add('show');
+      setTimeout(() => {
+        t.classList.remove('show');
+      }, 2500);
+    }
+
+    // Initialize State on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderState();
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UrbanStay — Tenants & Rooms</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #08A63F;
+      --green-dark: #068237;
+      --green-light: #EBF8EE;
+      --ink: #111111;
+      --ink-secondary: #374151;
+      --muted: #6B7280;
+      --light-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-card: #E5E7EB;
+      --bg-page: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --blue-pill: #EEF2FF;
+      --blue-text: #4F46E5;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg-page);
+      font-family: var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-screen {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 90px;
+    }
+
+    /* Clean Sticky Top Bar */
+    .top-header {
+      background: #FFFFFF;
+      padding: 14px 18px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .header-sub {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .pending-badge {
+      background: var(--warning-light);
+      border: 1px solid rgba(217, 119, 6, 0.25);
+      color: #92400E;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 99px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Main Container with Breathing Room */
+    .main-body {
+      padding: 18px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Search Box */
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 46px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0 14px 0 42px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--ink);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 15px;
+      color: var(--muted);
+    }
+
+    /* Horizontal Floor Switcher Chips */
+    .floor-tabs-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .floor-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .floor-tab-pill {
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 99px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .floor-tab-pill.active {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      font-weight: 700;
+    }
+
+    /* 3-Pill Stat Strip */
+    .stats-strip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.015);
+    }
+
+    .stat-num {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-num.blue { color: #2563EB; }
+    .stat-num.green { color: var(--green-dark); }
+    .stat-num.red { color: var(--danger); }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* ============================================================
+       ROOM GROUP BLOCK (Spacious, Clean White Container)
+       ============================================================ */
+    .room-group-block {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.025);
+    }
+
+    .room-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .room-group-title-cluster {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .room-group-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .room-meta-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      background: #F3F4F6;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .room-group-stats {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .occupancy-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+    }
+
+    .occupancy-dot.full { background: var(--green); }
+    .occupancy-dot.partial { background: var(--warning); }
+
+    /* ============================================================
+       CLEAN TENANT CARD (Spacious & Distinct)
+       ============================================================ */
+    .tenant-card {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Top Row: Avatar + Info + Clean Action Buttons */
+    .tenant-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tenant-profile-clickable {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .avatar-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 99px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .tenant-details-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .tenant-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tenant-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .status-badge.active {
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .status-badge.overdue {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .tenant-sub-meta {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Clean Neutral Action Buttons */
+    .tenant-action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .neutral-action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .neutral-action-btn:active {
+      background: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+
+    .neutral-action-btn svg {
+      width: 16px;
+      height: 16px;
+      color: var(--ink-secondary);
+    }
+
+    /* Middle Row: Dues Bar */
+    .dues-strip-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .dues-amount-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .dues-amount-label.red {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .btn-record-dues {
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 6px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-record-dues:active {
+      background: #F3F4F6;
+    }
+
+    /* Bottom Row: Document Strip */
+    .doc-strip-clickable {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 11.5px;
+      transition: all 0.15s ease;
+    }
+
+    .doc-strip-clickable:active {
+      background: #F9FAFB;
+    }
+
+    .doc-status-text {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .doc-status-text.green {
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    .doc-status-text.red {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .doc-link-arrow {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Vacant Bed Card */
+    .vacant-bed-card {
+      background: #F9FBFA;
+      border: 1.5px dashed var(--green);
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .vacant-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .vacant-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .vacant-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    .btn-assign {
+      height: 32px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: var(--green);
+      color: #FFFFFF;
+      border: none;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Floating Action Button (+) */
+    .floating-add-btn {
+      position: fixed;
+      bottom: 24px;
+      right: calc(50% - 195px);
+      width: 52px;
+      height: 52px;
+      border-radius: 99px;
+      background: #111111;
+      color: #FFFFFF;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 50;
+      transition: all 0.2s ease;
+    }
+
+    .floating-add-btn:active {
+      transform: scale(0.92);
+    }
+
+    @media (max-width: 440px) {
+      .floating-add-btn {
+        right: 20px;
+      }
+    }
+
+    /* Modals & Bottom Sheets */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .bottom-sheet-panel {
+      width: 100%;
+      max-width: 430px;
+      background: #FFFFFF;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: popUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    @keyframes popUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .close-icon-btn {
+      border: none;
+      background: #F3F4F6;
+      width: 28px;
+      height: 28px;
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Form Fields */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 42px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0 12px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
+    .btn-submit-primary {
+      width: 100%;
+      height: 46px;
+      background: #111111;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .btn-submit-primary:active {
+      background: #27272A;
+    }
+
+    .btn-sub-action {
+      width: 100%;
+      height: 42px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--font);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-sub-action.danger {
+      color: var(--danger);
+      border-color: rgba(220, 38, 38, 0.2);
+      background: var(--danger-light);
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-90px);
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 99px;
+      z-index: 200;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-screen">
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <a href="owner_dashboard.html" class="back-btn" title="Back to Dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </a>
+        <div class="header-title-block">
+          <span class="header-title">Tenants & Rooms</span>
+          <span class="header-sub">Greenview PG • Koramangala</span>
+        </div>
+      </div>
+
+      <a href="owner_approvals.html" class="pending-badge">
+        <span>4 Pending</span>
+      </a>
+    </header>
+
+    <!-- Main Body -->
+    <main class="main-body">
+
+      <!-- Search Box -->
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="tenantSearchInput" onkeyup="searchTenants()" placeholder="Search resident by name or room..." class="search-input">
+      </div>
+
+      <!-- Horizontal Floor Switcher Chips -->
+      <div class="floor-tabs-scroll">
+        <button class="floor-tab-pill active" onclick="filterFloorTab('all', this)">All Floors (35 Beds)</button>
+        <button class="floor-tab-pill" onclick="filterFloorTab('1st', this)">1st Floor (101..104)</button>
+        <button class="floor-tab-pill" onclick="filterFloorTab('2nd', this)">2nd Floor (201..204)</button>
+        <button class="floor-tab-pill" onclick="filterFloorTab('3rd', this)">3rd Floor (301..304)</button>
+        <button class="floor-tab-pill" onclick="filterFloorTab('ground', this)">Ground Floor (G-01..04)</button>
+      </div>
+
+      <!-- 3-Pill Stat Strip -->
+      <div class="stats-strip-grid">
+        <div class="stat-pill">
+          <span class="stat-num blue">31</span>
+          <span class="stat-label">Total Tenants</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num green">4</span>
+          <span class="stat-label">Vacant Beds</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num red">1</span>
+          <span class="stat-label">Notice Period</span>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           ROOM 101 GROUP CONTAINER
+           ============================================================ -->
+      <div class="room-group-block" data-floor="1st">
+        <div class="room-group-header">
+          <div class="room-group-title-cluster">
+            <span class="room-group-name">Room 101</span>
+            <span class="room-meta-tag">1st Floor</span>
+            <span class="room-meta-tag">2-Sharing</span>
+          </div>
+          <div class="room-group-stats">
+            <span class="occupancy-dot full"></span>
+            <span style="color: var(--green-dark);">2/2 Occupied</span>
+          </div>
+        </div>
+
+        <!-- Tenant 1: Rahul Sharma -->
+        <div class="tenant-card" data-name="rahul sharma" data-room="101">
+          <!-- Card Top: Avatar + Name + Neutral Action Buttons (Phone, WhatsApp, Edit) -->
+          <div class="tenant-card-top">
+            <div class="tenant-profile-clickable" onclick="openEditModal('Rahul Sharma', '101', 'Bed A', '8500', '15000', 'Infosys', '9876543210', '1 Aug 2026', '31 Jul 2027')">
+              <div class="avatar-circle">RS</div>
+              <div class="tenant-details-col">
+                <div class="tenant-name-row">
+                  <span class="tenant-name">Rahul Sharma</span>
+                  <span class="status-badge active">Active</span>
+                </div>
+                <span class="tenant-sub-meta">Bed A • ₹8,500/mo • Infosys</span>
+              </div>
+            </div>
+
+            <!-- Clean Neutral Action Buttons: Phone, WhatsApp, Pencil Edit -->
+            <div class="tenant-action-buttons">
+              <a href="tel:+919876543210" class="neutral-action-btn" title="Call">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </a>
+              <button class="neutral-action-btn" onclick="pingWhatsApp('Rahul Sharma', '8500')" title="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </button>
+              <button class="neutral-action-btn" onclick="openEditModal('Rahul Sharma', '101', 'Bed A', '8500', '15000', 'Infosys', '9876543210', '1 Aug 2026', '31 Jul 2027')" title="Edit Resident">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Document Strip -->
+          <div class="doc-strip-clickable" onclick="openEditModal('Rahul Sharma', '101', 'Bed A', '8500', '15000', 'Infosys', '9876543210', '1 Aug 2026', '31 Jul 2027')">
+            <span class="doc-status-text green">Aadhaar & Rental Agreement Verified</span>
+            <span class="doc-link-arrow">Details ›</span>
+          </div>
+        </div>
+
+        <!-- Tenant 2: Amit Verma -->
+        <div class="tenant-card" data-name="amit verma" data-room="101">
+          <!-- Card Top -->
+          <div class="tenant-card-top">
+            <div class="tenant-profile-clickable" onclick="openEditModal('Amit Verma', '101', 'Bed B', '8500', '15000', 'Christ Univ', '9988776655', '10 Aug 2026', '31 Jul 2027')">
+              <div class="avatar-circle">AV</div>
+              <div class="tenant-details-col">
+                <div class="tenant-name-row">
+                  <span class="tenant-name">Amit Verma</span>
+                  <span class="status-badge active">Active</span>
+                </div>
+                <span class="tenant-sub-meta">Bed B • ₹8,500/mo • Christ Univ</span>
+              </div>
+            </div>
+
+            <!-- Clean Neutral Action Buttons: Phone, WhatsApp, Pencil Edit -->
+            <div class="tenant-action-buttons">
+              <a href="tel:+919988776655" class="neutral-action-btn" title="Call">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </a>
+              <button class="neutral-action-btn" onclick="pingWhatsApp('Amit Verma', '8500')" title="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </button>
+              <button class="neutral-action-btn" onclick="openEditModal('Amit Verma', '101', 'Bed B', '8500', '15000', 'Christ Univ', '9988776655', '10 Aug 2026', '31 Jul 2027')" title="Edit Resident">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Document Strip -->
+          <div class="doc-strip-clickable" onclick="openEditModal('Amit Verma', '101', 'Bed B', '8500', '15000', 'Christ Univ', '9988776655', '10 Aug 2026', '31 Jul 2027')">
+            <span class="doc-status-text green">2 Documents Verified</span>
+            <span class="doc-link-arrow">Details ›</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           ROOM 102 GROUP CONTAINER
+           ============================================================ -->
+      <div class="room-group-block" data-floor="1st">
+        <div class="room-group-header">
+          <div class="room-group-title-cluster">
+            <span class="room-group-name">Room 102</span>
+            <span class="room-meta-tag">1st Floor</span>
+            <span class="room-meta-tag">3-Sharing</span>
+          </div>
+          <div class="room-group-stats">
+            <span class="occupancy-dot partial"></span>
+            <span style="color: var(--warning);">2/3 Occupied</span>
+          </div>
+        </div>
+
+        <!-- Vacant Bed B Card -->
+        <div class="vacant-bed-card">
+          <div class="vacant-details">
+            <span class="vacant-title">Vacant Bed B — Available</span>
+            <span class="vacant-sub">₹7,500/mo • Ready for Walk-In</span>
+          </div>
+          <a href="tenant_checkin.html" class="btn-assign">+ Assign</a>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Floating Action Button (+) -->
+    <button class="floating-add-btn" onclick="window.location.href='tenant_checkin.html'" title="Add Walk-In Tenant">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
+
+    <!-- ============================================================
+         EDIT RESIDENT & ACTIONS MODAL (Clean Slide-Up Sheet)
+         ============================================================ -->
+    <div id="editModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title" id="editModalTitle">Edit Resident Details</span>
+          <button class="close-icon-btn" onclick="closeModal('editModal')">✕</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="form-group">
+            <label class="form-label">Full Legal Name</label>
+            <input type="text" id="inputName" class="form-input" value="Rahul Sharma">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Phone Number / WhatsApp</label>
+            <input type="text" id="inputPhone" class="form-input" value="9876543210">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Company / College</label>
+            <input type="text" id="inputWork" class="form-input" value="Infosys">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="form-group">
+              <label class="form-label">Monthly Rent (₹)</label>
+              <input type="text" id="inputRent" class="form-input" value="8500">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Security Deposit (₹)</label>
+              <input type="text" id="inputDeposit" class="form-input" value="15000">
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-submit-primary" onclick="closeModal('editModal'); toast('Resident Details Saved ✓')">
+          Save Changes
+        </button>
+
+        <!-- Room Operations & Actions down below -->
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--border);">
+          <button class="btn-sub-action" style="border-color: var(--warning); color: #B45309; background: #FFFBEB;" onclick="openDamageModalFromEdit()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <span>+ Add Damage Charges (with Photo)</span>
+          </button>
+          <button class="btn-sub-action" onclick="toast('Opening Room Shift Selector')">
+            <span>Change Room / Shift Bed</span>
+          </button>
+          <button class="btn-sub-action" onclick="toast('Calling Parent: 9811223344')">
+            <span>Call Parent / Guardian</span>
+          </button>
+          <button class="btn-sub-action" onclick="toast('Initiated 30-day Move Out Notice')">
+            <span>Give Move-Out Notice</span>
+          </button>
+          <button class="btn-sub-action danger" onclick="toast('Tenant Eviction / Account Deleted')">
+            <span>Delete / Evict Resident</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         DAMAGE CHARGES MODAL (Photo Proof & Deduction Options)
+         ============================================================ -->
+    <div id="damageModal" class="modal-overlay">
+      <div class="bottom-sheet-panel">
+        <div class="sheet-header-row">
+          <span class="sheet-title" id="damageModalTitle">Add Damage Charges</span>
+          <button class="close-icon-btn" onclick="closeModal('damageModal')">✕</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Damage Item / Reason</label>
+            <input type="text" id="damageItemInput" class="form-input" placeholder="e.g. Broken Bathroom Mirror, Wall Stain, Damaged AC Remote">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Damage Amount (₹)</label>
+            <input type="number" id="damageAmountInput" class="form-input" placeholder="e.g. 1200">
+          </div>
+
+          <!-- Photo Proof Upload Box -->
+          <div class="form-group">
+            <label class="form-label">Upload Photo Proof (Required)</label>
+            <div style="border: 1.5px dashed var(--border); border-radius: 12px; padding: 14px; text-align: center; background: #FAFAFA; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;" onclick="document.getElementById('damagePhotoInput').click()">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+              <span style="font-size: 12px; font-weight: 600; color: var(--ink);" id="damagePhotoLabel">Click to Upload / Take Photo</span>
+              <span style="font-size: 10.5px; color: var(--muted);">JPEG, PNG or Camera capture</span>
+              <input type="file" id="damagePhotoInput" accept="image/*" style="display: none;" onchange="handleDamagePhotoUpload(event)">
+            </div>
+            <!-- Photo Uploaded Preview Strip -->
+            <div id="damagePhotoPreview" style="display: none; align-items: center; justify-content: space-between; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; margin-top: 4px;">
+              <span style="font-size: 11.5px; font-weight: 600; color: var(--green-dark);" id="damageFileName">damage_proof_photo.jpg</span>
+              <span style="font-size: 10.5px; font-weight: 700; color: var(--green-dark);">Photo Attached ✓</span>
+            </div>
+          </div>
+
+          <!-- Charge Mode Option -->
+          <div class="form-group">
+            <label class="form-label">Deduction Option</label>
+            <select id="damageDeductionMode" class="form-input" style="height: 42px;">
+              <option value="dues">Add to Current Month's Dues (Immediate Pay)</option>
+              <option value="deposit">Deduct from Security Deposit at Exit</option>
+            </select>
+          </div>
+
+          <!-- WhatsApp Notice Note -->
+          <div style="background: var(--blue-pill); padding: 10px 12px; border-radius: 10px; font-size: 11.5px; color: var(--blue-text); display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>Photo receipt & damage notice will be sent to resident on WhatsApp.</span>
+          </div>
+        </div>
+
+        <button class="btn-submit-primary" onclick="submitDamageCharge()">
+          Save & Apply Damage Charge
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg">Action completed</div>
+
+  </div>
+
+  <script>
+    let activeResidentForDamage = { name: 'Rahul Sharma', room: '101' };
+
+    function filterFloorTab(floor, btn) {
+      document.querySelectorAll('.floor-tab-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const blocks = document.querySelectorAll('.room-group-block');
+      blocks.forEach(block => {
+        if (floor === 'all' || block.dataset.floor === floor) {
+          block.style.display = 'flex';
+        } else {
+          block.style.display = 'none';
+        }
+      });
+      toast(`Showing ${floor === 'all' ? 'All Floors' : floor + ' Floor'}`);
+    }
+
+    function searchTenants() {
+      const query = document.getElementById('tenantSearchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.tenant-card');
+
+      cards.forEach(card => {
+        const name = card.dataset.name || '';
+        const room = card.dataset.room || '';
+        if (name.includes(query) || room.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openEditModal(name, room, bed, rent, deposit, work, phone, doj, dol) {
+      activeResidentForDamage = { name, room };
+      document.getElementById('editModalTitle').innerText = `Edit: ${name} (${room})`;
+      document.getElementById('inputName').value = name;
+      document.getElementById('inputPhone').value = phone;
+      document.getElementById('inputWork').value = work;
+      document.getElementById('inputRent').value = rent;
+      document.getElementById('inputDeposit').value = deposit;
+
+      openModal('editModal');
+    }
+
+    function openDamageModalFromEdit() {
+      closeModal('editModal');
+      document.getElementById('damageModalTitle').innerText = `Damage Charge: ${activeResidentForDamage.name} (Room ${activeResidentForDamage.room})`;
+      document.getElementById('damageItemInput').value = '';
+      document.getElementById('damageAmountInput').value = '';
+      document.getElementById('damagePhotoPreview').style.display = 'none';
+      document.getElementById('damagePhotoLabel').innerText = 'Click to Upload / Take Photo';
+      openModal('damageModal');
+    }
+
+    function handleDamagePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        document.getElementById('damagePhotoLabel').innerText = file.name;
+        document.getElementById('damageFileName').innerText = file.name;
+        document.getElementById('damagePhotoPreview').style.display = 'flex';
+        toast('Damage Photo Attached ✓');
+      }
+    }
+
+    function submitDamageCharge() {
+      const item = document.getElementById('damageItemInput').value.trim();
+      const amount = document.getElementById('damageAmountInput').value.trim();
+      const mode = document.getElementById('damageDeductionMode').value;
+
+      if (!item || !amount) {
+        toast('Please enter damage item and amount');
+        return;
+      }
+
+      closeModal('damageModal');
+      const modeText = mode === 'dues' ? "Added to Current Month's Dues" : "Marked for Deposit Deduction at Exit";
+      toast(`₹${amount} Damage Charge for ${item} logged (${modeText}) & Photo sent to WhatsApp ✓`);
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function toast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.classList.add('show');
+      setTimeout(() => {
+        t.classList.remove('show');
+      }, 2500);
+    }
+
+    function pingWhatsApp(name, amount) {
+      toast(`WhatsApp payment reminder sent to ${name} for ₹${amount} ✓`);
+    }
+  </script>
+</body>
+
+</html>
