@@ -130,8 +130,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Search Box in Master View */
@@ -443,7 +450,7 @@
       top: 3px;
       left: 3px;
       transition: all 0.2s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     .switch-btn-toggle.on .switch-circle-knob {
@@ -630,8 +637,13 @@
     }
 
     @keyframes popUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
     }
 
     .sheet-header-row {
@@ -775,11 +787,13 @@
 
       <!-- Search Box -->
       <div class="search-box">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="settingsSearchInput" onkeyup="searchSettingsMaster()" placeholder="Search settings or rules..." class="search-input">
+        <input type="text" id="settingsSearchInput" onkeyup="searchSettingsMaster()"
+          placeholder="Search settings or rules..." class="search-input">
       </div>
 
       <!-- Owner Profile Hero Card -->
@@ -788,7 +802,8 @@
         <div class="master-owner-meta">
           <span class="master-owner-name" id="masterOwnerName">Bhargav Kulkarni</span>
           <span class="master-owner-sub">Primary Owner & Administrator</span>
-          <span style="font-size: 11px; color: var(--green-dark); font-weight: 700; margin-top: 2px;" id="masterPhoneSub">+91 86188 18322 • Pro 0% Fee Tier</span>
+          <span style="font-size: 11px; color: var(--green-dark); font-weight: 700; margin-top: 2px;"
+            id="masterPhoneSub">+91 86188 18322 • Pro 0% Fee Tier</span>
         </div>
         <span class="menu-chevron">›</span>
       </div>
@@ -903,6 +918,31 @@
           <span class="menu-chevron">›</span>
         </div>
 
+        <!-- Subscription & Plan Link Card -->
+        <div
+          style="background: #FFFFFF; border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; margin-top: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.015);"
+          onclick="window.location.href='owner_saas_billing.html'">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div
+              style="width: 38px; height: 38px; border-radius: 10px; background: var(--green-light); color: var(--green-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                </path>
+              </svg>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 13.5px; font-weight: 800; color: var(--ink);">Subscription & Plan</span>
+                <span
+                  style="font-size: 9.5px; font-weight: 800; background: var(--green); color: #FFFFFF; padding: 1px 6px; border-radius: 99px;">ACTIVE</span>
+              </div>
+              <span style="font-size: 11.5px; color: var(--muted);">31 Beds Managed • Renews 24 Sep • View
+                Details</span>
+            </div>
+          </div>
+          <span style="font-size: 16px; font-weight: 700; color: var(--muted);">›</span>
+        </div>
+
       </div>
 
     </div>
@@ -911,7 +951,7 @@
          VIEW 1: PROPERTY SETTINGS DETAIL VIEW
          ============================================================ -->
     <div class="view-container" id="viewProperty">
-      
+
       <!-- Basic Details Card -->
       <div class="subview-card">
         <div class="subview-card-header">
@@ -1175,7 +1215,8 @@
           <span class="subview-card-title">Reception Desk QR Standee</span>
         </div>
         <p style="font-size: 12px; color: var(--muted); line-height: 1.4;">
-          Printable high-resolution QR standee for your reception desk. Tenants scan to check in and pay rent directly to your bank with 0% gateway commission.
+          Printable high-resolution QR standee for your reception desk. Tenants scan to check in and pay rent directly
+          to your bank with 0% gateway commission.
         </p>
         <button class="btn-submit-primary" onclick="downloadStandeePDF()">
           Download Standee PDF (Ready to Print)
@@ -1203,7 +1244,8 @@
             <span class="switch-label-title">Enable Digital Checklist</span>
             <span class="switch-label-desc">Verify room condition upon arrival & exit</span>
           </div>
-          <button class="switch-btn-toggle on" id="toggle_digital_chk" onclick="toggleSettingsSwitch('enableChecklist', this)">
+          <button class="switch-btn-toggle on" id="toggle_digital_chk"
+            onclick="toggleSettingsSwitch('enableChecklist', this)">
             <div class="switch-circle-knob"></div>
           </button>
         </div>
@@ -1256,7 +1298,8 @@
             <span class="switch-label-title">Auto-Approve Move-In</span>
             <span class="switch-label-desc">If no damages reported within deadline</span>
           </div>
-          <button class="switch-btn-toggle on" id="toggle_auto_appr" onclick="toggleSettingsSwitch('autoApproveMoveIn', this)">
+          <button class="switch-btn-toggle on" id="toggle_auto_appr"
+            onclick="toggleSettingsSwitch('autoApproveMoveIn', this)">
             <div class="switch-circle-knob"></div>
           </button>
         </div>
@@ -1266,7 +1309,8 @@
             <span class="switch-label-title">Block Security Deposit Refunds</span>
             <span class="switch-label-desc">Until exit room inspection is approved</span>
           </div>
-          <button class="switch-btn-toggle on" id="toggle_block_dep" onclick="toggleSettingsSwitch('blockDepositRefund', this)">
+          <button class="switch-btn-toggle on" id="toggle_block_dep"
+            onclick="toggleSettingsSwitch('blockDepositRefund', this)">
             <div class="switch-circle-knob"></div>
           </button>
         </div>
@@ -1302,7 +1346,9 @@
         <div class="detail-row-item actionable" onclick="openModal('editPhoneModal')">
           <span class="detail-label">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+              </path>
             </svg>
             <span>Registered Phone Number</span>
           </span>
@@ -1327,7 +1373,8 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+              </path>
             </svg>
             <span>App Language</span>
           </span>
@@ -1788,9 +1835,11 @@
           <button class="close-icon-btn" onclick="closeModal('deleteAccountModal')">✕</button>
         </div>
         <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: var(--danger-light); border: 1px solid #FCA5A5; border-radius: 12px; padding: 12px 14px; font-size: 12px; color: var(--danger); line-height: 1.5;">
+          <div
+            style="background: var(--danger-light); border: 1px solid #FCA5A5; border-radius: 12px; padding: 12px 14px; font-size: 12px; color: var(--danger); line-height: 1.5;">
             <strong>Warning: Permanent Action</strong><br>
-            Deleting your account will permanently purge all properties, rooms, resident records, tenant KYC documents, and financial P&L statements. This cannot be undone.
+            Deleting your account will permanently purge all properties, rooms, resident records, tenant KYC documents,
+            and financial P&L statements. This cannot be undone.
           </div>
           <div class="form-group">
             <label class="form-label">Reason for Deletion (Optional)</label>
@@ -1826,7 +1875,7 @@
       propId: "US-560034-A",
       propLoc: "Koramangala 5th Block, Bengaluru, 560034",
       propMap: "maps.google.com/?q=12.9352,77.6245",
-      
+
       // Tenant Preferences
       availableFor: "Unisex (Gents & Ladies Floors)",
       prefTenants: "Working Professionals & Students",
