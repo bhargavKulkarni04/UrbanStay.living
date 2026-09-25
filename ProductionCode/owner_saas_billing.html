@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UrbanStay — Billing & Invoices</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    :root {
+      --green: #08A63F;
+      --green-dark: #068237;
+      --green-light: #EBF8EE;
+      --ink: #111111;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+      --border-card: #EEF0F2;
+      --bg-page: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg-page);
+      font-family: var(--font);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-screen {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 60px;
+    }
+
+    /* Top Sticky Header */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-card);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .back-btn:active {
+      background: #F3F4F6;
+    }
+
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .header-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .status-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border: 1px solid rgba(8, 166, 63, 0.2);
+    }
+
+    /* Main Content */
+    .billing-content {
+      padding: 16px 16px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Clean Card Container */
+    .clean-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-heading {
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    /* Plan Details Cluster */
+    .plan-summary-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .plan-main-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .plan-price-block {
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+    }
+
+    .price-value {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .price-sub {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* Key-Value Detail List */
+    .kv-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .kv-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+    }
+
+    .kv-label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .kv-val {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* Invoice History Table */
+    .invoice-table {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .invoice-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .invoice-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .inv-col-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .inv-number {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .inv-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .inv-col-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .inv-amount {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .btn-receipt {
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .btn-receipt:active {
+      background: #F3F4F6;
+    }
+
+    /* Primary Action Buttons */
+    .btn-dark-primary {
+      width: 100%;
+      height: 44px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      color: var(--green-dark);
+      border: 1.5px solid var(--green);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      margin-top: 4px;
+    }
+
+    .btn-dark-primary:active {
+      background: var(--green-light);
+      transform: scale(0.99);
+    }
+
+    /* Policy & Compliance Footnote */
+    .policy-box {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 4px 4px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .policy-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .policy-link-item {
+      color: var(--ink);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Toast Notification */
+    .toast-msg {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-90px);
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 99px;
+      z-index: 200;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-screen">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <a href="owner_settings.html" class="back-btn" title="Back to Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </a>
+        <div class="header-title-block">
+          <span class="header-title">Billing & Invoices</span>
+          <span class="header-sub">Greenview PG • Account #US-560034</span>
+        </div>
+      </div>
+      <span class="status-pill">Active</span>
+    </header>
+
+    <!-- Main Content -->
+    <main class="billing-content">
+
+      <!-- Current Subscription Card -->
+      <section class="clean-card">
+        <div class="card-header-row">
+          <span class="card-heading">Current Plan</span>
+          <span style="font-size: 11px; font-weight: 600; color: var(--muted);">Monthly Billing</span>
+        </div>
+
+        <div class="plan-summary-row">
+          <span class="plan-main-title">Property License</span>
+          <div class="plan-price-block">
+            <span class="price-value">₹899</span>
+            <span class="price-sub">/ month + GST</span>
+          </div>
+        </div>
+
+        <div class="kv-list">
+          <div class="kv-item">
+            <span class="kv-label">Capacity</span>
+            <span class="kv-val">31 Beds</span>
+          </div>
+          <div class="kv-item">
+            <span class="kv-label">Next Renewal Date</span>
+            <span class="kv-val">24 September 2026</span>
+          </div>
+          <div class="kv-item">
+            <span class="kv-label">Amount Payable</span>
+            <span class="kv-val">₹1,060.82 (incl. 18% GST)</span>
+          </div>
+          <div class="kv-item">
+            <span class="kv-label">Payment Method</span>
+            <span class="kv-val">UPI (bhargav@hdfcbank)</span>
+          </div>
+        </div>
+
+        <button class="btn-dark-primary" onclick="openPaymentModal()">
+          Pay & Renew License (₹1,060.82)
+        </button>
+      </section>
+
+      <!-- Invoicing & Tax Profile Card -->
+      <section class="clean-card">
+        <div class="card-header-row">
+          <span class="card-heading">Invoicing Profile</span>
+          <span style="font-size: 11px; font-weight: 600; color: var(--muted); cursor: pointer;" onclick="toast('Invoicing details verified')">Verified</span>
+        </div>
+
+        <div class="kv-list">
+          <div class="kv-item">
+            <span class="kv-label">Legal Name</span>
+            <span class="kv-val">Greenview Hospitality Services</span>
+          </div>
+          <div class="kv-item">
+            <span class="kv-label">GSTIN</span>
+            <span class="kv-val">29AAAAA0000A1Z5</span>
+          </div>
+          <div class="kv-item">
+            <span class="kv-label">Billing Address</span>
+            <span class="kv-val">Koramangala 5th Block, Bangalore</span>
+          </div>
+          <div class="kv-item">
+            <span class="kv-label">Billing Email</span>
+            <span class="kv-val">bhargav@gmail.com</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Invoice History Table -->
+      <section class="clean-card">
+        <div class="card-header-row">
+          <span class="card-heading">Invoice History</span>
+          <span style="font-size: 11px; color: var(--muted);">SAC 998315</span>
+        </div>
+
+        <div class="invoice-table">
+          <div class="invoice-row">
+            <div class="inv-col-left">
+              <span class="inv-number">INV-2025-0881</span>
+              <span class="inv-meta">24 Aug 2025 • Property License</span>
+            </div>
+            <div class="inv-col-right">
+              <span class="inv-amount">₹1,060.82</span>
+              <button class="btn-receipt" onclick="toast('Downloading Tax Invoice PDF (INV-2025-0881)...')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>PDF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="invoice-row">
+            <div class="inv-col-left">
+              <span class="inv-number">INV-2025-0724</span>
+              <span class="inv-meta">24 Jul 2025 • Property License</span>
+            </div>
+            <div class="inv-col-right">
+              <span class="inv-amount">₹1,060.82</span>
+              <button class="btn-receipt" onclick="toast('Downloading Tax Invoice PDF (INV-2025-0724)...')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>PDF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="invoice-row">
+            <div class="inv-col-left">
+              <span class="inv-number">INV-2025-0624</span>
+              <span class="inv-meta">24 Jun 2025 • Property License</span>
+            </div>
+            <div class="inv-col-right">
+              <span class="inv-amount">₹1,060.82</span>
+              <button class="btn-receipt" onclick="toast('Downloading Tax Invoice PDF (INV-2025-0624)...')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>PDF</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Policy Footnote -->
+      <footer class="policy-box">
+        <p>
+          Subscriptions renew automatically at the end of each billing cycle. You may cancel at any time prior to the renewal date.
+        </p>
+        <div class="policy-links">
+          <span class="policy-link-item" onclick="toast('Opening Terms of Service')">Terms of Service</span>
+          <span>•</span>
+          <span class="policy-link-item" onclick="toast('Opening Privacy Policy')">Privacy Policy</span>
+          <span>•</span>
+          <span class="policy-link-item" onclick="toast('Opening Cancellation Policy')">Cancellation Policy</span>
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg">Action completed</div>
+
+  </div>
+
+  <script>
+    function openPaymentModal() {
+      const options = {
+        "key": "rzp_test_urbanstay_demo",
+        "amount": 106082,
+        "currency": "INR",
+        "name": "UrbanStay Technologies Pvt. Ltd.",
+        "description": "Property License (31 Beds)",
+        "handler": function (response) {
+          toast(`Payment processed successfully (ID: ${response.razorpay_payment_id || 'SUCCESS'})`);
+        },
+        "prefill": {
+          "name": "Bhargav Kulkarni",
+          "email": "bhargav@gmail.com",
+          "contact": "8618818322"
+        },
+        "theme": {
+          "color": "#111111"
+        }
+      };
+
+      try {
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+          toast(`Payment failed: ${response.error.description}`);
+        });
+        rzp.open();
+      } catch (e) {
+        toast('Opening Gateway for ₹1,060.82...');
+        setTimeout(() => {
+          toast('Payment completed. License renewed through September 2027 ✓');
+        }, 1600);
+      }
+    }
+
+    function toast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.classList.add('show');
+      setTimeout(() => {
+        t.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+
+</html>
