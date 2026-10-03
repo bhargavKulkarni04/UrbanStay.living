@@ -207,7 +207,12 @@ p {
 
 .pill svg {
   width: 16px;
-  height: 16px
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round
 }
 
 /* ---------- Buttons ---------- */
@@ -614,6 +619,11 @@ p {
   animation: marq-scroll calc(var(--marq-step) * var(--marq-count, 6)) linear infinite
 }
 
+/* For Owners runs the opposite way to For Tenants */
+.marq-track.rev {
+  animation-direction: reverse
+}
+
 .marquee:hover .marq-track,
 .marquee:focus-within .marq-track {
   animation-play-state: paused
@@ -636,40 +646,11 @@ p {
   }
 }
 
+/* Borderless, like a logo strip — text only, no card chrome */
 .marq-card {
   flex: none;
   width: var(--marq-card);
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--r-chip);
-  padding: 22px 22px;
-  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
-}
-
-.marq-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, .08);
-  border-color: transparent
-}
-
-.marq-card .badge {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #fff;
-  border: 1px solid var(--line);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
-  flex: none;
-}
-
-.marq-card .badge .ico {
-  width: 23px;
-  height: 23px
+  padding: 0 8px;
 }
 
 .marq-card .t {
@@ -677,16 +658,17 @@ p {
 }
 
 .marq-card .t h3 {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.25;
-  margin-bottom: 5px
+  margin-bottom: 6px;
+  color: var(--green)
 }
 
 .marq-card .t p {
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--muted);
   letter-spacing: -0.005em
 }
@@ -905,7 +887,7 @@ p {
   font-size: clamp(16px, 1.25vw, 19px);
   font-weight: 700;
   letter-spacing: -0.025em;
-  margin: 16px 0 6px
+  margin: 0 0 6px
 }
 
 .mini p {
@@ -1040,7 +1022,8 @@ p {
   font-size: clamp(22px, 2.2vw, 30px);
   font-weight: 800;
   letter-spacing: -0.04em;
-  line-height: 1
+  line-height: 1;
+  color: var(--green)
 }
 
 .stat .v.g {
@@ -1421,19 +1404,42 @@ p {
   opacity: 0
 }
 
-/* ---------- LAPTOP / DESKTOP ONLY: phone sizing --------------
-   The vh-based caps above (70vh / 64vh) meant the phone shrank on
-   short laptop screens, and the round glow (sized off the COLUMN
-   width, not the phone) grew taller than the stage — so overflow:hidden
-   sliced it into a hard-edged rectangle behind the mockup.
+/* ---------- Scroll reveal without GSAP ----------------------
+   If the GSAP CDN is slow or blocked, <html> gets .no-gsap and the
+   same fade-up runs on CSS transitions, driven by IntersectionObserver.
+   --d carries the per-item stagger. */
+.no-gsap .rv,
+.no-gsap .rv-line,
+.no-gsap .phone,
+.no-gsap .bar {
+  transition: opacity .85s cubic-bezier(.22, .61, .36, 1), transform .85s cubic-bezier(.22, .61, .36, 1);
+  transition-delay: var(--d, 0s);
+}
 
-   Below: size everything from width instead of viewport height, and
-   scale up. --phone-scale is the only knob: 1.25 = 25% bigger.
-   Base design widths are 310px (.phone) and 272px (.split-3 .phone).
+.no-gsap .rv-line {
+  transform: translateY(20px)
+}
+
+.no-gsap .rv.in,
+.no-gsap .rv-line.in,
+.no-gsap .phone.in {
+  opacity: 1;
+  transform: none
+}
+
+.no-gsap .bar.in {
+  transform: scaleY(1)
+}
+
+/* ---------- LAPTOP / DESKTOP ONLY: phone sizing --------------
+   Sized from viewport HEIGHT, so the mockup scales down on short
+   laptop screens instead of sitting at a fixed width. Two knobs:
+   --phone-w caps it on tall screens, --phone-h drives everything else.
    Mobile (<900px) is untouched — it has its own rules further down. */
 @media (min-width:900px) {
   :root {
-    --phone-scale: 1.25;
+    --phone-w: 300px;
+    --phone-h: 68vh;
   }
 
   .phone-stage {
@@ -1441,37 +1447,15 @@ p {
     overflow: visible;
   }
 
-  /* glow now tracks the phone, so it can't blow up in the wide column */
+  /* glow tracks the phone, so it can't blow up in a wide column */
   .phone-stage::before {
-    width: min(104%, calc(400px * var(--phone-scale)));
-    padding-top: min(104%, calc(400px * var(--phone-scale)));
+    width: min(96%, 400px);
+    padding-top: min(96%, 400px);
   }
 
   .phone {
-    max-width: calc(310px * var(--phone-scale));
-    max-height: none;
-  }
-
-  .split-3 .phone {
-    max-width: calc(272px * var(--phone-scale));
-  }
-
-  /* per-section trims on top of --phone-scale.
-     Email = the .split whose phone comes first;
-     AI Voice = the .split whose phone comes after the copy. */
-  .split:not(.split-3)>.phone-stage:first-child .phone {
-    /* Email  −5% */
-    max-width: calc(310px * var(--phone-scale) * .95);
-  }
-
-  .split:not(.split-3)>.split-copy+.phone-stage .phone {
-    /* Voice  −8% */
-    max-width: calc(310px * var(--phone-scale) * .92);
-  }
-
-  /* widen the middle column so the bigger phone still fits inside it */
-  .split-3 {
-    grid-template-columns: minmax(0, 1fr) calc(272px * var(--phone-scale) + 16px) 250px;
+    max-width: var(--phone-w);
+    max-height: min(560px, var(--phone-h));
   }
 }
 
@@ -1593,7 +1577,7 @@ p {
   }
 
   .marq-card {
-    padding: 18px
+    padding: 0 6px
   }
 
   .marq-block+.marq-block {
@@ -1698,22 +1682,10 @@ p {
   .vcard {
     display: flex;
     align-items: center;
-    gap: 10px;
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 14px;
-    padding: 12px 14px;
-  }
-
-  .vcard .ico-badge {
-    width: 38px;
-    height: 38px;
-    flex: none
-  }
-
-  .vcard .ico-badge .ico {
-    width: 17px;
-    height: 17px
+    padding: 14px 16px;
   }
 
   .vcard h3 {
