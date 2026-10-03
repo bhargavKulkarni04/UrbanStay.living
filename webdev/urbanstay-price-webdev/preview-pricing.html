@@ -1,0 +1,4082 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing — &#8377;15 per Bed per Month | UrbanStay PG Management Software</title>
+  <meta name="description"
+    content="UrbanStay pricing: &#8377;15 per bed per month with every feature included and 0% commission on rent. Enter your bed count to see your monthly cost, or talk to sales for large portfolios." />
+  <link rel="canonical" href="https://urbanstay.living/pricing" />
+  <meta property="og:title" content="UrbanStay Pricing — &#8377;15 per bed" />
+  <meta property="og:description"
+    content="One simple price for PG and hostel owners. Every feature included, 0% commission on rent." />
+  <meta property="og:type" content="website" />
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --bg: #FFFFFF;
+  --green: #08A63F;
+  --green-dark: #068237;
+  --tint: rgba(8, 166, 63, 0.08);
+  --ink: #111111;
+  --muted: #6B7280;
+  --line: #E5E7EB;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.05);
+  --r-card: 24px;
+  --r-btn: 14px;
+  --r-chip: 18px;
+  --max: 1440px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --section: 180px;
+  --font: 'Outfit', 'Product Sans', 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ---- MARQUEE SPEED ----------------------------------------
+     Time it takes ONE card to travel across. Lower = faster.
+     Change this single value to tune the scroll speed.        */
+  --marq-step: 2.5s;
+  --marq-card: 300px;
+  --marq-gap: 20px;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  background: #FFFFFF
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: clamp(16px, 1.15vw, 18px);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* the fixed 1440 canvas is desktop/tablet only — phones get a real layout */
+@media (min-width:900px) {
+  body {
+    min-width: 1440px
+  }
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  height: auto
+}
+
+a {
+  color: inherit;
+  text-decoration: none
+}
+
+button {
+  font-family: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit
+}
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 6px
+}
+
+::selection {
+  background: var(--tint);
+  color: var(--ink)
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-inline: var(--gutter)
+}
+
+.section {
+  padding-block: var(--section)
+}
+
+.center {
+  text-align: center
+}
+
+.center .lead,
+.center .h-sec {
+  margin-left: auto;
+  margin-right: auto
+}
+
+.measure {
+  max-width: 680px;
+  margin-inline: auto
+}
+
+.lead.measure {
+  margin-left: auto;
+  margin-right: auto
+}
+
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.04
+}
+
+.h-hero {
+  font-size: clamp(40px, 7.2vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.98
+}
+
+.h-hero .lt {
+  font-weight: 500;
+  letter-spacing: -0.045em
+}
+
+.eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 30px;
+}
+
+.h-sec {
+  font-size: clamp(32px, 5.1vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06
+}
+
+.h-feat {
+  font-size: clamp(20px, 1.9vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2
+}
+
+.lead {
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.65;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  margin: 28px 0 0;
+}
+
+.g {
+  color: var(--green)
+}
+
+.dot {
+  color: var(--green)
+}
+
+p {
+  margin: 0
+}
+
+/* ---------- Pill / eyebrow ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--tint);
+  color: var(--green);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 9px 18px;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+.pill svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: clamp(16px, 1.15vw, 18px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  padding: 18px 36px;
+  border-radius: var(--r-btn);
+  line-height: 1;
+  transition: background .25s ease, transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  will-change: transform;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: #fff
+}
+
+.btn-primary:hover {
+  background: var(--green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(8, 166, 63, .24)
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--ink);
+  border: 1.5px solid var(--ink)
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow)
+}
+
+.btn-sm {
+  padding: 13px 26px;
+  font-size: 16px
+}
+
+.btn-ghost {
+  border: 1.5px solid var(--line);
+  color: var(--ink)
+}
+
+.btn-ghost:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px)
+}
+
+/* ---------- Icons ---------- */
+.ico {
+  width: 26px;
+  height: 26px;
+  stroke: var(--green);
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none
+}
+
+.ico-sm {
+  width: 20px;
+  height: 20px
+}
+
+.ico-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-sm);
+  flex: none;
+}
+
+.ico-badge .ico {
+  width: 24px;
+  height: 24px
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: #FFFFFF;
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s ease;
+}
+
+.nav.stuck {
+  border-bottom-color: var(--line)
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: clamp(72px, 6vw, 92px)
+}
+
+.logo {
+  font-size: clamp(24px, 2.1vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap
+}
+
+.logo .u {
+  color: var(--green)
+}
+
+.logo .s {
+  color: var(--ink)
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 52px)
+}
+
+.nav-links a {
+  font-size: clamp(15px, 1.15vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  transition: color .2s ease
+}
+
+.nav-links a:hover {
+  color: var(--green)
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.6vw, 28px)
+}
+
+.nav-login {
+  font-size: clamp(15px, 1.15vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  transition: color .2s
+}
+
+.nav-login:hover {
+  color: var(--green)
+}
+
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  place-items: center
+}
+
+.burger .ico {
+  stroke: var(--ink)
+}
+
+.mobile-menu {
+  display: none;
+  border-top: 1px solid var(--line);
+  background: #fff
+}
+
+.mobile-menu.open {
+  display: block
+}
+
+.mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 16px var(--gutter) 28px
+}
+
+.mobile-menu li a {
+  display: block;
+  padding: 14px 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid var(--line)
+}
+
+.mobile-menu .btn {
+  width: 100%;
+  margin-top: 22px
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  padding-top: 128px;
+  padding-bottom: 150px;
+  text-align: center
+}
+
+.hero .h-hero {
+  max-width: 1080px;
+  margin-inline: auto
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: center;
+  margin-top: clamp(32px, 3.5vw, 48px)
+}
+
+.trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 52px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(14px, 1.05vw, 17px);
+  font-weight: 500;
+  letter-spacing: -0.015em
+}
+
+.trust-item .ico {
+  width: 22px;
+  height: 22px
+}
+
+.trust-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--line)
+}
+
+/* ---------- Feature strip ---------- */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 16px;
+  margin-top: clamp(48px, 6vw, 90px);
+}
+
+.strip-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-chip);
+  padding: 26px 14px;
+  text-align: center;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.strip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: transparent
+}
+
+.strip-card .ico {
+  margin: 0 auto 14px
+}
+
+.strip-card span {
+  display: block;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+  color: var(--ink)
+}
+
+/* ---------- Store badges ---------- */
+.stores {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 44px
+}
+
+.store {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  background: #111111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 11px 22px 12px;
+  transition: transform .25s ease, background .25s ease;
+}
+
+.store:hover {
+  background: #000;
+  transform: translateY(-2px)
+}
+
+.store .lg {
+  width: 27px;
+  height: 27px;
+  flex: none
+}
+
+.store .tx {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  text-align: left
+}
+
+.store .tx small {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .01em;
+  opacity: .92
+}
+
+.store .tx b {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  margin-top: 5px
+}
+
+.store-note {
+  margin-top: 26px;
+  font-size: 16px;
+  color: var(--muted);
+  letter-spacing: -.01em;
+  text-align: center
+}
+
+/* ============================================================
+   SHOWCASE  (fixed 1440 stage, mapped 1:1 from the reference frame)
+   ============================================================ */
+.showcase-head {
+  text-align: center
+}
+
+.showcase-head .pill {
+  margin-bottom: 26px
+}
+
+/* ---------- Scrolling feature marquee (replaces the fixed 1440 stage) ---------- */
+.stage {
+  position: relative;
+  margin: 72px auto 0;
+  width: 100%;
+  overflow: hidden;
+  background: #fff
+}
+
+.stage .glow {
+  display: none
+}
+
+.marq-block {
+  position: relative;
+  z-index: 1
+}
+
+.marq-block+.marq-block {
+  margin-top: clamp(34px, 3.4vw, 54px)
+}
+
+.marq-head {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(18px, 1.8vw, 26px)
+}
+
+.marquee {
+  overflow: hidden;
+  padding: 18px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+}
+
+.marq-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marq-scroll calc(var(--marq-step) * var(--marq-count, 6)) linear infinite
+}
+
+/* For Owners runs the opposite way to For Tenants */
+.marq-track.rev {
+  animation-direction: reverse
+}
+
+.marquee:hover .marq-track,
+.marquee:focus-within .marq-track {
+  animation-play-state: paused
+}
+
+.marq-set {
+  display: flex;
+  gap: var(--marq-gap);
+  padding-right: var(--marq-gap);
+  flex: none
+}
+
+@keyframes marq-scroll {
+  from {
+    transform: translate3d(0, 0, 0)
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0)
+  }
+}
+
+/* Borderless, like a logo strip — text only, no card chrome */
+.marq-card {
+  flex: none;
+  width: var(--marq-card);
+  padding: 0 8px;
+}
+
+.marq-card .t {
+  min-width: 0
+}
+
+.marq-card .t h3 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin-bottom: 6px;
+  color: var(--green)
+}
+
+.marq-card .t p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+  letter-spacing: -0.005em
+}
+
+.showcase-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 64px;
+}
+
+.showcase-foot span {
+  font-size: 17px;
+  color: var(--muted);
+  letter-spacing: -0.015em;
+  text-align: center
+}
+
+.rule {
+  width: 1px;
+  height: 26px;
+  background: var(--line);
+  flex: none
+}
+
+/* ---------- Vertical auto-scrolling feature list (mobile only, lives inside .phone-stage) ---------- */
+.vmarq-mobile {
+  display: none
+}
+
+@keyframes marq-scroll-y {
+  from {
+    transform: translate3d(0, 0, 0)
+  }
+
+  to {
+    transform: translate3d(0, -50%, 0)
+  }
+}
+
+.phone-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  max-height: min(70vh, 620px)
+}
+
+.phone-stage::before {
+  content: "";
+  position: absolute;
+  width: 104%;
+  padding-top: 104%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(8, 166, 63, .045) 0%, rgba(255, 255, 255, 0) 62%);
+  z-index: 0;
+}
+
+.phone {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 310px;
+  max-height: min(64vh, 560px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 44px rgba(0, 0, 0, .13))
+}
+
+.split-3 .phone {
+  max-width: 272px
+}
+
+.split-3 .sats {
+  gap: clamp(26px, 2.8vw, 44px)
+}
+
+/* ============================================================
+   SPLIT SECTIONS (Automation / Email / AI)
+   ============================================================ */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: 96px;
+  align-items: center
+}
+
+.split-3 {
+  grid-template-columns: minmax(0, 1fr) 300px 250px;
+  gap: clamp(28px, 3vw, 56px);
+  align-items: center
+}
+
+.split .pill {
+  margin-bottom: 28px
+}
+
+.split .lead {
+  max-width: 560px
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 52px
+}
+
+.row-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-chip);
+  padding: 20px 24px;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.row-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: transparent
+}
+
+.row-card h3 {
+  font-size: clamp(16px, 1.25vw, 19px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 4px
+}
+
+.row-card p {
+  font-size: clamp(14px, 1.02vw, 16px);
+  color: var(--muted);
+  line-height: 1.5;
+  letter-spacing: -0.01em
+}
+
+.row-card .chev {
+  margin-left: auto;
+  stroke: var(--muted);
+  width: 20px;
+  height: 20px;
+  flex: none;
+  transition: transform .3s ease, stroke .3s ease
+}
+
+.row-card:hover .chev {
+  transform: translateX(4px);
+  stroke: var(--green)
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--tint);
+  border-radius: var(--r-chip);
+  padding: 22px 26px;
+  margin-top: 26px;
+}
+
+.banner strong {
+  display: block;
+  color: var(--green);
+  font-size: clamp(15px, 1.15vw, 18px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 3px
+}
+
+.banner p {
+  font-size: clamp(14px, 1.02vw, 16px);
+  color: var(--muted);
+  letter-spacing: -0.01em;
+  line-height: 1.5
+}
+
+.sats {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 56px)
+}
+
+.sat .ico-badge {
+  margin-bottom: 16px
+}
+
+.sat h3 {
+  font-size: clamp(16px, 1.25vw, 19px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 8px
+}
+
+.sat p {
+  font-size: clamp(14px, 1.02vw, 16px);
+  color: var(--muted);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  max-width: 24ch
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 52px
+}
+
+.mini h3 {
+  font-size: clamp(16px, 1.25vw, 19px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 0 0 6px
+}
+
+.mini p {
+  font-size: clamp(14px, 1.02vw, 16px);
+  color: var(--muted);
+  line-height: 1.55;
+  letter-spacing: -0.01em
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+.dash {
+  margin-top: 86px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.dash-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--line)
+}
+
+.dash-bar i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--line);
+  display: block
+}
+
+.dash-bar span {
+  margin-left: 14px;
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: -0.01em
+}
+
+.dash-body {
+  display: grid;
+  grid-template-columns: 250px 1fr
+}
+
+.dash-side {
+  border-right: 1px solid var(--line);
+  padding: 26px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px
+}
+
+.dash-side a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--muted);
+  transition: .2s;
+}
+
+.dash-side a .ico {
+  width: 19px;
+  height: 19px;
+  stroke: var(--muted)
+}
+
+.dash-side a.on,
+.dash-side a:hover {
+  background: var(--tint);
+  color: var(--green)
+}
+
+.dash-side a.on .ico,
+.dash-side a:hover .ico {
+  stroke: var(--green)
+}
+
+.dash-main {
+  padding: clamp(22px, 2.4vw, 34px)
+}
+
+.dash-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+  flex-wrap: wrap
+}
+
+.dash-title h3 {
+  font-size: clamp(19px, 1.7vw, 24px);
+  letter-spacing: -0.03em
+}
+
+.dash-title p {
+  font-size: 14px;
+  color: var(--muted)
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px
+}
+
+.stat {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px
+}
+
+.stat .k {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px
+}
+
+.stat .v {
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--green)
+}
+
+.stat .v.g {
+  color: var(--green)
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 16px;
+  margin-top: 16px
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px
+}
+
+.panel h4 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 20px
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(10px, 1.6vw, 22px);
+  height: 170px
+}
+
+.bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  justify-content: flex-end
+}
+
+.bar {
+  width: 100%;
+  max-width: 44px;
+  border-radius: 8px 8px 4px 4px;
+  background: var(--tint);
+  transform-origin: bottom;
+  transform: scaleY(0)
+}
+
+.bar.hi {
+  background: var(--green)
+}
+
+.bar-wrap small {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: -0.01em
+}
+
+.plist {
+  display: flex;
+  flex-direction: column;
+  gap: 14px
+}
+
+.prow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  letter-spacing: -0.01em
+}
+
+.prow .av {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--tint);
+  display: grid;
+  place-items: center;
+  flex: none
+}
+
+.prow .av .ico {
+  width: 17px;
+  height: 17px
+}
+
+.prow .nm {
+  font-weight: 600
+}
+
+.prow .rm {
+  font-size: 12px;
+  color: var(--muted)
+}
+
+.prow .amt {
+  margin-left: auto;
+  text-align: right
+}
+
+.prow .amt b {
+  display: block;
+  font-weight: 700;
+  letter-spacing: -0.02em
+}
+
+.prow .amt em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 600
+}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: clamp(48px, 5vw, 80px)
+}
+
+.plan {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  padding: clamp(28px, 2.6vw, 40px);
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.plan:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow)
+}
+
+.plan.pop {
+  border-color: var(--green);
+  box-shadow: var(--shadow)
+}
+
+.plan-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px
+}
+
+.plan h3 {
+  font-size: clamp(19px, 1.6vw, 22px);
+  letter-spacing: -0.03em
+}
+
+.tag {
+  background: var(--tint);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  line-height: 1
+}
+
+.plan .desc {
+  font-size: 15px;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+  line-height: 1.55
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 26px 0 6px
+}
+
+.price b {
+  font-size: clamp(38px, 3.4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1
+}
+
+.price span {
+  font-size: 15px;
+  color: var(--muted)
+}
+
+.plan ul {
+  list-style: none;
+  margin: 26px 0 32px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px
+}
+
+.plan li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  line-height: 1.5
+}
+
+.plan li .ico {
+  width: 19px;
+  height: 19px;
+  margin-top: 3px
+}
+
+.plan .btn {
+  width: 100%;
+  margin-top: auto
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq {
+  max-width: 920px;
+  margin: clamp(48px, 5vw, 80px) auto 0;
+  border-top: 1px solid var(--line)
+}
+
+.qa {
+  border-bottom: 1px solid var(--line)
+}
+
+.q {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  text-align: left;
+  padding: 28px 4px;
+  font-size: clamp(17px, 1.45vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.35
+}
+
+.q .pm {
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  stroke: var(--green);
+  transition: transform .35s ease
+}
+
+.qa.open .q .pm {
+  transform: rotate(45deg)
+}
+
+.a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease
+}
+
+.a p {
+  padding: 0 60px 30px 4px;
+  font-size: clamp(15px, 1.15vw, 18px);
+  color: var(--muted);
+  line-height: 1.65;
+  letter-spacing: -0.012em
+}
+
+/* ============================================================
+   CTA + FOOTER
+   ============================================================ */
+.cta {
+  border-top: 1px solid var(--line);
+  text-align: center
+}
+
+.foot {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(56px, 6vw, 88px);
+  padding-bottom: 40px
+}
+
+.foot-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: clamp(28px, 3vw, 48px)
+}
+
+.foot-brand p {
+  margin-top: 18px;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 30ch;
+  line-height: 1.6;
+  letter-spacing: -0.01em
+}
+
+.foot h4 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 20px
+}
+
+.foot ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px
+}
+
+.foot ul a {
+  font-size: 15px;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+  transition: color .2s
+}
+
+.foot ul a:hover {
+  color: var(--green)
+}
+
+.foot-bot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: clamp(48px, 5vw, 72px);
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+}
+
+.foot-bot nav {
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap
+}
+
+.foot-bot a:hover {
+  color: var(--green)
+}
+
+/* ============================================================
+   REVEAL (pre-GSAP state)
+   ============================================================ */
+.js .rv {
+  opacity: 0;
+  transform: translateY(28px)
+}
+
+.rv-line {
+  display: block
+}
+
+.js .rv-line {
+  opacity: 0
+}
+
+.js .phone {
+  opacity: 0
+}
+
+/* ---------- Scroll reveal without GSAP ----------------------
+   If the GSAP CDN is slow or blocked, <html> gets .no-gsap and the
+   same fade-up runs on CSS transitions, driven by IntersectionObserver.
+   --d carries the per-item stagger. */
+.no-gsap .rv,
+.no-gsap .rv-line,
+.no-gsap .phone,
+.no-gsap .bar {
+  transition: opacity .85s cubic-bezier(.22, .61, .36, 1), transform .85s cubic-bezier(.22, .61, .36, 1);
+  transition-delay: var(--d, 0s);
+}
+
+.no-gsap .rv-line {
+  transform: translateY(20px)
+}
+
+.no-gsap .rv.in,
+.no-gsap .rv-line.in,
+.no-gsap .phone.in {
+  opacity: 1;
+  transform: none
+}
+
+.no-gsap .bar.in {
+  transform: scaleY(1)
+}
+
+/* ---------- LAPTOP / DESKTOP ONLY: phone sizing --------------
+   Sized from viewport HEIGHT, so the mockup scales down on short
+   laptop screens instead of sitting at a fixed width. Two knobs:
+   --phone-w caps it on tall screens, --phone-h drives everything else.
+   Mobile (<900px) is untouched — it has its own rules further down. */
+@media (min-width:900px) {
+  :root {
+    --phone-w: 300px;
+    --phone-h: 68vh;
+  }
+
+  .phone-stage {
+    max-height: none;
+    overflow: visible;
+  }
+
+  /* glow tracks the phone, so it can't blow up in a wide column */
+  .phone-stage::before {
+    width: min(96%, 400px);
+    padding-top: min(96%, 400px);
+  }
+
+  .phone {
+    max-width: var(--phone-w);
+    max-height: min(560px, var(--phone-h));
+  }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+/* ---------- PHONE / SMALL TABLET: real layout, not a shrunken desktop ---------- */
+@media (max-width:899px) {
+  :root {
+    --section: 84px;
+    --gutter: 20px;
+    --marq-card: 262px;
+    --marq-gap: 14px;
+    --r-card: 18px;
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 1.65
+  }
+
+  /* nav */
+  .nav-inner {
+    height: 64px;
+    gap: 12px
+  }
+
+  .logo {
+    font-size: 24px
+  }
+
+  .nav-links,
+  .nav-login {
+    display: none
+  }
+
+  .burger {
+    display: grid
+  }
+
+  .nav-right {
+    gap: 10px
+  }
+
+  .nav-right .btn-sm {
+    padding: 11px 16px;
+    font-size: 14px
+  }
+
+  /* hero */
+  .hero {
+    padding-top: 52px;
+    padding-bottom: 68px
+  }
+
+  .h-hero {
+    font-size: clamp(34px, 9.4vw, 54px)
+  }
+
+  .h-sec {
+    font-size: clamp(28px, 7.6vw, 42px)
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    margin-bottom: 18px
+  }
+
+  .lead {
+    font-size: 17px;
+    margin-top: 20px
+  }
+
+  .btn {
+    padding: 15px 24px;
+    font-size: 16px
+  }
+
+  .hero-cta {
+    gap: 12px;
+    margin-top: 28px
+  }
+
+  .trust {
+    gap: 12px 18px;
+    margin-top: 32px
+  }
+
+  .trust-sep {
+    display: none
+  }
+
+  .trust-item {
+    font-size: 14px
+  }
+
+  .stores {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px
+  }
+
+  .store {
+    padding: 10px 18px 11px
+  }
+
+  .store .tx b {
+    font-size: 17px
+  }
+
+  .store-note {
+    font-size: 14px;
+    margin-top: 20px
+  }
+
+  /* marquee */
+  .stage {
+    margin-top: 38px
+  }
+
+  .marq-card {
+    padding: 0 6px
+  }
+
+  .marq-block+.marq-block {
+    margin-top: 28px
+  }
+
+  .showcase-foot {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 38px
+  }
+
+  .showcase-foot span {
+    font-size: 15px
+  }
+
+  .showcase-foot .rule {
+    width: 28px;
+    height: 1px
+  }
+
+  /* split sections on mobile: heading on top (full width), then a
+     phone + auto-scrolling feature list row underneath. Applies to
+     WhatsApp, Email Automation and AI Voice Assistant alike. */
+  .split,
+  .split-3 {
+    grid-template-columns: 1fr;
+    gap: 0
+  }
+
+  .split-copy {
+    order: 1
+  }
+
+  .phone-stage {
+    order: 2;
+    margin-top: 24px
+  }
+
+  .split .lead {
+    max-width: none
+  }
+
+  /* the pill/heading/lead stay visible; the old desktop feature
+     lists are replaced by the vertical marquee on mobile */
+  .split-copy .rows,
+  .split-copy .banner,
+  .split-copy .mini-grid,
+  .sats {
+    display: none
+  }
+
+  /* phone-stage becomes a row: phone on the left, scrolling list on the right */
+  .phone-stage {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .phone,
+  .split-3 .phone {
+    max-width: 150px;
+    max-height: 340px;
+    flex: none
+  }
+
+  .vmarq-mobile {
+    display: block;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .vmarq {
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+  }
+
+  .vmarq-track {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: marq-scroll-y calc(var(--marq-step) * var(--marq-count, 4)) linear infinite;
+  }
+
+  .vmarq:hover .vmarq-track,
+  .vmarq:focus-within .vmarq-track {
+    animation-play-state: paused
+  }
+
+  .vmarq-set {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+  }
+
+  .vcard {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+
+  .vcard h3 {
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3
+  }
+
+  /* dashboard */
+  .dash {
+    margin-top: 38px
+  }
+
+  .dash-bar {
+    padding: 13px 16px
+  }
+
+  .dash-body {
+    grid-template-columns: 1fr
+  }
+
+  .dash-side {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 6px;
+    padding: 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dash-side::-webkit-scrollbar {
+    display: none
+  }
+
+  .dash-side a {
+    white-space: nowrap;
+    padding: 10px 14px;
+    font-size: 14px
+  }
+
+  .dash-main {
+    padding: 18px
+  }
+
+  .dash-title {
+    margin-bottom: 20px
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px
+  }
+
+  .stat {
+    padding: 16px;
+    border-radius: 14px
+  }
+
+  .panels {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px
+  }
+
+  .panel {
+    padding: 18px;
+    border-radius: 14px
+  }
+
+  .chart {
+    height: 140px;
+    gap: 8px
+  }
+
+  /* faq */
+  .q {
+    padding: 22px 2px;
+    gap: 14px;
+    font-size: 17px
+  }
+
+  .a p {
+    padding: 0 28px 24px 2px;
+    font-size: 15px
+  }
+
+  /* footer */
+  .foot-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 20px
+  }
+
+  .foot-brand {
+    grid-column: 1 / -1
+  }
+
+  .foot-brand p {
+    max-width: none
+  }
+
+  .foot-bot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 13px
+  }
+
+  .foot-bot nav {
+    gap: 18px
+  }
+}
+
+@media (max-width:420px) {
+  :root {
+    --marq-card: 238px
+  }
+
+  .nav-right .btn-sm {
+    display: none
+  }
+
+  .stats {
+    grid-template-columns: 1fr
+  }
+
+  .hero-cta .btn {
+    flex: 1 1 100%
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  * {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important
+  }
+
+  html {
+    scroll-behavior: auto
+  }
+
+  .js .rv,
+  .js .rv-line {
+    opacity: 1;
+    transform: none
+  }
+
+  .bar {
+    transform: scaleY(1) !important
+  }
+
+  .marq-track {
+    animation: none !important
+  }
+}
+</style>
+  <style>
+/* ============================================================
+   OWNERS PAGE — builds on styles.css, same tokens & rhythm
+   ============================================================ */
+
+:root {
+  --frow-gap: clamp(56px, 7vw, 110px);
+  --frow-pad: clamp(84px, 9vw, 150px);
+}
+
+/* current nav item */
+.nav-links a.is-current {
+  color: var(--green);
+  font-weight: 600
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.own-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: var(--frow-gap);
+  align-items: center;
+  padding-top: clamp(56px, 6vw, 96px);
+  /* 35% tighter than before, so the trio sits closer to the hero */
+  padding-bottom: clamp(46px, 5.2vw, 84px);
+}
+
+.own-hero .pill {
+  margin-bottom: 30px
+}
+
+.own-hero .h-hero {
+  font-size: clamp(38px, 5.5vw, 76px)
+}
+
+.own-hero .lead {
+  max-width: 560px;
+  font-size: clamp(17px, 1.38vw, 20px);
+  line-height: 1.66;
+  color: #4A5056;
+  letter-spacing: -0.014em;
+}
+
+/* every screenshot is the same 800x1540 canvas with the phone trimmed
+   to one height, so sizing by HEIGHT makes every phone identical.
+   Feature rows are a notch smaller than the hero so the phone never
+   overshoots the copy block and slides up under the nav. */
+.own-hero-shot .phone,
+.frow .phone {
+  width: auto;
+  height: var(--phone-h-own, 600px);
+  max-width: 100%;
+  max-height: none;
+  object-fit: contain;
+}
+
+.own-hero-shot .phone {
+  --phone-h-own: 660px
+}
+
+.frow .phone {
+  --phone-h-own: 580px
+}
+
+.own-hero-shot.phone-stage,
+.frow .phone-stage {
+  max-height: none
+}
+
+.own-hero-shot.phone-stage::before,
+.frow .phone-stage::before {
+  width: min(104%, 470px);
+  padding-top: min(104%, 470px);
+  background: none;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 40px
+}
+
+.ticks {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+}
+
+.ticks li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+}
+
+.ticks svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  stroke: var(--green);
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ============================================================
+   WHAT IT DOES — 3 borderless columns
+   ============================================================ */
+.section-sm {
+  /* 35% tighter on both sides */
+  padding-block: clamp(36px, 3.9vw, 62px)
+}
+
+.trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(32px, 4vw, 72px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: clamp(44px, 5vw, 72px);
+}
+
+.trio-col h2 {
+  font-size: clamp(19px, 1.7vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--green);
+}
+
+.trio-col p {
+  font-size: clamp(15px, 1.12vw, 17px);
+  line-height: 1.65;
+  color: #4A5056;
+  letter-spacing: -0.013em;
+}
+
+/* ============================================================
+   FEATURE ROWS
+   ============================================================ */
+.frow {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: var(--frow-gap);
+  align-items: center;
+  padding-block: var(--frow-pad);
+}
+
+/* image on the LEFT, copy on the right */
+.frow-rev .frow-copy {
+  order: 2
+}
+
+.frow-rev .phone-stage {
+  order: 1
+}
+
+.frow .pill {
+  margin-bottom: 30px
+}
+
+/* section headings sit at the hero's scale, one notch down */
+.frow .h-sec {
+  font-size: clamp(34px, 4.3vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.frow .lead {
+  max-width: 560px;
+  margin-top: 28px;
+  font-size: clamp(17px, 1.38vw, 20px);
+  line-height: 1.66;
+  color: #4A5056;
+  letter-spacing: -0.014em;
+}
+
+/* first sentence of each explanation carries the weight */
+.frow .lead strong {
+  color: var(--ink);
+  font-weight: 600
+}
+
+/* hairline numbered list — the "fancy but minimal" bit */
+.points {
+  list-style: none;
+  counter-reset: pt;
+  margin: 42px 0 0;
+  padding: 0;
+  max-width: 540px;
+}
+
+.points li {
+  counter-increment: pt;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: baseline;
+  gap: 4px;
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.5;
+  color: var(--ink);
+  letter-spacing: -0.014em;
+}
+
+.points li:last-child {
+  border-bottom: 1px solid var(--line)
+}
+
+.points li::before {
+  content: counter(pt, decimal-leading-zero);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+
+/* no-gsap fallback for the bullet stagger */
+.no-gsap .points li {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .7s cubic-bezier(.22, .61, .36, 1), transform .7s cubic-bezier(.22, .61, .36, 1);
+  transition-delay: var(--d, 0s);
+}
+
+.no-gsap .points.in li {
+  opacity: 1;
+  transform: none
+}
+
+/* ============================================================
+   TABLET + PHONE (under 900px)
+   One rule everywhere: ALL the words in one column, the phone in
+   the other. Nothing runs above or across the screenshot. The phone
+   is centred against the text block, so there are no dead gaps.
+   ============================================================ */
+@media (max-width:899px) {
+
+  :root {
+    --shot: 38%;
+  }
+
+  .own-hero,
+  .frow {
+    grid-template-columns: minmax(0, 1fr) var(--shot);
+    column-gap: clamp(16px, 4vw, 40px);
+    align-items: center;
+  }
+
+  .frow-rev {
+    grid-template-columns: var(--shot) minmax(0, 1fr);
+  }
+
+  .own-hero {
+    padding-top: 36px;
+    padding-bottom: 30px;
+  }
+
+  .frow {
+    padding-block: 40px;
+  }
+
+  /* ---------- phones in the picture column ---------- */
+  .own-hero-shot .phone,
+  .frow .phone {
+    width: 100%;
+    height: auto;
+    /* ~420px tall: matches the height of each text block */
+    max-width: 218px;
+    margin-inline: auto;
+  }
+
+  .phone-stage {
+    max-height: none;
+    overflow: visible;
+  }
+
+  /* ---------- hero copy ---------- */
+  .own-hero .pill,
+  .frow .pill {
+    margin-bottom: 16px;
+  }
+
+  .own-hero .h-hero {
+    font-size: clamp(26px, 5.4vw, 44px);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .own-hero .lead {
+    margin-top: 16px;
+    max-width: none;
+    font-size: clamp(14px, 2vw, 17px);
+    line-height: 1.58;
+  }
+
+  .own-hero .cta-row {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .own-hero .cta-row .btn {
+    width: 100%;
+    flex: none;
+  }
+
+  .own-hero .ticks {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  /* ---------- feature copy ---------- */
+  .frow .h-sec {
+    font-size: clamp(23px, 4.4vw, 38px);
+    letter-spacing: -0.04em;
+    line-height: 1.06;
+  }
+
+  .frow .lead {
+    margin-top: 14px;
+    max-width: none;
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 1.58;
+  }
+
+  .frow .points {
+    margin-top: 18px;
+    max-width: none;
+  }
+
+  .frow .points li {
+    grid-template-columns: 30px 1fr;
+    padding: 10px 0;
+    font-size: clamp(13.5px, 1.9vw, 15px);
+    line-height: 1.42;
+  }
+
+  /* ---------- trio ---------- */
+  .section-sm {
+    padding-block: 22px
+  }
+
+  .trio {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-block: 30px;
+  }
+}
+
+/* ---------- small phones (under 600px): same side-by-side,
+   type scaled to the narrow column ---------- */
+@media (max-width:599px) {
+
+  :root {
+    --shot: 44%;
+  }
+
+  .section-sm {
+    padding-block: 12px
+  }
+
+  .trio {
+    gap: 18px;
+    padding-block: 24px;
+  }
+
+  .own-hero,
+  .frow {
+    column-gap: 14px;
+  }
+
+  .own-hero {
+    padding-top: 28px;
+    padding-bottom: 24px;
+  }
+
+  .frow {
+    padding-block: 32px;
+  }
+
+  .own-hero .pill,
+  .frow .pill {
+    font-size: 11.5px;
+    padding: 6px 11px;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .own-hero .pill svg,
+  .frow .pill svg {
+    width: 13px;
+    height: 13px
+  }
+
+  .own-hero .h-hero {
+    font-size: clamp(22px, 6.6vw, 28px);
+  }
+
+  .frow .h-sec {
+    font-size: clamp(20px, 6vw, 25px);
+  }
+
+  .own-hero .lead,
+  .frow .lead {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .own-hero .cta-row {
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .own-hero .cta-row .btn {
+    padding: 12px 10px;
+    font-size: 14.5px;
+  }
+
+  .own-hero .ticks {
+    margin-top: 14px;
+    gap: 6px;
+  }
+
+  .own-hero .ticks li {
+    font-size: 12.5px;
+    gap: 6px
+  }
+
+  .own-hero .ticks svg {
+    width: 14px;
+    height: 14px
+  }
+
+  .frow .points {
+    margin-top: 12px
+  }
+
+  .frow .points li {
+    grid-template-columns: 22px 1fr;
+    padding: 8px 0;
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+
+  .frow .points li::before {
+    font-size: 10px
+  }
+
+  .trio-col h2 {
+    font-size: 19px
+  }
+
+  .trio-col p {
+    font-size: 14.5px
+  }
+}
+
+</style>
+  <style>
+/* ============================================================
+   PRICING PAGE — loads after styles.css and owners.css
+   (reuses .pill, .h-hero, .h-sec, .lead, .btn, .points)
+   ============================================================ */
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap
+}
+
+/* shared white "glow" card used by the calculator and the sales form */
+.calc,
+.sales-form {
+  position: relative;
+  border: 1px solid #D9EEE0;
+  border-radius: 28px;
+  background:
+    radial-gradient(110% 50% at 50% -8%, rgba(8, 166, 63, .09) 0%, rgba(8, 166, 63, 0) 62%),
+    #FFFFFF;
+  box-shadow: 0 40px 80px -40px rgba(8, 120, 50, .30), 0 2px 6px rgba(0, 0, 0, .03);
+}
+
+/* ============================================================
+   HERO — copy left, calculator right
+   ============================================================ */
+.pr-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+  gap: var(--frow-gap);
+  align-items: center;
+  padding-top: clamp(56px, 6vw, 96px);
+  padding-bottom: clamp(56px, 6vw, 96px);
+}
+
+.pr-hero .pill {
+  margin-bottom: 30px
+}
+
+.pr-hero .h-hero {
+  font-size: clamp(38px, 5.5vw, 76px)
+}
+
+.pr-hero .lead {
+  max-width: 540px;
+  font-size: clamp(17px, 1.38vw, 20px);
+  line-height: 1.66;
+  color: #4A5056;
+  letter-spacing: -0.014em;
+}
+
+.pr-ticks {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 14px 34px;
+}
+
+.pr-ticks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+
+.pr-ticks svg,
+.inc li::before {
+  flex: none
+}
+
+.pr-ticks svg {
+  width: 20px;
+  height: 20px;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--tint);
+  stroke: var(--green);
+  fill: none;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- calculator ---------- */
+.calc {
+  padding: 30px 30px 28px
+}
+
+.calc-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.calc-ico {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 14px;
+  background: var(--tint);
+}
+
+.calc-ico svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--green);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.calc-head h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2
+}
+
+.calc-head p {
+  margin: 2px 0 0;
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.4
+}
+
+.calc-label {
+  display: block;
+  margin: 26px 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.calc-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.calc-input:focus-within {
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px rgba(8, 166, 63, .12);
+}
+
+.calc-step {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  flex: none;
+  border-radius: 13px;
+  background: #F3F5F4;
+  transition: background .2s ease;
+}
+
+.calc-step:hover {
+  background: var(--tint)
+}
+
+.calc-step svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--ink);
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.calc-input input {
+  flex: 1;
+  min-width: 0;
+  width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: inherit;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-align: right;
+  color: var(--ink);
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.calc-input input::-webkit-outer-spin-button,
+.calc-input input::-webkit-inner-spin-button,
+.calc-rent input::-webkit-outer-spin-button,
+.calc-rent input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0
+}
+
+.calc-unit {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* slider with a green fill up to the thumb (--p set from JS) */
+.calc-range {
+  --p: 7%;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  margin: 22px 0 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--green) var(--p), #E4E9E6 var(--p));
+  outline: none;
+  cursor: pointer;
+}
+
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--green);
+  box-shadow: 0 4px 12px rgba(8, 120, 50, .3);
+}
+
+.calc-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--green);
+  box-shadow: 0 4px 12px rgba(8, 120, 50, .3);
+}
+
+.calc-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 5px rgba(8, 166, 63, .2)
+}
+
+.calc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.calc-chips button {
+  padding: 8px 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.calc-chips button:hover {
+  border-color: var(--green)
+}
+
+.calc-chips button.on {
+  background: var(--tint);
+  border-color: var(--green);
+  color: var(--green)
+}
+
+.calc-chips button::after {
+  content: " beds";
+  font-weight: 500;
+  color: var(--muted)
+}
+
+/* result */
+.calc-out {
+  margin-top: 22px;
+  padding: 20px 22px 16px;
+  border: 1px solid #D6ECDD;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #F3FAF5 0%, #FFFFFF 100%);
+}
+
+.calc-main > span {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.calc-main strong {
+  display: block;
+  margin: 2px 0 2px;
+  font-size: clamp(44px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-main small {
+  font-size: 14px;
+  color: var(--muted)
+}
+
+.calc-rows {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1.5px dashed #DDE5E0;
+}
+
+.calc-rows div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+
+.calc-rows dt {
+  color: #4A5056
+}
+
+.calc-rows dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.calc-rent {
+  display: inline-flex;
+  align-items: baseline;
+  margin-left: 4px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.calc-rent input {
+  width: 64px;
+  margin-left: 1px;
+  padding: 0 2px;
+  border: 0;
+  border-bottom: 1.5px dashed #B9C7BF;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.calc-rent input:focus {
+  border-bottom-color: var(--green)
+}
+
+.calc-sales {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #FFF8E8;
+  border: 1px solid #F6E2B4;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #5B4A1E;
+}
+
+.calc-sales a {
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px
+}
+
+.calc-cta {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.calc-cta .btn {
+  flex: 1;
+  padding-inline: 16px
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.pr-sec {
+  padding-block: clamp(56px, 6vw, 100px)
+}
+
+.pr-sec-head {
+  max-width: 780px;
+  margin-bottom: clamp(32px, 3.4vw, 52px);
+}
+
+.pr-sec-head .pill,
+.sales-copy .pill {
+  margin-bottom: 24px
+}
+
+.pr-sec .h-sec {
+  font-size: clamp(34px, 4.3vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.pr-sec .lead {
+  max-width: 600px;
+  margin-top: 20px;
+  font-size: clamp(17px, 1.38vw, 20px);
+  line-height: 1.66;
+  color: #4A5056;
+}
+
+/* ---------- everything included ---------- */
+.inc {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.inc-col {
+  padding: 26px 24px 18px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #fff;
+  transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+
+.inc-col:hover {
+  border-color: #CDE9D6;
+  box-shadow: 0 24px 48px -30px rgba(8, 120, 50, .35);
+}
+
+.inc-col h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.inc-col h3 svg {
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  border-radius: 11px;
+  background: var(--tint);
+  stroke: var(--green);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.inc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0
+}
+
+.inc li {
+  position: relative;
+  padding: 11px 0 11px 26px;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+
+.inc li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 16px;
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--green);
+  border-bottom: 2px solid var(--green);
+  transform: rotate(-45deg);
+}
+
+/* ---------- comparison ---------- */
+.cmp-hint {
+  display: none
+}
+
+.cmp-wrap {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.cmp {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.cmp th,
+.cmp td {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  font-size: 15.5px;
+  line-height: 1.4;
+  letter-spacing: -0.012em;
+}
+
+.cmp tbody tr:last-child th,
+.cmp tbody tr:last-child td {
+  border-bottom: 0
+}
+
+.cmp thead th {
+  padding-block: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  background: #FAFBFA;
+}
+
+.cmp tbody th {
+  font-weight: 600;
+  color: var(--ink);
+  width: 26%
+}
+
+.cmp td {
+  color: #4A5056
+}
+
+.cmp td.cmp-us,
+.cmp th.cmp-us {
+  background: rgba(8, 166, 63, .055);
+  color: var(--ink);
+}
+
+.cmp thead th.cmp-us {
+  color: var(--green);
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: inset 0 3px 0 var(--green);
+}
+
+.cmp td b {
+  font-weight: 700
+}
+
+.cmp .y,
+.cmp .n {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+  border-radius: 50%;
+  vertical-align: -5px;
+}
+
+.cmp .y {
+  background: var(--tint)
+}
+
+.cmp .n {
+  background: #F4F4F5
+}
+
+.cmp .y svg,
+.cmp .n svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cmp .y svg {
+  stroke: var(--green)
+}
+
+.cmp .n svg {
+  stroke: #9CA3AF
+}
+
+/* ---------- contact sales: copy left, form right ---------- */
+.sales {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+  gap: var(--frow-gap);
+  align-items: center;
+}
+
+.sales-form {
+  padding: 30px;
+  overflow: hidden
+}
+
+.sf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.sf {
+  display: flex;
+  flex-direction: column;
+  gap: 6px
+}
+
+.sf-full {
+  grid-column: 1 / -1
+}
+
+.sf span {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink)
+}
+
+.sf em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--muted)
+}
+
+.sf input,
+.sf select,
+.sf textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font: inherit;
+  font-size: 15.5px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.sf textarea {
+  resize: vertical;
+  min-height: 84px;
+  line-height: 1.5
+}
+
+.sf input::placeholder,
+.sf textarea::placeholder {
+  color: #A3AAB3
+}
+
+.sf input:focus,
+.sf select:focus,
+.sf textarea:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px rgba(8, 166, 63, .12);
+}
+
+.sf input.bad {
+  border-color: #E5484D;
+  box-shadow: 0 0 0 4px rgba(229, 72, 77, .1)
+}
+
+.sf-err {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: #C93C40
+}
+
+.sf-btn {
+  width: 100%;
+  margin-top: 20px
+}
+
+.sf-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sf-note {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--muted)
+}
+
+.sf-done {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  background: #fff;
+  border-radius: inherit;
+}
+
+.sf-done[hidden] {
+  display: none
+}
+
+.sf-done-ico {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 8px var(--tint);
+}
+
+.sf-done-ico svg {
+  width: 30px;
+  height: 30px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sf-done h3 {
+  margin: 24px 0 8px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.035em
+}
+
+.sf-done p {
+  margin: 0;
+  max-width: 340px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #4A5056
+}
+
+/* ---------- FAQ ---------- */
+.pfaq-list {
+  max-width: 900px;
+  border-top: 1px solid var(--line);
+}
+
+.pfaq details {
+  border-bottom: 1px solid var(--line)
+}
+
+.pfaq summary {
+  position: relative;
+  padding: 24px 56px 24px 0;
+  font-size: clamp(17px, 1.4vw, 20px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  cursor: pointer;
+  list-style: none;
+}
+
+.pfaq summary::-webkit-details-marker {
+  display: none
+}
+
+/* plus that turns into a minus */
+.pfaq summary::before,
+.pfaq summary::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--green);
+  transition: transform .25s ease;
+}
+
+.pfaq summary::after {
+  transform: rotate(90deg)
+}
+
+.pfaq details[open] summary::after {
+  transform: rotate(0deg)
+}
+
+.pfaq details p {
+  margin: 0;
+  padding: 0 56px 24px 0;
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: #4A5056;
+}
+
+.pfaq details p a {
+  color: var(--green);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px
+}
+
+/* ---------- closing CTA ---------- */
+.pr-end {
+  padding-bottom: clamp(64px, 7vw, 120px)
+}
+
+.pr-end-card {
+  padding: clamp(44px, 5vw, 76px) 32px;
+  border-radius: 32px;
+  text-align: center;
+  border: 1px solid #D9EEE0;
+  background:
+    radial-gradient(70% 90% at 50% 0%, rgba(8, 166, 63, .12) 0%, rgba(8, 166, 63, 0) 70%),
+    #fff;
+}
+
+.pr-end-card h2 {
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 1.04;
+}
+
+.pr-end-card p {
+  max-width: 520px;
+  margin: 16px auto 0;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+  color: #4A5056;
+}
+
+.pr-end-cta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* ============================================================
+   TABLET + PHONE (under 900px)
+   ============================================================ */
+@media (max-width:899px) {
+
+  .pr-hero,
+  .sales {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .pr-hero {
+    padding-top: 36px;
+    padding-bottom: 40px
+  }
+
+  .pr-hero .pill,
+  .pr-sec-head .pill,
+  .sales-copy .pill {
+    margin-bottom: 18px
+  }
+
+  .pr-hero .h-hero {
+    font-size: clamp(34px, 8vw, 54px)
+  }
+
+  .pr-hero .lead {
+    margin-top: 16px;
+    font-size: clamp(15.5px, 2.2vw, 18px)
+  }
+
+  .pr-ticks {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 18px;
+    margin-top: 24px
+  }
+
+  .pr-ticks li {
+    font-size: 14.5px;
+    align-items: flex-start
+  }
+
+  .calc,
+  .sales-form {
+    padding: 24px 20px 22px;
+    border-radius: 24px
+  }
+
+  .pr-sec {
+    padding-block: 48px
+  }
+
+  .pr-sec .h-sec {
+    font-size: clamp(28px, 6.4vw, 42px)
+  }
+
+  .pr-sec .lead {
+    font-size: clamp(15.5px, 2.2vw, 18px);
+    margin-top: 14px
+  }
+
+  .inc {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px
+  }
+
+  /* comparison table scrolls sideways inside its card, first column pinned */
+  .cmp-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch
+  }
+
+  .cmp {
+    min-width: 620px
+  }
+
+  .cmp-hint {
+    display: block;
+    margin: -14px 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    text-align: right;
+  }
+
+  .cmp th,
+  .cmp td {
+    padding: 14px 14px;
+    font-size: 14px
+  }
+
+  .cmp tbody th,
+  .cmp thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #fff;
+    box-shadow: 1px 0 0 var(--line);
+  }
+
+  .cmp thead th:first-child {
+    background: #FAFBFA
+  }
+
+  .pfaq summary {
+    padding: 20px 44px 20px 0
+  }
+
+  .pfaq details p {
+    padding-right: 0;
+    font-size: 15.5px
+  }
+
+  .pr-end-card {
+    padding: 40px 22px;
+    border-radius: 26px
+  }
+}
+
+@media (max-width:599px) {
+
+  .pr-ticks {
+    grid-template-columns: 1fr
+  }
+
+  .calc-head h2 {
+    font-size: 19px
+  }
+
+  .calc-head p {
+    font-size: 13.5px
+  }
+
+  .calc-ico {
+    width: 42px;
+    height: 42px
+  }
+
+  .calc-step {
+    width: 46px;
+    height: 46px
+  }
+
+  .calc-input input {
+    font-size: 30px
+  }
+
+  .calc-unit {
+    font-size: 14.5px
+  }
+
+  .calc-out {
+    padding: 16px 16px 14px
+  }
+
+  .calc-rows div {
+    font-size: 13.5px
+  }
+
+  .calc-rows dt {
+    max-width: 70%
+  }
+
+  .calc-cta {
+    flex-direction: column
+  }
+
+  .calc-chips {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px
+  }
+
+  .calc-chips button {
+    padding: 8px 0
+  }
+
+  .calc-chips button::after {
+    content: none
+  }
+
+  .inc {
+    grid-template-columns: 1fr
+  }
+
+  .sf-grid {
+    grid-template-columns: 1fr
+  }
+
+  .pr-end-cta .btn {
+    flex: 1 1 100%
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+  <!-- ICON SPRITE -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-building" viewBox="0 0 24 24">
+        <rect x="4" y="3" width="10" height="18" rx="1.5" />
+        <path d="M14 9h6v12h-6M7 7h4M7 11h4M7 15h4" />
+      </symbol>
+      <symbol id="i-rupee" viewBox="0 0 24 24">
+        <path d="M6 3h12M6 8h12M6 13h3c4.5 0 4.5-10 0-10M6 13l8.5 8" />
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+      </symbol>
+      <symbol id="i-wrench" viewBox="0 0 24 24">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5l-9.4 9.4a2.1 2.1 0 0 1-3-3z" />
+        <path d="M14.7 6.3 17.5 3.5a4 4 0 0 1 3 3l-2.8 2.8" />
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M5 20V11M12 20V4M19 20v-6" />
+      </symbol>
+      <symbol id="i-bowl" viewBox="0 0 24 24">
+        <path d="M4 11h16a8 8 0 0 1-16 0z" />
+        <path d="M3 20h18M9 7c0-1.5 1-2 1-3.5M14 7c0-1.5 1-2 1-3.5" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+      </symbol>
+      <symbol id="i-toggle" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="10" rx="5" />
+        <circle cx="16.5" cy="12" r="2.6" />
+      </symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24">
+        <path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m4.5 12.5 5 5 10-11" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+        <path d="M5 12h14" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="i-bed" viewBox="0 0 24 24">
+        <path d="M3 18V7M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5" />
+        <circle cx="7" cy="11" r="1.6" />
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ============================ NAV ============================ -->
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a href="index.html" class="logo" aria-label="UrbanStay home"><span class="u">Urban</span><span
+          class="s">Stay</span></a>
+      <nav class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="owners.html">Owners</a>
+        <a href="tenants.html">Tenants</a>
+        <a href="pricing.html" class="is-current">Pricing</a>
+        <a href="pricing.html#sales">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="#" class="nav-login">Login</a>
+        <a href="#start" class="btn btn-primary btn-sm">Get Started</a>
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg class="ico ico-sm">
+            <use href="#i-menu" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="owners.html">Owners</a></li>
+        <li><a href="tenants.html">Tenants</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="pricing.html#sales">Contact</a></li>
+        <li><a href="#">Login</a></li>
+      </ul>
+      <div class="wrap" style="padding-bottom:28px"><a href="#start" class="btn btn-primary">Get Started</a></div>
+    </div>
+  </header>
+
+    <main id="top">
+
+    <!-- ============================ HERO + CALCULATOR ============================ -->
+    <section class="wrap pr-hero" id="start">
+      <div class="pr-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-rupee" />
+          </svg> Pricing</span>
+        <h1 class="h-hero">
+          <span class="rv-line lt">One simple price.</span>
+          <span class="rv-line">&#8377;15 a bed,</span>
+          <span class="rv-line">every <span class="g">month.</span></span>
+        </h1>
+        <p class="lead rv">Every feature for owners, managers and residents is included. No plans to compare, no
+          locked features and no cut of your rent.</p>
+        <ul class="pr-ticks rv">
+          <li><svg>
+              <use href="#i-check" />
+            </svg> 0% commission on rent</li>
+          <li><svg>
+              <use href="#i-check" />
+            </svg> No payment gateway needed</li>
+          <li><svg>
+              <use href="#i-check" />
+            </svg> Owner, manager and resident apps</li>
+          <li><svg>
+              <use href="#i-check" />
+            </svg> Same price for one PG or ten</li>
+        </ul>
+      </div>
+
+      <!-- live calculator -->
+      <div class="calc rv" id="calc">
+        <div class="calc-head">
+          <span class="calc-ico"><svg>
+              <use href="#i-bed" />
+            </svg></span>
+          <div>
+            <h2>What will your PG cost?</h2>
+            <p>Enter your total beds across all properties.</p>
+          </div>
+        </div>
+
+        <label class="calc-label" for="beds">Number of beds</label>
+        <div class="calc-input">
+          <button type="button" class="calc-step" data-step="-1" aria-label="One bed fewer"><svg>
+              <use href="#i-minus" />
+            </svg></button>
+          <input id="beds" type="number" inputmode="numeric" min="1" max="100000" value="35" autocomplete="off" />
+          <span class="calc-unit">beds</span>
+          <button type="button" class="calc-step" data-step="1" aria-label="One bed more"><svg>
+              <use href="#i-plus" />
+            </svg></button>
+        </div>
+
+        <input class="calc-range" id="bedsRange" type="range" min="1" max="500" value="35"
+          aria-label="Number of beds slider" />
+        <div class="calc-chips" role="group" aria-label="Quick picks">
+          <button type="button" data-beds="20">20</button>
+          <button type="button" data-beds="50">50</button>
+          <button type="button" data-beds="100">100</button>
+          <button type="button" data-beds="250">250</button>
+        </div>
+
+        <div class="calc-out" aria-live="polite">
+          <div class="calc-main">
+            <span>Your monthly bill</span>
+            <strong id="outMonth">&#8377;525</strong>
+            <small><span id="outBeds">35 beds</span> &times; &#8377;15</small>
+          </div>
+          <dl class="calc-rows">
+            <div>
+              <dt>Per year</dt>
+              <dd id="outYear">&#8377;6,300</dd>
+            </div>
+            <div>
+              <dt>Per bed, per day</dt>
+              <dd>&asymp; &#8377;0.50</dd>
+            </div>
+            <div>
+              <dt>Share of one bed's rent
+                <label class="calc-rent">at &#8377;<input id="rent" type="number" inputmode="numeric" min="1000"
+                    max="100000" value="8500" aria-label="Average monthly rent per bed" /></label>
+              </dt>
+              <dd id="outShare">0.18%</dd>
+            </div>
+          </dl>
+        </div>
+
+        <p class="calc-sales" id="calcSales" hidden>Running <b id="salesBeds">300+</b> beds? Portfolios this size get
+          custom pricing &mdash; <a href="#sales">talk to sales</a>.</p>
+
+        <div class="calc-cta">
+          <a href="#" class="btn btn-primary">Start free</a>
+          <a href="#sales" class="btn btn-secondary">Contact sales</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ EVERYTHING INCLUDED ============================ -->
+    <section class="wrap pr-sec" aria-labelledby="inc-h">
+      <div class="pr-sec-head">
+        <span class="pill rv"><svg>
+            <use href="#i-check" />
+          </svg> Everything included</span>
+        <h2 class="h-sec rv" id="inc-h">All of it, in the same <span class="g">&#8377;15.</span></h2>
+        <p class="lead rv">No starter plan, no premium tier. Every PG on UrbanStay gets every feature from day one.</p>
+      </div>
+
+      <div class="inc">
+        <div class="inc-col rv">
+          <h3><svg>
+              <use href="#i-rupee" />
+            </svg> Rent</h3>
+          <ul>
+            <li>Day-wise rent with each tenant's own due date</li>
+            <li>UPI payments verified by UTR</li>
+            <li>Cash recorded at the desk</li>
+            <li>Receipts sent the moment you approve</li>
+            <li>Late-payment requests</li>
+          </ul>
+        </div>
+        <div class="inc-col rv">
+          <h3><svg>
+              <use href="#i-grid" />
+            </svg> Beds &amp; rooms</h3>
+          <ul>
+            <li>Live view of every bed</li>
+            <li>Room shifts and mutual swaps</li>
+            <li>Move-in KYC</li>
+            <li>Notice periods and move-out</li>
+            <li>Multiple properties, one login</li>
+          </ul>
+        </div>
+        <div class="inc-col rv">
+          <h3><svg>
+              <use href="#i-chart" />
+            </svg> Staff &amp; money</h3>
+          <ul>
+            <li>Staff list and monthly payroll</li>
+            <li>Expense ledger with bill photos</li>
+            <li>Month-wise P&amp;L</li>
+            <li>GST-ready statement export</li>
+            <li>Invite managers and wardens</li>
+          </ul>
+        </div>
+        <div class="inc-col rv">
+          <h3><svg>
+              <use href="#i-user" />
+            </svg> Resident app</h3>
+          <ul>
+            <li>Pay rent by UPI or cash</li>
+            <li>Mess menu and notice board</li>
+            <li>Complaints with photos</li>
+            <li>Washing machine booking</li>
+            <li>Feature controls you switch on or off</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ COMPARISON ============================ -->
+    <section class="wrap pr-sec" aria-labelledby="cmp-h">
+      <div class="pr-sec-head">
+        <span class="pill rv"><svg>
+            <use href="#i-swap" />
+          </svg> How it compares</span>
+        <h2 class="h-sec rv" id="cmp-h">Cheaper than the mess it <span class="g">replaces.</span></h2>
+      </div>
+
+      <p class="cmp-hint" aria-hidden="true">Swipe to compare &rarr;</p>
+      <div class="cmp-wrap rv">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr">Item</span></th>
+              <th scope="col" class="cmp-us">UrbanStay</th>
+              <th scope="col">Registers + WhatsApp</th>
+              <th scope="col">Apps that collect rent for you</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">What you pay</th>
+              <td class="cmp-us"><b>&#8377;15 a bed / month</b></td>
+              <td>Free, plus your time</td>
+              <td>A cut of every rent payment</td>
+            </tr>
+            <tr>
+              <th scope="row">Commission on rent</th>
+              <td class="cmp-us"><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>0%</td>
+              <td><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>None</td>
+              <td><span class="n"><svg>
+                    <use href="#i-x" />
+                  </svg></span>Usually charged</td>
+            </tr>
+            <tr>
+              <th scope="row">Rent goes straight to you</th>
+              <td class="cmp-us"><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>Your own UPI</td>
+              <td><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>Yes</td>
+              <td><span class="n"><svg>
+                    <use href="#i-x" />
+                  </svg></span>Settled later</td>
+            </tr>
+            <tr>
+              <th scope="row">Who paid, who didn't</th>
+              <td class="cmp-us"><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>Live, per bed</td>
+              <td><span class="n"><svg>
+                    <use href="#i-x" />
+                  </svg></span>Month-end guesswork</td>
+              <td><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>Online payments only</td>
+            </tr>
+            <tr>
+              <th scope="row">Cash payments recorded</th>
+              <td class="cmp-us"><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>With receipt</td>
+              <td><span class="n"><svg>
+                    <use href="#i-x" />
+                  </svg></span>Paper slip</td>
+              <td><span class="n"><svg>
+                    <use href="#i-x" />
+                  </svg></span>Often not</td>
+            </tr>
+            <tr>
+              <th scope="row">Staff, food, expenses</th>
+              <td class="cmp-us"><span class="y"><svg>
+                    <use href="#i-check" />
+                  </svg></span>Same app</td>
+              <td><span class="n"><svg>
+                    <use href="#i-x" />
+                  </svg></span>Separate notebooks</td>
+              <td><span class="n"><svg>
+                    <use href="#i-x" />
+                  </svg></span>Varies</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================ CONTACT SALES ============================ -->
+    <section class="wrap pr-sec sales" id="sales" aria-labelledby="sales-h">
+      <div class="sales-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-phone" />
+          </svg> Contact sales</span>
+        <h2 class="h-sec rv" id="sales-h">Running a bigger <span class="g">portfolio?</span></h2>
+        <p class="lead rv">If you run 300+ beds, several buildings or a co-living brand, talk to us. We'll work out
+          pricing for your size, move your existing data across and help your team get set up.</p>
+        <ul class="points rv">
+          <li>Custom pricing for large portfolios</li>
+          <li>Help moving tenants and rent records across</li>
+          <li>A walkthrough for your managers and wardens</li>
+        </ul>
+      </div>
+
+      <form class="sales-form rv" id="salesForm" novalidate>
+        <div class="sf-grid">
+          <label class="sf"><span>Your name</span>
+            <input name="name" type="text" autocomplete="name" required placeholder="Bhargav Kulkarni" />
+          </label>
+          <label class="sf"><span>Phone</span>
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+91 98765 43210" />
+          </label>
+          <label class="sf sf-full"><span>Email <em>(optional)</em></span>
+            <input name="email" type="email" autocomplete="email" placeholder="you@yourpg.in" />
+          </label>
+          <label class="sf"><span>PG or company name</span>
+            <input name="company" type="text" autocomplete="organization" placeholder="Greenview PG" />
+          </label>
+          <label class="sf"><span>City</span>
+            <input name="city" type="text" autocomplete="address-level2" placeholder="Bengaluru" />
+          </label>
+          <label class="sf"><span>Total beds</span>
+            <input name="beds" id="sfBeds" type="number" inputmode="numeric" min="1" placeholder="350" />
+          </label>
+          <label class="sf"><span>Properties</span>
+            <select name="properties">
+              <option>1</option>
+              <option>2&ndash;4</option>
+              <option selected>5&ndash;10</option>
+              <option>10+</option>
+            </select>
+          </label>
+          <label class="sf sf-full"><span>Anything else? <em>(optional)</em></span>
+            <textarea name="message" rows="3" placeholder="Tell us how you run things today"></textarea>
+          </label>
+        </div>
+        <p class="sf-err" id="sfErr" hidden>Please add your name and a 10-digit phone number.</p>
+        <button type="submit" class="btn btn-primary sf-btn">Request a call back <svg>
+            <use href="#i-arrow" />
+          </svg></button>
+        <p class="sf-note">We'll call within one working day. No spam.</p>
+
+        <div class="sf-done" id="sfDone" hidden>
+          <span class="sf-done-ico"><svg>
+              <use href="#i-check" />
+            </svg></span>
+          <h3>Thanks, <span id="sfName">we've got it</span>.</h3>
+          <p>Someone from our team will call you on <b id="sfPhone"></b> within one working day.</p>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============================ FAQ ============================ -->
+    <section class="wrap pr-sec pfaq" aria-labelledby="faq-h">
+      <div class="pr-sec-head">
+        <span class="pill rv"><svg>
+            <use href="#i-bell" />
+          </svg> Questions</span>
+        <h2 class="h-sec rv" id="faq-h">Pricing, <span class="g">answered.</span></h2>
+      </div>
+      <div class="pfaq-list rv">
+        <details open>
+          <summary>How is my bill worked out?</summary>
+          <p>Total beds across your properties &times; &#8377;15, billed every month. Use the calculator at the top of
+            this page to see your exact number.</p>
+        </details>
+        <details>
+          <summary>Do you take a cut of the rent?</summary>
+          <p>No. Tenants pay rent straight to your own UPI ID or in cash at the desk. UrbanStay never touches the money,
+            so there's 0% commission and no payment gateway fee.</p>
+        </details>
+        <details>
+          <summary>I run more than one PG. Is it priced differently?</summary>
+          <p>No. It's the same &#8377;15 a bed whether your beds are in one building or ten, and you manage all of them
+            from one owner login.</p>
+        </details>
+        <details>
+          <summary>Do residents pay anything?</summary>
+          <p>No. The resident app is free for your tenants.</p>
+        </details>
+        <details>
+          <summary>Are any features locked behind a higher plan?</summary>
+          <p>No. There's only one plan, and it includes everything: rent, beds, staff, expenses, food, notices and the
+            resident app.</p>
+        </details>
+        <details>
+          <summary>We have 300+ beds. Can we get a custom price?</summary>
+          <p>Yes. <a href="#sales">Fill in the sales form</a> and we'll call you back within one working day.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============================ CLOSING CTA ============================ -->
+    <section class="wrap pr-end">
+      <div class="pr-end-card rv">
+        <h2>Set up your PG <span class="g">today.</span></h2>
+        <p>Add your rooms and beds, invite your tenants and collect this month's rent in the app.</p>
+        <div class="pr-end-cta">
+          <a href="#" class="btn btn-primary">Start free</a>
+          <a href="#sales" class="btn btn-secondary">Contact sales</a>
+        </div>
+      </div>
+    </section>
+
+</main>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <div class="logo"><span class="u">Urban</span><span class="s">Stay</span></div>
+          <p>One app that handles everything your PG needs — rooms, tenants, rent and everything in between.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#solutions">Mobile App</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="owners.html">PG Owners</a></li>
+            <li><a href="tenants.html">PG Residents</a></li>
+            <li><a href="#">Co-living</a></li>
+            <li><a href="#">Hostels</a></li>
+            <li><a href="#">Property Managers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="pricing.html#sales">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Book a Demo</a></li>
+            <li><a href="#">System Status</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <span>&copy; 2026 UrbanStay&trade;. All rights reserved.</span>
+        <nav><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---- fixed 1440 canvas, scaled for narrower laptops ---- */
+      function fit() {
+        var w = innerWidth;
+        document.body.style.zoom = (w >= 900 && w < 1440) ? (w / 1440) : 1;
+      }
+      fit();
+      addEventListener('resize', fit);
+
+      /* ---- sticky nav border ---- */
+      var nav = document.getElementById('nav');
+      addEventListener('scroll', function () {
+        nav.classList.toggle('stuck', scrollY > 8);
+      }, { passive: true });
+
+      /* ---- mobile menu ---- */
+      var burger = document.getElementById('burger'), menu = document.getElementById('mobileMenu');
+      burger.addEventListener('click', function () {
+        var open = menu.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+      });
+      menu.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') { menu.classList.remove('open'); burger.setAttribute('aria-expanded', false); }
+      });
+
+      /* ---- scroll reveal: IntersectionObserver only, so it works inside
+              any host frame. Same motion as the home page, no GSAP dependency. ---- */
+      var all = document.querySelectorAll('.rv, .rv-line, .phone');
+      document.documentElement.classList.add('no-gsap');
+
+      document.querySelectorAll('.h-hero, .h-sec').forEach(function (h) {
+        h.querySelectorAll('.rv-line').forEach(function (l, i) {
+          l.style.setProperty('--d', (i * .09).toFixed(2) + 's');
+        });
+      });
+      document.querySelectorAll('.points').forEach(function (p) {
+        p.querySelectorAll('li').forEach(function (l, i) {
+          l.style.setProperty('--d', (i * .06).toFixed(2) + 's');
+        });
+      });
+
+      function showAll() {
+        all.forEach(function (el) { el.classList.add('in'); });
+      }
+
+      var canScroll = document.documentElement.scrollHeight > innerHeight + 40;
+
+      if (reduce || !canScroll || !('IntersectionObserver' in window)) {
+        showAll();
+      } else {
+        var io = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('in');
+            obs.unobserve(e.target);
+          });
+        }, { threshold: .08, rootMargin: '0px 0px -4% 0px' });
+        all.forEach(function (el) { io.observe(el); });
+
+        /* failsafe — if the host frame never reports a scroll, nothing stays hidden */
+        var moved = false;
+        addEventListener('scroll', function () { moved = true; }, { passive: true, once: true });
+        setTimeout(function () { if (!moved) showAll(); }, 2500);
+      }
+    })();
+  </script>
+  <script>
+    /* ---- pricing calculator + sales form ---- */
+    (function () {
+      'use strict';
+      var PRICE = 15, RANGE_MAX = 500, SALES_AT = 300;
+      var beds = document.getElementById('beds'), range = document.getElementById('bedsRange'),
+        rent = document.getElementById('rent'), chips = document.querySelectorAll('.calc-chips button'),
+        oMonth = document.getElementById('outMonth'), oYear = document.getElementById('outYear'),
+        oBeds = document.getElementById('outBeds'), oShare = document.getElementById('outShare'),
+        sales = document.getElementById('calcSales'), salesBeds = document.getElementById('salesBeds'),
+        sfBeds = document.getElementById('sfBeds');
+
+      function inr(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+      function count() { var n = parseInt(beds.value, 10); return isNaN(n) || n < 0 ? 0 : Math.min(n, 100000); }
+
+      function render() {
+        var n = count(), r = parseInt(rent.value, 10);
+        oMonth.textContent = inr(n * PRICE);
+        oYear.textContent = inr(n * PRICE * 12);
+        oBeds.textContent = n.toLocaleString('en-IN') + (n === 1 ? ' bed' : ' beds');
+        oShare.textContent = r > 0 ? (PRICE / r * 100).toFixed(2) + '%' : '—';
+        var v = Math.max(1, Math.min(n, RANGE_MAX));
+        range.value = v;
+        range.style.setProperty('--p', ((v - 1) / (RANGE_MAX - 1) * 100).toFixed(1) + '%');
+        chips.forEach(function (c) { c.classList.toggle('on', +c.dataset.beds === n); });
+        var big = n >= SALES_AT;
+        sales.hidden = !big;
+        if (big) salesBeds.textContent = n.toLocaleString('en-IN');
+        if (sfBeds && !sfBeds.dataset.touched && n > 0) sfBeds.value = n;
+      }
+
+      function set(n) { beds.value = Math.max(1, Math.min(n, 100000)); render(); }
+
+      beds.addEventListener('input', render);
+      beds.addEventListener('blur', function () { set(count() || 1); });
+      rent.addEventListener('input', render);
+      range.addEventListener('input', function () { set(+range.value); });
+      document.querySelectorAll('.calc-step').forEach(function (b) {
+        b.addEventListener('click', function () { set(count() + (+b.dataset.step)); });
+      });
+      chips.forEach(function (c) { c.addEventListener('click', function () { set(+c.dataset.beds); }); });
+      if (sfBeds) sfBeds.addEventListener('input', function () { sfBeds.dataset.touched = '1'; });
+      render();
+
+      /* sales form: validates and shows a thank-you state.
+         NOTE: not wired to a backend yet — connect the submit to your CRM / email. */
+      var form = document.getElementById('salesForm'), err = document.getElementById('sfErr');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = form.elements.name, phone = form.elements.phone;
+        var digits = phone.value.replace(/\D/g, '');
+        var okName = name.value.trim().length > 1, okPhone = digits.length >= 10;
+        name.classList.toggle('bad', !okName);
+        phone.classList.toggle('bad', !okPhone);
+        err.hidden = okName && okPhone;
+        if (!err.hidden) { (okName ? phone : name).focus(); return; }
+        document.getElementById('sfName').textContent = name.value.trim().split(/\s+/)[0];
+        document.getElementById('sfPhone').textContent = phone.value.trim();
+        document.getElementById('sfDone').hidden = false;
+      });
+    })();
+  </script>
+</body>
+
+</html>
