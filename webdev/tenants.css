@@ -1,0 +1,496 @@
+/* ============================================================
+   TENANTS PAGE — loads after styles.css and owners.css.
+   Hero, trio and feature rows reuse owners.css as-is.
+   Only the rent section (UPI -> receipt <- cash) lives here.
+   ============================================================ */
+
+/* ---------- layout, desktop: phone | beam | panel | beam | phone ---------- */
+.pay {
+  display: grid;
+  grid-template-columns: 290px 150px minmax(0, 1fr) 150px 290px;
+  align-items: center;
+  padding-block: var(--frow-pad);
+}
+
+.pay-shot .phone-stage {
+  max-height: none;
+  overflow: visible;
+}
+
+.pay .phone {
+  width: auto;
+  height: 540px;
+  max-width: 100%;
+  max-height: none;
+}
+
+/* ============================================================
+   BEAMS — gradient line that brightens toward the panel, a soft
+   glow under it, a port ring on the phone, a solid head on the
+   panel, and a light pulse travelling along the path.
+   ============================================================ */
+.beam {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  z-index: 2;
+}
+
+.beam svg {
+  display: block;
+  overflow: visible
+}
+
+.beam .beam-v {
+  display: none
+}
+
+/* the svg reaches across the gap: port on the phone edge,
+   head on the panel edge */
+.beam-l .beam-h {
+  width: calc(100% + 30px);
+  margin-left: -18px;
+  margin-right: -12px;
+}
+
+.beam-r .beam-h {
+  width: calc(100% + 30px);
+  margin-right: -18px;
+  margin-left: -12px;
+}
+
+.beam-line {
+  fill: none;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.beam-glow {
+  fill: none;
+  stroke-width: 9;
+  stroke-linecap: round;
+  opacity: .16;
+  filter: blur(3px);
+}
+
+.beam-port {
+  fill: #fff;
+  stroke: var(--green);
+  stroke-width: 2.4;
+}
+
+.beam-head {
+  fill: var(--green);
+  stroke: var(--green);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.beam-pulse {
+  fill: #fff;
+  stroke: var(--green);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(8, 166, 63, .9));
+}
+
+/* small "packet" tag riding above each beam */
+.beam-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, .22);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.beam-tag i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 0 rgba(8, 166, 63, .5);
+  animation: tag-ping 1.8s ease-out infinite;
+}
+
+@keyframes tag-ping {
+  0% {
+    box-shadow: 0 0 0 0 rgba(8, 166, 63, .5)
+  }
+
+  80%,
+  100% {
+    box-shadow: 0 0 0 7px rgba(8, 166, 63, 0)
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .beam-pulse {
+    display: none
+  }
+}
+
+/* ============================================================
+   PANEL — deep green card, white type, a three-stop track and
+   a real-looking receipt as the payoff
+   ============================================================ */
+.pay-core {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 36px 34px 32px;
+  border-radius: 30px;
+  color: var(--ink);
+  background:
+    radial-gradient(110% 60% at 50% -10%, rgba(8, 166, 63, .10) 0%, rgba(8, 166, 63, 0) 62%),
+    #FFFFFF;
+  border: 1px solid #D9EEE0;
+  box-shadow: 0 40px 80px -40px rgba(8, 120, 50, .30), 0 2px 6px rgba(0, 0, 0, .03);
+}
+
+/* faint green dot grid that fades out toward the bottom */
+.pay-core::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(8, 166, 63, .14) 1px, transparent 1.2px);
+  background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 60%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 60%);
+}
+
+.pay-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border: 1px solid rgba(8, 166, 63, .18);
+  border-radius: 999px;
+  background: var(--tint);
+  color: var(--green);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.pay-pill svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pay-h {
+  margin: 18px 0 0;
+  font-size: clamp(30px, 2.7vw, 39px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.pay-h span {
+  color: var(--green)
+}
+
+.pay-lead {
+  margin: 14px 0 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: #4A5056;
+  letter-spacing: -0.01em;
+}
+
+/* Paid -> Owner approves -> Receipt */
+.pay-track {
+  position: relative;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0 18px;
+  padding: 0;
+}
+
+.pay-track::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--green) 0%, var(--green) 50%, #DCE3DF 100%);
+}
+
+.pay-track li {
+  position: relative;
+  padding-top: 18px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: -0.005em;
+}
+
+.pay-track li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.pay-track li:first-child::before {
+  left: 0
+}
+
+.pay-track li:nth-child(2) {
+  text-align: center
+}
+
+.pay-track li:nth-child(2)::before {
+  left: 50%;
+  margin-left: -5px
+}
+
+.pay-track li:last-child {
+  text-align: right
+}
+
+.pay-track li:last-child::before {
+  right: 0;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px #C9D3CE inset;
+}
+
+.pay-track li.on {
+  color: var(--ink);
+  font-weight: 600
+}
+
+.pay-track li.on::before {
+  box-shadow: 0 0 0 5px rgba(8, 166, 63, .16)
+}
+
+/* the receipt */
+.rcpt {
+  position: relative;
+  padding: 16px 18px 14px;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid #D6ECDD;
+  background: linear-gradient(180deg, #F3FAF5 0%, #FFFFFF 100%);
+  color: var(--ink);
+  box-shadow: 0 22px 44px -26px rgba(8, 120, 50, .35);
+}
+
+.rcpt-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.rcpt-chk {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(8, 166, 63, .14);
+}
+
+.rcpt-chk svg {
+  width: 16px;
+  height: 16px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rcpt-head b {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.rcpt-head small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+/* amount, with a perforated tear line under it */
+.rcpt-amt {
+  position: relative;
+  margin: 12px 0 0;
+  padding-bottom: 12px;
+  border-bottom: 1.5px dashed #DDE5E0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.rcpt-amt::before,
+.rcpt-amt::after {
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1px #D6ECDD inset;
+}
+
+.rcpt-amt::before {
+  left: -26px
+}
+
+.rcpt-amt::after {
+  right: -26px
+}
+
+.rcpt-rows {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 0;
+}
+
+.rcpt-rows div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.rcpt-rows dt {
+  color: var(--muted)
+}
+
+.rcpt-rows dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right
+}
+
+/* ============================================================
+   UNDER 900px — stacked: UPI phone, beam down, panel,
+   beam up, cash phone. Both beams point into the panel.
+   ============================================================ */
+@media (max-width:899px) {
+
+  .pay {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    padding-block: 44px;
+  }
+
+  .pay .phone {
+    width: 100%;
+    height: auto;
+    max-width: 236px;
+  }
+
+  .pay-shot .phone-stage {
+    margin-top: 0;
+    order: 0;
+  }
+
+  .beam .beam-h {
+    display: none
+  }
+
+  .beam .beam-v {
+    display: block;
+    width: 60px;
+    height: 120px;
+  }
+
+  .beam-l .beam-v {
+    margin-top: -10px;
+    margin-bottom: -8px
+  }
+
+  .beam-r .beam-v {
+    margin-top: -8px;
+    margin-bottom: -10px
+  }
+
+  /* tag sits beside the vertical beam */
+  .beam-tag {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 4px);
+    transform: translateY(-50%);
+  }
+
+  .pay-core {
+    width: 100%;
+    max-width: 520px;
+    padding: 28px 22px 24px;
+    border-radius: 26px;
+  }
+
+  .pay-h {
+    font-size: clamp(26px, 6.6vw, 36px)
+  }
+
+  .pay-lead {
+    font-size: clamp(14.5px, 2vw, 16px)
+  }
+}
+
+@media (max-width:599px) {
+  .pay {
+    padding-block: 32px
+  }
+
+  .pay .phone {
+    max-width: 210px
+  }
+
+  .pay-core {
+    padding: 24px 18px 20px
+  }
+
+  .rcpt {
+    padding: 14px 15px 12px
+  }
+
+  .rcpt-amt {
+    font-size: 26px
+  }
+
+  .rcpt-amt::before {
+    left: -24px
+  }
+
+  .rcpt-amt::after {
+    right: -24px
+  }
+}

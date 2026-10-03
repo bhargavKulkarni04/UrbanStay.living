@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UrbanStay for PG Residents — Pay Rent, Mess Menu, Laundry &amp; Notices in One App</title>
+  <meta name="description"
+    content="The UrbanStay resident app: pay PG rent by UPI or cash and get an instant receipt, check the mess menu, book the washing machine, read notices from your owner and give move-out notice." />
+  <link rel="canonical" href="https://urbanstay.living/tenants" />
+  <meta property="og:title" content="UrbanStay for PG Residents" />
+  <meta property="og:description"
+    content="Rent, food, laundry and notices from your PG, in one app." />
+  <meta property="og:type" content="website" />
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="owners.css">
+  <link rel="stylesheet" href="tenants.css">
+</head>
+
+<body>
+
+  <!-- ICON SPRITE -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-building" viewBox="0 0 24 24">
+        <rect x="4" y="3" width="10" height="18" rx="1.5" />
+        <path d="M14 9h6v12h-6M7 7h4M7 11h4M7 15h4" />
+      </symbol>
+      <symbol id="i-rupee" viewBox="0 0 24 24">
+        <path d="M6 3h12M6 8h12M6 13h3c4.5 0 4.5-10 0-10M6 13l8.5 8" />
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+      </symbol>
+      <symbol id="i-wrench" viewBox="0 0 24 24">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5l-9.4 9.4a2.1 2.1 0 0 1-3-3z" />
+        <path d="M14.7 6.3 17.5 3.5a4 4 0 0 1 3 3l-2.8 2.8" />
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M5 20V11M12 20V4M19 20v-6" />
+      </symbol>
+      <symbol id="i-bowl" viewBox="0 0 24 24">
+        <path d="M4 11h16a8 8 0 0 1-16 0z" />
+        <path d="M3 20h18M9 7c0-1.5 1-2 1-3.5M14 7c0-1.5 1-2 1-3.5" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+      </symbol>
+      <symbol id="i-toggle" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="10" rx="5" />
+        <circle cx="16.5" cy="12" r="2.6" />
+      </symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24">
+        <path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m4.5 12.5 5 5 10-11" />
+      </symbol>
+      <symbol id="i-upi" viewBox="0 0 24 24">
+        <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+        <path d="M10.5 18.5h3" />
+      </symbol>
+      <symbol id="i-cash" viewBox="0 0 24 24">
+        <rect x="2.5" y="6" width="19" height="12" rx="2" />
+        <circle cx="12" cy="12" r="2.6" />
+        <path d="M6 9.5v5M18 9.5v5" />
+      </symbol>
+      <symbol id="i-receipt" viewBox="0 0 24 24">
+        <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" />
+        <path d="M9 8h6M9 12h6" />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z" />
+        <path d="m9 12 2.2 2.2L15.5 10" />
+      </symbol>
+      <symbol id="i-wash" viewBox="0 0 24 24">
+        <rect x="4" y="2.5" width="16" height="19" rx="2.5" />
+        <circle cx="12" cy="13" r="4.5" />
+        <path d="M7.5 6h2" />
+      </symbol>
+      <symbol id="i-door" viewBox="0 0 24 24">
+        <path d="M5 21V4.5L14 3v18M14 5h5v16M3 21h18M11 12h.01" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ============================ NAV ============================ -->
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a href="index.html" class="logo" aria-label="UrbanStay home"><span class="u">Urban</span><span
+          class="s">Stay</span></a>
+      <nav class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="owners.html">Owners</a>
+        <a href="tenants.html" class="is-current">Tenants</a>
+        <a href="index.html#contact">Pricing</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="#" class="nav-login">Login</a>
+        <a href="#start" class="btn btn-primary btn-sm">Get the app</a>
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg class="ico ico-sm">
+            <use href="#i-menu" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="owners.html">Owners</a></li>
+        <li><a href="tenants.html">Tenants</a></li>
+        <li><a href="index.html#contact">Pricing</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="#">Login</a></li>
+      </ul>
+      <div class="wrap" style="padding-bottom:28px"><a href="#start" class="btn btn-primary">Get Started</a></div>
+    </div>
+  </header>
+
+    <main id="top">
+
+    <!-- ============================ HERO ============================ -->
+    <section class="wrap own-hero" id="start">
+      <div class="own-hero-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-user" />
+          </svg> For PG residents</span>
+        <h1 class="h-hero">
+          <span class="rv-line lt">Life at your PG,</span>
+          <span class="rv-line">sorted in one</span>
+          <span class="rv-line">simple <span class="g">app.</span></span>
+        </h1>
+        <p class="lead rv">Pay rent, check today's menu, book the washing machine and read every notice from your owner
+          &mdash; without chasing anyone on WhatsApp.</p>
+        <div class="cta-row rv">
+          <a href="#" class="btn btn-primary">Get the app</a>
+          <a href="#" class="btn btn-secondary">Ask your PG to join</a>
+        </div>
+        <ul class="ticks rv">
+          <li><svg>
+              <use href="#i-check" />
+            </svg> Free for residents</li>
+          <li><svg>
+              <use href="#i-check" />
+            </svg> Pay by UPI or cash</li>
+          <li><svg>
+              <use href="#i-check" />
+            </svg> A receipt for every payment</li>
+        </ul>
+      </div>
+      <div class="phone-stage own-hero-shot">
+        <img class="phone" src="img/t-dashboard.webp" width="820" height="1540" fetchpriority="high"
+          alt="UrbanStay resident app home screen showing September rent due, Pay Rent button, payments and helpdesk shortcuts" />
+      </div>
+    </section>
+
+    <!-- ============================ WHAT YOU GET ============================ -->
+    <section class="wrap section-sm">
+      <div class="trio">
+        <div class="trio-col rv">
+          <h2>Pay rent</h2>
+          <p>UPI straight to your owner with no gateway fee, or cash at the desk. Your receipt arrives the moment it's
+            approved.</p>
+        </div>
+        <div class="trio-col rv">
+          <h2>Stay in the loop</h2>
+          <p>Notices, live alerts and the mess menu from your PG, all on one screen instead of five WhatsApp groups.</p>
+        </div>
+        <div class="trio-col rv">
+          <h2>Get things done</h2>
+          <p>Book the washing machine, raise a service ticket and give move-out notice without knocking on anyone's
+            door.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ RENT: UPI <-> CASH ============================ -->
+    <section class="wrap pay" aria-labelledby="pay-h">
+
+      <div class="pay-shot pay-shot-l">
+        <div class="phone-stage">
+          <img class="phone" loading="lazy" src="img/t-upi.webp" width="820" height="1540"
+            alt="Pay by UPI screen with the owner's UPI ID, QR code steps and a field for the 12-digit bank UTR" />
+        </div>
+      </div>
+
+      <!-- beam: UPI -> receipt -->
+      <div class="beam beam-l" aria-hidden="true">
+        <span class="beam-tag"><i></i>&#8377;8,500 &middot; UTR</span>
+        <svg class="beam-h" viewBox="0 0 160 60">
+          <defs>
+            <linearGradient id="bgL" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#08A63F" stop-opacity=".15" />
+              <stop offset="1" stop-color="#08A63F" />
+            </linearGradient>
+          </defs>
+          <path class="beam-glow" d="M8 30 C 52 30, 70 12, 96 22 S 130 30, 146 30" stroke="url(#bgL)" />
+          <path class="beam-line" d="M8 30 C 52 30, 70 12, 96 22 S 130 30, 146 30" stroke="url(#bgL)" />
+          <circle class="beam-port" cx="8" cy="30" r="5" />
+          <path class="beam-head" d="M143 23.5 L155 30 L143 36.5 Z" />
+          <circle class="beam-pulse" r="3.6">
+            <animateMotion dur="2.4s" repeatCount="indefinite" path="M8 30 C 52 30, 70 12, 96 22 S 130 30, 146 30" />
+          </circle>
+        </svg>
+        <svg class="beam-v" viewBox="0 0 60 120">
+          <defs>
+            <linearGradient id="bgLv" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#08A63F" stop-opacity=".15" />
+              <stop offset="1" stop-color="#08A63F" />
+            </linearGradient>
+          </defs>
+          <path class="beam-glow" d="M30 8 C 30 40, 16 52, 24 70 S 30 92, 30 106" stroke="url(#bgLv)" />
+          <path class="beam-line" d="M30 8 C 30 40, 16 52, 24 70 S 30 92, 30 106" stroke="url(#bgLv)" />
+          <circle class="beam-port" cx="30" cy="8" r="5" />
+          <path class="beam-head" d="M23.5 103 L30 115 L36.5 103 Z" />
+          <circle class="beam-pulse" r="3.6">
+            <animateMotion dur="2.4s" repeatCount="indefinite" path="M30 8 C 30 40, 16 52, 24 70 S 30 92, 30 106" />
+          </circle>
+        </svg>
+      </div>
+
+      <!-- centre: where both payments end up -->
+      <div class="pay-core rv">
+        <span class="pay-pill"><svg>
+            <use href="#i-rupee" />
+          </svg> Rent, your way</span>
+        <h2 class="pay-h" id="pay-h">UPI or cash. Both end in a <span>receipt.</span></h2>
+        <p class="pay-lead">Pay your owner's UPI with no gateway fee and submit the UTR, or hand cash at reception and
+          log who took it. Your owner approves it in one tap.</p>
+
+        <ol class="pay-track">
+          <li>Paid</li>
+          <li class="on">Owner approves</li>
+          <li>Receipt</li>
+        </ol>
+
+        <div class="rcpt">
+          <div class="rcpt-head">
+            <span class="rcpt-chk"><svg>
+                <use href="#i-check" />
+              </svg></span>
+            <div><b>Rent received</b><small>Approved by owner &middot; just now</small></div>
+          </div>
+          <div class="rcpt-amt">&#8377;8,500</div>
+          <dl class="rcpt-rows">
+            <div>
+              <dt>Room</dt>
+              <dd>104 &middot; Bed B</dd>
+            </div>
+            <div>
+              <dt>For</dt>
+              <dd>September 2026</dd>
+            </div>
+            <div>
+              <dt>Paid via</dt>
+              <dd>UPI or cash</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- beam: cash -> receipt -->
+      <div class="beam beam-r" aria-hidden="true">
+        <span class="beam-tag"><i></i>&#8377;8,500 &middot; to Suresh</span>
+        <svg class="beam-h" viewBox="0 0 160 60">
+          <defs>
+            <linearGradient id="bgR" x1="1" x2="0" y1="0" y2="0">
+              <stop offset="0" stop-color="#08A63F" stop-opacity=".15" />
+              <stop offset="1" stop-color="#08A63F" />
+            </linearGradient>
+          </defs>
+          <path class="beam-glow" d="M152 30 C 108 30, 90 48, 64 38 S 30 30, 14 30" stroke="url(#bgR)" />
+          <path class="beam-line" d="M152 30 C 108 30, 90 48, 64 38 S 30 30, 14 30" stroke="url(#bgR)" />
+          <circle class="beam-port" cx="152" cy="30" r="5" />
+          <path class="beam-head" d="M17 23.5 L5 30 L17 36.5 Z" />
+          <circle class="beam-pulse" r="3.6">
+            <animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M152 30 C 108 30, 90 48, 64 38 S 30 30, 14 30" />
+          </circle>
+        </svg>
+        <svg class="beam-v" viewBox="0 0 60 120">
+          <defs>
+            <linearGradient id="bgRv" x1="0" x2="0" y1="1" y2="0">
+              <stop offset="0" stop-color="#08A63F" stop-opacity=".15" />
+              <stop offset="1" stop-color="#08A63F" />
+            </linearGradient>
+          </defs>
+          <path class="beam-glow" d="M30 112 C 30 80, 44 68, 36 50 S 30 28, 30 14" stroke="url(#bgRv)" />
+          <path class="beam-line" d="M30 112 C 30 80, 44 68, 36 50 S 30 28, 30 14" stroke="url(#bgRv)" />
+          <circle class="beam-port" cx="30" cy="112" r="5" />
+          <path class="beam-head" d="M23.5 17 L30 5 L36.5 17 Z" />
+          <circle class="beam-pulse" r="3.6">
+            <animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M30 112 C 30 80, 44 68, 36 50 S 30 28, 30 14" />
+          </circle>
+        </svg>
+      </div>
+
+      <div class="pay-shot pay-shot-r">
+        <div class="phone-stage">
+          <img class="phone" loading="lazy" src="img/t-cash.webp" width="820" height="1540"
+            alt="Paid via cash form where a resident records who took the cash at reception, the date and a note" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ 1 · NOTICE BOARD ============================ -->
+    <section class="wrap frow">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-bell" />
+          </svg> Notice board</span>
+        <h2 class="h-sec rv">Never miss a water cut or a gate-time <span class="g">change.</span></h2>
+        <p class="lead rv">Every notice from your PG lands on one board, newest first, with live alerts pinned on top.
+          Tank cleaning, Wi-Fi maintenance, gate timings, rent reminders &mdash; all in one place instead of buried in a
+          group chat.</p>
+        <ul class="points rv">
+          <li>Live alerts highlighted at the top</li>
+          <li>Every notice time-stamped, so you know what's current</li>
+          <li>A notification on your phone the moment it's posted</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/t-notice.webp" width="820" height="1540"
+          alt="PG notice board in the resident app with a live alert for tank cleaning, Wi-Fi maintenance and gate closing time" />
+      </div>
+    </section>
+
+    <!-- ============================ 2 · FOOD MENU ============================ -->
+    <section class="wrap frow frow-rev">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-bowl" />
+          </svg> Mess menu</span>
+        <h2 class="h-sec rv">Know what's for dinner before you get <span class="g">hungry.</span></h2>
+        <p class="lead rv">The whole two-week mess menu, day by day. Open the app and today's breakfast, lunch and dinner
+          are right there &mdash; no more asking the kitchen what's cooking.</p>
+        <ul class="points rv">
+          <li>Today's menu opens first</li>
+          <li>Switch between Week 1 and Week 2</li>
+          <li>Breakfast, lunch and dinner on one screen</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/t-food.webp" width="820" height="1540"
+          alt="Mess food menu for Saturday showing breakfast, lunch and dinner with week and day selectors" />
+      </div>
+    </section>
+
+    <!-- ============================ 3 · WASHING MACHINE ============================ -->
+    <section class="wrap frow">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-wash" />
+          </svg> Laundry booking</span>
+        <h2 class="h-sec rv">Book the washing machine, skip the <span class="g">queue.</span></h2>
+        <p class="lead rv">See which machines are free, which one is running and when it frees up. Pick a day, book a
+          slot, and your PG's fair-use rules apply to everyone &mdash; so nobody hogs a machine all evening.</p>
+        <ul class="points rv">
+          <li>Live status for every machine</li>
+          <li>Pick a day and book a slot in seconds</li>
+          <li>All your bookings in one tab</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/t-laundry.webp" width="820" height="1540"
+          alt="Washing machine booking screen with dates, three machines and their availability, and the booking rules" />
+      </div>
+    </section>
+
+    <!-- ============================ 4 · MOVE-OUT ============================ -->
+    <section class="wrap frow frow-rev">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-door" />
+          </svg> Move-out notice</span>
+        <h2 class="h-sec rv">Move out without the deposit <span class="g">drama.</span></h2>
+        <p class="lead rv">Pick your vacating date and the app counts the notice period for you. Your deposit, any
+          electricity or repair deductions and the final refund are laid out line by line before you submit &mdash; no
+          surprises on your last day.</p>
+        <ul class="points rv">
+          <li>Notice period worked out from your vacating date</li>
+          <li>Every deduction shown before you submit</li>
+          <li>Refund sent to the UPI ID you choose</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/t-moveout.webp" width="820" height="1540"
+          alt="Move-out notice screen with vacating date, 31-day notice, deposit deductions and net refund payable" />
+      </div>
+    </section>
+
+</main>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <div class="logo"><span class="u">Urban</span><span class="s">Stay</span></div>
+          <p>One app that handles everything your PG needs — rooms, tenants, rent and everything in between.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#solutions">Mobile App</a></li>
+            <li><a href="index.html#contact">Pricing</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="owners.html">PG Owners</a></li>
+            <li><a href="tenants.html">PG Residents</a></li>
+            <li><a href="#">Co-living</a></li>
+            <li><a href="#">Hostels</a></li>
+            <li><a href="#">Property Managers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Book a Demo</a></li>
+            <li><a href="#">System Status</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <span>&copy; 2026 UrbanStay&trade;. All rights reserved.</span>
+        <nav><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---- fixed 1440 canvas, scaled for narrower laptops ---- */
+      function fit() {
+        var w = innerWidth;
+        document.body.style.zoom = (w >= 900 && w < 1440) ? (w / 1440) : 1;
+      }
+      fit();
+      addEventListener('resize', fit);
+
+      /* ---- sticky nav border ---- */
+      var nav = document.getElementById('nav');
+      addEventListener('scroll', function () {
+        nav.classList.toggle('stuck', scrollY > 8);
+      }, { passive: true });
+
+      /* ---- mobile menu ---- */
+      var burger = document.getElementById('burger'), menu = document.getElementById('mobileMenu');
+      burger.addEventListener('click', function () {
+        var open = menu.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+      });
+      menu.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') { menu.classList.remove('open'); burger.setAttribute('aria-expanded', false); }
+      });
+
+      /* ---- scroll reveal: IntersectionObserver only, so it works inside
+              any host frame. Same motion as the home page, no GSAP dependency. ---- */
+      var all = document.querySelectorAll('.rv, .rv-line, .phone');
+      document.documentElement.classList.add('no-gsap');
+
+      document.querySelectorAll('.h-hero, .h-sec').forEach(function (h) {
+        h.querySelectorAll('.rv-line').forEach(function (l, i) {
+          l.style.setProperty('--d', (i * .09).toFixed(2) + 's');
+        });
+      });
+      document.querySelectorAll('.points').forEach(function (p) {
+        p.querySelectorAll('li').forEach(function (l, i) {
+          l.style.setProperty('--d', (i * .06).toFixed(2) + 's');
+        });
+      });
+
+      function showAll() {
+        all.forEach(function (el) { el.classList.add('in'); });
+      }
+
+      var canScroll = document.documentElement.scrollHeight > innerHeight + 40;
+
+      if (reduce || !canScroll || !('IntersectionObserver' in window)) {
+        showAll();
+      } else {
+        var io = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('in');
+            obs.unobserve(e.target);
+          });
+        }, { threshold: .08, rootMargin: '0px 0px -4% 0px' });
+        all.forEach(function (el) { io.observe(el); });
+
+        /* failsafe — if the host frame never reports a scroll, nothing stays hidden */
+        var moved = false;
+        addEventListener('scroll', function () { moved = true; }, { passive: true, once: true });
+        setTimeout(function () { if (!moved) showAll(); }, 2500);
+      }
+    })();
+  </script>
+</body>
+
+</html>

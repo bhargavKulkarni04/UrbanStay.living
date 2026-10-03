@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PG Management Software for Owners — Rent, Beds, Staff &amp; Expenses | UrbanStay</title>
+  <meta name="description"
+    content="UrbanStay is PG and hostel management software for owners in India. Collect day-wise rent, manage beds and room shifts, track complaints, staff payroll, mess menu and expenses — all from one app." />
+  <link rel="canonical" href="https://urbanstay.living/owners" />
+  <meta property="og:title" content="PG Management Software for Owners | UrbanStay" />
+  <meta property="og:description"
+    content="Run your PG or hostel from one app — day-wise rent collection, bed management, complaints, staff payroll, mess menu and expense tracking." />
+  <meta property="og:type" content="website" />
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="owners.css">
+</head>
+
+<body>
+
+  <!-- ICON SPRITE -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-building" viewBox="0 0 24 24">
+        <rect x="4" y="3" width="10" height="18" rx="1.5" />
+        <path d="M14 9h6v12h-6M7 7h4M7 11h4M7 15h4" />
+      </symbol>
+      <symbol id="i-rupee" viewBox="0 0 24 24">
+        <path d="M6 3h12M6 8h12M6 13h3c4.5 0 4.5-10 0-10M6 13l8.5 8" />
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+      </symbol>
+      <symbol id="i-wrench" viewBox="0 0 24 24">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5l-9.4 9.4a2.1 2.1 0 0 1-3-3z" />
+        <path d="M14.7 6.3 17.5 3.5a4 4 0 0 1 3 3l-2.8 2.8" />
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M5 20V11M12 20V4M19 20v-6" />
+      </symbol>
+      <symbol id="i-bowl" viewBox="0 0 24 24">
+        <path d="M4 11h16a8 8 0 0 1-16 0z" />
+        <path d="M3 20h18M9 7c0-1.5 1-2 1-3.5M14 7c0-1.5 1-2 1-3.5" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+      </symbol>
+      <symbol id="i-toggle" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="10" rx="5" />
+        <circle cx="16.5" cy="12" r="2.6" />
+      </symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24">
+        <path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m4.5 12.5 5 5 10-11" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ============================ NAV ============================ -->
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a href="index.html" class="logo" aria-label="UrbanStay home"><span class="u">Urban</span><span
+          class="s">Stay</span></a>
+      <nav class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="owners.html" class="is-current">Owners</a>
+        <a href="tenants.html">Tenants</a>
+        <a href="index.html#contact">Pricing</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="#" class="nav-login">Login</a>
+        <a href="#start" class="btn btn-primary btn-sm">Get Started</a>
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg class="ico ico-sm">
+            <use href="#i-menu" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="owners.html">Owners</a></li>
+        <li><a href="tenants.html">Tenants</a></li>
+        <li><a href="index.html#contact">Pricing</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="#">Login</a></li>
+      </ul>
+      <div class="wrap" style="padding-bottom:28px"><a href="#start" class="btn btn-primary">Get Started</a></div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============================ HERO ============================ -->
+    <section class="wrap own-hero" id="start">
+      <div class="own-hero-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-building" />
+          </svg> For PG &amp; hostel owners</span>
+        <h1 class="h-hero">
+          <span class="rv-line lt">PG management</span>
+          <span class="rv-line">software that runs</span>
+          <span class="rv-line">your whole <span class="g">PG.</span></span>
+        </h1>
+        <p class="lead rv">Rent, beds, staff, food and complaints — handled in one app. No registers, no scattered
+          WhatsApp groups, no month-end guesswork about who paid and who didn't.</p>
+        <div class="cta-row rv">
+          <a href="#" class="btn btn-primary">Start free</a>
+          <a href="#" class="btn btn-secondary">See a demo</a>
+        </div>
+        <ul class="ticks rv">
+          <li><svg>
+              <use href="#i-check" />
+            </svg> 0% commission on rent</li>
+          <li><svg>
+              <use href="#i-check" />
+            </svg> No payment gateway needed</li>
+          <li><svg>
+              <use href="#i-check" />
+            </svg> Set up in a day</li>
+        </ul>
+      </div>
+      <div class="phone-stage own-hero-shot">
+        <img class="phone" src="img/dashboard.webp" width="800" height="1540" fetchpriority="high"
+          alt="UrbanStay owner app dashboard showing paid beds, pending rent and the UPI payment approval queue for a PG in Bengaluru" />
+      </div>
+    </section>
+
+    <!-- ============================ WHAT IT DOES ============================ -->
+    <section class="wrap section-sm">
+      <div class="trio">
+        <div class="trio-col rv">
+          <h2>Collect rent</h2>
+          <p>Bed-wise rent with each tenant's own due date, UPI payments verified by UTR number, and a receipt that
+            sends itself the moment you approve.</p>
+        </div>
+        <div class="trio-col rv">
+          <h2>Fill your beds</h2>
+          <p>A live view of every bed, room shifts and mutual swaps, move-in KYC and notice periods — so a vacancy is
+            never a surprise.</p>
+        </div>
+        <div class="trio-col rv">
+          <h2>Run the place</h2>
+          <p>Complaints with photos, staff salaries, the mess menu and every expense bill, all in the same app you
+            already have open.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ 1 · MULTI-PROPERTY ============================ -->
+    <section class="wrap frow">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-building" />
+          </svg> Multiple properties</span>
+        <h2 class="h-sec rv">Run two PGs or ten from one <span class="g">login.</span></h2>
+        <p class="lead rv">Managing multiple PG properties usually means a separate register for each one. Here you switch between buildings in a single tap, and every property keeps its own beds, staff, rent and reports &mdash; so Koramangala never gets mixed up with HSR. Adding a new building takes minutes, not a support
+          call.</p>
+        <ul class="points rv">
+          <li>Separate bed count, staff and ledger for each property</li>
+          <li>One owner login across every building you run</li>
+          <li>Onboard a new PG yourself, whenever you take one on</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/property.webp" width="800" height="1540"
+          alt="Property switcher in the UrbanStay owner app listing three PG buildings in Bengaluru with bed and staff counts" />
+      </div>
+    </section>
+
+    <!-- ============================ 2 · DAY-WISE RENT ============================ -->
+    <section class="wrap frow frow-rev">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-rupee" />
+          </svg> Day-wise rent collection</span>
+        <h2 class="h-sec rv">Rent on the date each tenant actually gets <span class="g">paid.</span></h2>
+        <p class="lead rv">Nobody joined on the 1st, so monthly rent collection never falls on one date. UrbanStay tracks every tenant&rsquo;s own due date, groups them by day, floor and room, and shows you exactly who owes rent today. When someone asks to pay late, you approve or
+          decline it right there — and the reason stays on record.</p>
+        <ul class="points rv">
+          <li>Due dates follow each tenant's salary cycle</li>
+          <li>Approve or decline a late-payment request in one tap</li>
+          <li>Accept UPI proof, reject it, or record cash taken at the desk</li>
+          <li>Call or WhatsApp the tenant from the same card</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/daywise.webp" width="800" height="1540"
+          alt="Day-wise rent collection screen showing tenants grouped by due date with approve, decline and record cash options" />
+      </div>
+    </section>
+
+    <!-- ============================ 3 · ROOM SHIFT & SWAP ============================ -->
+    <section class="wrap frow">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-swap" />
+          </svg> Room shift &amp; swap</span>
+        <h2 class="h-sec rv">Move a tenant, swap two, and fix the rent in one <span class="g">go.</span></h2>
+        <p class="lead rv">Bed and room allocation changes every month, and shifting a resident usually means a new rent, a new deposit and a messy handover. Here you
+          pick the residents, set each one's new rent and deposit, choose whether it starts today or from the 1st, and
+          decide if the deposit carries over or gets adjusted. One screen, done.</p>
+        <ul class="points rv">
+          <li>One-way shift or a mutual swap between two residents</li>
+          <li>Rent and deposit set per resident, not per room</li>
+          <li>Effective immediately or from next month</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/swap.webp" width="800" height="1540"
+          alt="Shift room or swap resident screen with custom rent and deposit fields and an effective date choice" />
+      </div>
+    </section>
+
+    <!-- ============================ 4 · STAFF & PAYROLL ============================ -->
+    <section class="wrap frow frow-rev">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-user" />
+          </svg> Staff &amp; payroll</span>
+        <h2 class="h-sec rv">Warden, cook and cleaning staff &mdash; paid on <span class="g">time.</span></h2>
+        <p class="lead rv">PG staff management and payroll in one list &mdash; every person with their role, salary and payment status. See the month's
+          payroll and what is still pending at a glance, and approve a salary the same way you approve rent.</p>
+        <ul class="points rv">
+          <li>Monthly payroll and pending payout shown up front</li>
+          <li>Filter by warden, cook or housekeeping</li>
+          <li>Mark paid, or revert it if something was recorded wrong</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/staff.webp" width="800" height="1540"
+          alt="Staff and payroll screen listing warden, cook and housekeeping salaries with paid and pending status" />
+      </div>
+    </section>
+
+    <!-- ============================ 5 · EXPENSES ============================ -->
+    <section class="wrap frow">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-chart" />
+          </svg> Expenses &amp; P&amp;L</span>
+        <h2 class="h-sec rv">Know what the PG actually <span class="g">earns.</span></h2>
+        <p class="lead rv">Expense tracking for a PG is electricity, ration, water tankers and salaries. Record every bill with the vendor name and the slip attached. At the end of the month you hand your CA an itemised statement instead of a shoebox full of
+          receipts.</p>
+        <ul class="points rv">
+          <li>Month-wise ledger with the bill image on every entry</li>
+          <li>Filter by electricity, kitchen, water and other heads</li>
+          <li>Export a GST-ready statement for your accountant</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/expenses.webp" width="800" height="1540"
+          alt="PG expenses and costs ledger showing electricity, groceries, salaries and water tanker bills for the month" />
+      </div>
+    </section>
+
+    <!-- ============================ 6 · FOOD MENU ============================ -->
+    <section class="wrap frow frow-rev">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-bowl" />
+          </svg> Food &amp; mess menu</span>
+        <h2 class="h-sec rv">Publish the mess menu once, not every <span class="g">morning.</span></h2>
+        <p class="lead rv">Set a repeating two-week mess menu for breakfast, lunch and dinner. Residents see it in their own
+          app, so nobody knocks on your door to ask what's for dinner. Days you don't serve a meal are simply marked as
+          not provided.</p>
+        <ul class="points rv">
+          <li>Two-week repeating cycle, set day by day</li>
+          <li>Copy one day's menu across the other weeks</li>
+          <li>Visible to every resident the moment you save</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/food.webp" width="800" height="1540"
+          alt="Food and mess menu editor with a two-week cycle and breakfast, lunch and dinner for each day" />
+      </div>
+    </section>
+
+    <!-- ============================ 7 · ANNOUNCEMENTS ============================ -->
+    <section class="wrap frow">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-bell" />
+          </svg> Announcements</span>
+        <h2 class="h-sec rv">Tell every resident something, <span class="g">once.</span></h2>
+        <p class="lead rv">Water tank cleaning, a power cut, a change in house rules — send one notice and it reaches every resident as a notification on their phone. Send it to the whole PG or to one group. No more forwarding
+          the same message to five WhatsApp groups and still missing someone.</p>
+        <ul class="points rv">
+          <li>Push notification plus an alert inside the tenant app</li>
+          <li>Send to everyone, or to a chosen set of residents</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/announce.webp" width="800" height="1540"
+          alt="New announcement screen to broadcast a notice to all residents of a PG" />
+      </div>
+    </section>
+
+    <!-- ============================ 8 · TENANT CONTROLS ============================ -->
+    <section class="wrap frow frow-rev">
+      <div class="frow-copy">
+        <span class="pill rv"><svg>
+            <use href="#i-toggle" />
+          </svg> Tenant controls</span>
+        <h2 class="h-sec rv">You decide what tenants can and can&rsquo;t <span class="g">do.</span></h2>
+        <p class="lead rv">Every PG runs differently, so the tenant app bends to yours. Turn on UPI rent payments but keep cash recording off. Allow complaint
+          tickets but not bedsheet requests. Switch on the digital rent agreement the day you're ready for it. Your app,
+          your rules.</p>
+        <ul class="points rv">
+          <li>Toggle payments, helpdesk, housekeeping and agreements</li>
+          <li>Changes reach every resident immediately</li>
+        </ul>
+      </div>
+      <div class="phone-stage">
+        <img class="phone" loading="lazy" src="img/controls.webp" width="800" height="1540"
+          alt="Tenant feature control screen with toggles for UPI payments, cash records, complaint tickets and rent agreement" />
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <div class="logo"><span class="u">Urban</span><span class="s">Stay</span></div>
+          <p>One app that handles everything your PG needs — rooms, tenants, rent and everything in between.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#solutions">Mobile App</a></li>
+            <li><a href="index.html#contact">Pricing</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="owners.html">PG Owners</a></li>
+            <li><a href="tenants.html">PG Residents</a></li>
+            <li><a href="#">Co-living</a></li>
+            <li><a href="#">Hostels</a></li>
+            <li><a href="#">Property Managers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Book a Demo</a></li>
+            <li><a href="#">System Status</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <span>&copy; 2026 UrbanStay&trade;. All rights reserved.</span>
+        <nav><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---- fixed 1440 canvas, scaled for narrower laptops ---- */
+      function fit() {
+        var w = innerWidth;
+        document.body.style.zoom = (w >= 900 && w < 1440) ? (w / 1440) : 1;
+      }
+      fit();
+      addEventListener('resize', fit);
+
+      /* ---- sticky nav border ---- */
+      var nav = document.getElementById('nav');
+      addEventListener('scroll', function () {
+        nav.classList.toggle('stuck', scrollY > 8);
+      }, { passive: true });
+
+      /* ---- mobile menu ---- */
+      var burger = document.getElementById('burger'), menu = document.getElementById('mobileMenu');
+      burger.addEventListener('click', function () {
+        var open = menu.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+      });
+      menu.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') { menu.classList.remove('open'); burger.setAttribute('aria-expanded', false); }
+      });
+
+      /* ---- scroll reveal: IntersectionObserver only, so it works inside
+              any host frame. Same motion as the home page, no GSAP dependency. ---- */
+      var all = document.querySelectorAll('.rv, .rv-line, .phone');
+      document.documentElement.classList.add('no-gsap');
+
+      document.querySelectorAll('.h-hero, .h-sec').forEach(function (h) {
+        h.querySelectorAll('.rv-line').forEach(function (l, i) {
+          l.style.setProperty('--d', (i * .09).toFixed(2) + 's');
+        });
+      });
+      document.querySelectorAll('.points').forEach(function (p) {
+        p.querySelectorAll('li').forEach(function (l, i) {
+          l.style.setProperty('--d', (i * .06).toFixed(2) + 's');
+        });
+      });
+
+      function showAll() {
+        all.forEach(function (el) { el.classList.add('in'); });
+      }
+
+      var canScroll = document.documentElement.scrollHeight > innerHeight + 40;
+
+      if (reduce || !canScroll || !('IntersectionObserver' in window)) {
+        showAll();
+      } else {
+        var io = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('in');
+            obs.unobserve(e.target);
+          });
+        }, { threshold: .08, rootMargin: '0px 0px -4% 0px' });
+        all.forEach(function (el) { io.observe(el); });
+
+        /* failsafe — if the host frame never reports a scroll, nothing stays hidden */
+        var moved = false;
+        addEventListener('scroll', function () { moved = true; }, { passive: true, once: true });
+        setTimeout(function () { if (!moved) showAll(); }, 2500);
+      }
+    })();
+  </script>
+</body>
+
+</html>

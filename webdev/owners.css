@@ -1,0 +1,474 @@
+/* ============================================================
+   OWNERS PAGE — builds on styles.css, same tokens & rhythm
+   ============================================================ */
+
+:root {
+  --frow-gap: clamp(56px, 7vw, 110px);
+  --frow-pad: clamp(84px, 9vw, 150px);
+}
+
+/* current nav item */
+.nav-links a.is-current {
+  color: var(--green);
+  font-weight: 600
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.own-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: var(--frow-gap);
+  align-items: center;
+  padding-top: clamp(56px, 6vw, 96px);
+  /* 35% tighter than before, so the trio sits closer to the hero */
+  padding-bottom: clamp(46px, 5.2vw, 84px);
+}
+
+.own-hero .pill {
+  margin-bottom: 30px
+}
+
+.own-hero .h-hero {
+  font-size: clamp(38px, 5.5vw, 76px)
+}
+
+.own-hero .lead {
+  max-width: 560px;
+  font-size: clamp(17px, 1.38vw, 20px);
+  line-height: 1.66;
+  color: #4A5056;
+  letter-spacing: -0.014em;
+}
+
+/* every screenshot is the same 800x1540 canvas with the phone trimmed
+   to one height, so sizing by HEIGHT makes every phone identical.
+   Feature rows are a notch smaller than the hero so the phone never
+   overshoots the copy block and slides up under the nav. */
+.own-hero-shot .phone,
+.frow .phone {
+  width: auto;
+  height: var(--phone-h-own, 600px);
+  max-width: 100%;
+  max-height: none;
+  object-fit: contain;
+}
+
+.own-hero-shot .phone {
+  --phone-h-own: 660px
+}
+
+.frow .phone {
+  --phone-h-own: 580px
+}
+
+.own-hero-shot.phone-stage,
+.frow .phone-stage {
+  max-height: none
+}
+
+.own-hero-shot.phone-stage::before,
+.frow .phone-stage::before {
+  width: min(104%, 470px);
+  padding-top: min(104%, 470px);
+  background: none;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 40px
+}
+
+.ticks {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+}
+
+.ticks li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+}
+
+.ticks svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  stroke: var(--green);
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ============================================================
+   WHAT IT DOES — 3 borderless columns
+   ============================================================ */
+.section-sm {
+  /* 35% tighter on both sides */
+  padding-block: clamp(36px, 3.9vw, 62px)
+}
+
+.trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(32px, 4vw, 72px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: clamp(44px, 5vw, 72px);
+}
+
+.trio-col h2 {
+  font-size: clamp(19px, 1.7vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--green);
+}
+
+.trio-col p {
+  font-size: clamp(15px, 1.12vw, 17px);
+  line-height: 1.65;
+  color: #4A5056;
+  letter-spacing: -0.013em;
+}
+
+/* ============================================================
+   FEATURE ROWS
+   ============================================================ */
+.frow {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: var(--frow-gap);
+  align-items: center;
+  padding-block: var(--frow-pad);
+}
+
+/* image on the LEFT, copy on the right */
+.frow-rev .frow-copy {
+  order: 2
+}
+
+.frow-rev .phone-stage {
+  order: 1
+}
+
+.frow .pill {
+  margin-bottom: 30px
+}
+
+/* section headings sit at the hero's scale, one notch down */
+.frow .h-sec {
+  font-size: clamp(34px, 4.3vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.frow .lead {
+  max-width: 560px;
+  margin-top: 28px;
+  font-size: clamp(17px, 1.38vw, 20px);
+  line-height: 1.66;
+  color: #4A5056;
+  letter-spacing: -0.014em;
+}
+
+/* first sentence of each explanation carries the weight */
+.frow .lead strong {
+  color: var(--ink);
+  font-weight: 600
+}
+
+/* hairline numbered list — the "fancy but minimal" bit */
+.points {
+  list-style: none;
+  counter-reset: pt;
+  margin: 42px 0 0;
+  padding: 0;
+  max-width: 540px;
+}
+
+.points li {
+  counter-increment: pt;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: baseline;
+  gap: 4px;
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.5;
+  color: var(--ink);
+  letter-spacing: -0.014em;
+}
+
+.points li:last-child {
+  border-bottom: 1px solid var(--line)
+}
+
+.points li::before {
+  content: counter(pt, decimal-leading-zero);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+
+/* no-gsap fallback for the bullet stagger */
+.no-gsap .points li {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .7s cubic-bezier(.22, .61, .36, 1), transform .7s cubic-bezier(.22, .61, .36, 1);
+  transition-delay: var(--d, 0s);
+}
+
+.no-gsap .points.in li {
+  opacity: 1;
+  transform: none
+}
+
+/* ============================================================
+   TABLET + PHONE (under 900px)
+   One rule everywhere: ALL the words in one column, the phone in
+   the other. Nothing runs above or across the screenshot. The phone
+   is centred against the text block, so there are no dead gaps.
+   ============================================================ */
+@media (max-width:899px) {
+
+  :root {
+    --shot: 38%;
+  }
+
+  .own-hero,
+  .frow {
+    grid-template-columns: minmax(0, 1fr) var(--shot);
+    column-gap: clamp(16px, 4vw, 40px);
+    align-items: center;
+  }
+
+  .frow-rev {
+    grid-template-columns: var(--shot) minmax(0, 1fr);
+  }
+
+  .own-hero {
+    padding-top: 36px;
+    padding-bottom: 30px;
+  }
+
+  .frow {
+    padding-block: 40px;
+  }
+
+  /* ---------- phones in the picture column ---------- */
+  .own-hero-shot .phone,
+  .frow .phone {
+    width: 100%;
+    height: auto;
+    /* ~420px tall: matches the height of each text block */
+    max-width: 218px;
+    margin-inline: auto;
+  }
+
+  .phone-stage {
+    max-height: none;
+    overflow: visible;
+  }
+
+  /* ---------- hero copy ---------- */
+  .own-hero .pill,
+  .frow .pill {
+    margin-bottom: 16px;
+  }
+
+  .own-hero .h-hero {
+    font-size: clamp(26px, 5.4vw, 44px);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .own-hero .lead {
+    margin-top: 16px;
+    max-width: none;
+    font-size: clamp(14px, 2vw, 17px);
+    line-height: 1.58;
+  }
+
+  .own-hero .cta-row {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .own-hero .cta-row .btn {
+    width: 100%;
+    flex: none;
+  }
+
+  .own-hero .ticks {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  /* ---------- feature copy ---------- */
+  .frow .h-sec {
+    font-size: clamp(23px, 4.4vw, 38px);
+    letter-spacing: -0.04em;
+    line-height: 1.06;
+  }
+
+  .frow .lead {
+    margin-top: 14px;
+    max-width: none;
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 1.58;
+  }
+
+  .frow .points {
+    margin-top: 18px;
+    max-width: none;
+  }
+
+  .frow .points li {
+    grid-template-columns: 30px 1fr;
+    padding: 10px 0;
+    font-size: clamp(13.5px, 1.9vw, 15px);
+    line-height: 1.42;
+  }
+
+  /* ---------- trio ---------- */
+  .section-sm {
+    padding-block: 22px
+  }
+
+  .trio {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-block: 30px;
+  }
+}
+
+/* ---------- small phones (under 600px): same side-by-side,
+   type scaled to the narrow column ---------- */
+@media (max-width:599px) {
+
+  :root {
+    --shot: 44%;
+  }
+
+  .section-sm {
+    padding-block: 12px
+  }
+
+  .trio {
+    gap: 18px;
+    padding-block: 24px;
+  }
+
+  .own-hero,
+  .frow {
+    column-gap: 14px;
+  }
+
+  .own-hero {
+    padding-top: 28px;
+    padding-bottom: 24px;
+  }
+
+  .frow {
+    padding-block: 32px;
+  }
+
+  .own-hero .pill,
+  .frow .pill {
+    font-size: 11.5px;
+    padding: 6px 11px;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .own-hero .pill svg,
+  .frow .pill svg {
+    width: 13px;
+    height: 13px
+  }
+
+  .own-hero .h-hero {
+    font-size: clamp(22px, 6.6vw, 28px);
+  }
+
+  .frow .h-sec {
+    font-size: clamp(20px, 6vw, 25px);
+  }
+
+  .own-hero .lead,
+  .frow .lead {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .own-hero .cta-row {
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .own-hero .cta-row .btn {
+    padding: 12px 10px;
+    font-size: 14.5px;
+  }
+
+  .own-hero .ticks {
+    margin-top: 14px;
+    gap: 6px;
+  }
+
+  .own-hero .ticks li {
+    font-size: 12.5px;
+    gap: 6px
+  }
+
+  .own-hero .ticks svg {
+    width: 14px;
+    height: 14px
+  }
+
+  .frow .points {
+    margin-top: 12px
+  }
+
+  .frow .points li {
+    grid-template-columns: 22px 1fr;
+    padding: 8px 0;
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+
+  .frow .points li::before {
+    font-size: 10px
+  }
+
+  .trio-col h2 {
+    font-size: 19px
+  }
+
+  .trio-col p {
+    font-size: 14.5px
+  }
+}
