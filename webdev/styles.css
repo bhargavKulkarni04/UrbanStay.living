@@ -17,7 +17,7 @@
   --max: 1440px;
   --gutter: clamp(20px, 4vw, 48px);
   --section: 180px;
-  --font: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Outfit', 'Product Sans', 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* ---- MARQUEE SPEED ----------------------------------------
      Time it takes ONE card to travel across. Lower = faster.
@@ -332,6 +332,7 @@ p {
   line-height: 0.94;
   white-space: nowrap;
   text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .logo .u {
