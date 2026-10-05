@@ -89,8 +89,8 @@
   letter-spacing: -0.03em;
 }
 
-.ub-modal-brand .logo-u { color: var(--ub-ink); }
-.ub-modal-brand .logo-s { color: var(--ub-green); }
+.ub-modal-brand .logo-u { color: var(--ub-green); }
+.ub-modal-brand .logo-s { color: var(--ub-ink); }
 
 .ub-modal-close {
   background: transparent;
@@ -398,18 +398,6 @@
   margin-bottom: 12px;
 }
 
-/* Clean Trust footnote (No Emojis) */
-.ub-trust-footnote {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ub-muted);
-  text-align: center;
-}
 
 /* ==============================================================================
    5. SUCCESS CARD

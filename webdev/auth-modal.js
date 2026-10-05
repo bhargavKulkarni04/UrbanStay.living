@@ -37,39 +37,39 @@
             </div>
 
             <!-- Form -->
-            <form id="ubAuthForm" onsubmit="return false;">
+            <form id="ubAuthForm" autocomplete="off" onsubmit="return false;">
               <!-- Registration Fields (Hidden in Sign In mode) -->
               <div id="ubOwnerRegisterFields">
                 <div class="ub-form-group">
                   <label class="ub-label" for="ubPgName">PG / Hostel Name</label>
-                  <input type="text" class="ub-input" id="ubPgName" placeholder="e.g. Greenview Luxury PG" autocomplete="organization">
+                  <input type="text" class="ub-input" id="ubPgName" placeholder="e.g. Greenview Luxury PG" autocomplete="off">
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                   <div class="ub-form-group">
                     <label class="ub-label" for="ubCity">City</label>
-                    <input type="text" class="ub-input" id="ubCity" placeholder="e.g. Bengaluru" autocomplete="address-level2">
+                    <input type="text" class="ub-input" id="ubCity" placeholder="e.g. Bengaluru" autocomplete="off">
                   </div>
                   <div class="ub-form-group">
                     <label class="ub-label" for="ubBeds">Total Beds</label>
-                    <input type="number" class="ub-input" id="ubBeds" placeholder="e.g. 45" min="1" max="5000">
+                    <input type="number" class="ub-input" id="ubBeds" placeholder="e.g. 45" min="1" max="5000" autocomplete="off">
                   </div>
                 </div>
 
                 <div class="ub-form-group">
                   <label class="ub-label" for="ubEmail">Email Address</label>
-                  <input type="email" class="ub-input" id="ubEmail" placeholder="owner@urbanstay.living" autocomplete="email">
+                  <input type="email" class="ub-input" id="ubEmail" placeholder="owner@urbanstay.living" autocomplete="off">
                 </div>
               </div>
 
-              <!-- Mobile Number (Always visible) -->
+              <!-- Mobile Number (Strictly digits only) -->
               <div class="ub-form-group">
                 <label class="ub-label" for="ubPhone">Mobile Number</label>
                 <div class="ub-phone-row">
                   <div class="ub-flag-pill">
                     <span>+91</span>
                   </div>
-                  <input type="tel" class="ub-input" id="ubPhone" placeholder="Enter 10-digit number" maxlength="10" inputmode="numeric" pattern="[0-9]*" autocomplete="tel-national" required>
+                  <input type="tel" class="ub-input" id="ubPhone" placeholder="Enter 10-digit number" maxlength="10" inputmode="numeric" pattern="[0-9]*" autocomplete="off" required>
                 </div>
               </div>
 
@@ -90,15 +90,6 @@
                 </svg>
               </button>
             </form>
-
-            <!-- Clean Trust Footnote (No Emojis) -->
-            <div class="ub-trust-footnote">
-              <span>0% UPI Fee</span>
-              <span>•</span>
-              <span>Instant Access</span>
-              <span>•</span>
-              <span>Bank-Grade Security</span>
-            </div>
           </div>
 
           <!-- STEP 2: 6-DIGIT OTP VERIFICATION -->
@@ -106,7 +97,7 @@
             <div class="ub-otp-meta">
               <div class="ub-otp-meta-title">We sent a 6-digit verification code to</div>
               <div class="ub-otp-phone-row">
-                <span class="ub-otp-phone-bold" id="ubOtpTargetPhone">+91 98765 43210</span>
+                <span class="ub-otp-phone-bold" id="ubOtpTargetPhone">+91</span>
                 <button type="button" class="ub-otp-edit-btn" id="ubBtnEditPhone">Edit</button>
               </div>
             </div>
@@ -236,6 +227,36 @@
     modeRegister.addEventListener('click', () => setMode('register'));
     modeSignIn.addEventListener('click', () => setMode('signin'));
 
+    // Strict Numbers-Only Handler for Phone Input
+    phoneInput.addEventListener('keydown', (e) => {
+      const allowedKeys = [
+        'Backspace', 'Tab', 'Enter', 'Escape', 'Delete',
+        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+        'Home', 'End'
+      ];
+      if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+        return;
+      }
+      // If key is not a digit 0-9, block it completely
+      if (!/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+      }
+    });
+
+    phoneInput.addEventListener('input', () => {
+      // Strip any non-digit character and restrict to 10 digits
+      phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+      if (formError.style.display !== 'none') {
+        formError.style.display = 'none';
+      }
+    });
+
+    phoneInput.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+      phoneInput.value = pasted.slice(0, 10);
+    });
+
     // Resend countdown
     function startTimer() {
       if (countdownTimer) clearInterval(countdownTimer);
@@ -308,8 +329,21 @@
       phoneInput.focus();
     });
 
-    // OTP inputs
+    // OTP inputs: numbers only, auto-advance, backspace, paste
     otpDigits.forEach((digitInput, idx) => {
+      digitInput.addEventListener('keydown', (e) => {
+        const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
+        if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+          if (e.key === 'Backspace' && !digitInput.value && idx > 0) {
+            otpDigits[idx - 1].focus();
+          }
+          return;
+        }
+        if (!/^[0-9]$/.test(e.key)) {
+          e.preventDefault();
+        }
+      });
+
       digitInput.addEventListener('input', (e) => {
         const val = e.target.value.replace(/\D/g, '');
         e.target.value = val ? val[val.length - 1] : '';
@@ -321,12 +355,6 @@
         const fullOtp = otpDigits.map((d) => d.value).join('');
         if (fullOtp.length === 6) {
           verifyOtpCode(fullOtp);
-        }
-      });
-
-      digitInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !digitInput.value && idx > 0) {
-          otpDigits[idx - 1].focus();
         }
       });
 
@@ -363,11 +391,15 @@
     btnDone.addEventListener('click', closeModal);
   }
 
-  // Global Trigger
+  // Global Trigger Hook
   window.openUrbanStayAuth = function (mode = 'register') {
     createModal();
     const backdrop = document.getElementById('ubAuthModal');
     if (backdrop) {
+      // Clear all inputs on open to prevent pre-filled or stale data
+      const inputs = backdrop.querySelectorAll('input');
+      inputs.forEach((input) => (input.value = ''));
+
       const modeRegister = document.getElementById('ubModeRegister');
       const modeSignIn = document.getElementById('ubModeSignIn');
       if (mode === 'signin' && modeSignIn) {
@@ -379,9 +411,14 @@
       const stepForm = document.getElementById('ubStepForm');
       const stepOtp = document.getElementById('ubStepOtp');
       const stepSuccess = document.getElementById('ubStepSuccess');
+      const formError = document.getElementById('ubFormError');
+      const otpError = document.getElementById('ubOtpError');
+
       if (stepForm) stepForm.style.display = 'block';
       if (stepOtp) stepOtp.style.display = 'none';
       if (stepSuccess) stepSuccess.style.display = 'none';
+      if (formError) formError.style.display = 'none';
+      if (otpError) otpError.style.display = 'none';
 
       backdrop.classList.add('is-active');
       backdrop.setAttribute('aria-hidden', 'false');
@@ -393,7 +430,7 @@
     }
   };
 
-  // Wire up buttons across pages
+  // Auto-wire buttons across all pages
   document.addEventListener('DOMContentLoaded', () => {
     createModal();
 
