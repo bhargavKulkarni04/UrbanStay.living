@@ -1,6 +1,6 @@
 /* ==============================================================================
    URBANSTAY — OFFICIAL MASTER AUTH MODAL (STRICT ENTERPRISE DESIGN SYSTEM)
-   1-to-1 fidelity with Flutter: role_selector_screen.dart & phone_verify_screen.dart
+   Dedicated to PG Owners / Operators.
    Design Tokens:
    --green: #08A63F
    --green-dark: #068237
@@ -52,7 +52,7 @@
   position: relative;
   background: var(--ub-bg-card);
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   border-radius: 24px;
   border: 1.2px solid var(--ub-border);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16), 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -111,99 +111,36 @@
 
 /* Scrollable Body */
 .ub-modal-body {
-  padding: 20px 22px 24px;
+  padding: 22px 24px 26px;
   overflow-y: auto;
 }
 
 /* ==============================================================================
-   1. ORGANIC ROLE SELECTOR HEADER (TENANT VS OWNER)
-   Exact replicate of Flutter role_selector_screen.dart & ProductionCode/auth_preview.html
-   ============================================================================== */
-.ub-scurve-header {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: var(--ub-bg-alt);
-  border-radius: 20px;
-  border: 1px solid var(--ub-border);
-  padding: 4px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-}
-
-.ub-role-tab {
-  border: none;
-  background: transparent;
-  padding: 12px 10px;
-  border-radius: 16px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: var(--ub-font);
-}
-
-.ub-role-tab-sub {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--ub-muted);
-  margin-bottom: 2px;
-  transition: color 0.2s;
-}
-
-.ub-role-tab-title {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: var(--ub-light-muted);
-  transition: color 0.2s;
-}
-
-.ub-role-tab.active {
-  background: #FFFFFF;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-.ub-role-tab.active .ub-role-tab-sub {
-  color: var(--ub-ink);
-}
-
-.ub-role-tab.active .ub-role-tab-title {
-  color: var(--ub-green);
-}
-
-/* ==============================================================================
-   2. HERO GREETING (Exact to Flutter _buildHeroGreeting)
+   1. HERO GREETING
    ============================================================================== */
 .ub-hero-greeting {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .ub-hero-title {
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 800;
-  letter-spacing: -0.7px;
-  line-height: 1.15;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
   color: var(--ub-ink);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .ub-hero-sub {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 400;
   color: var(--ub-muted);
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 /* ==============================================================================
-   3. SEGMENTED AUTH MODE PILL (Sign In vs Register Property)
-   Exact to Flutter _buildAuthModePill
+   2. SEGMENTED AUTH MODE PILL (Register vs Sign In)
    ============================================================================== */
 .ub-mode-pill {
   display: grid;
@@ -211,7 +148,7 @@
   background: #F3F4F6;
   border-radius: 14px;
   padding: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   gap: 4px;
 }
 
@@ -236,7 +173,7 @@
 }
 
 /* ==============================================================================
-   4. FORM INPUT FIELDS
+   3. FORM INPUT FIELDS
    ============================================================================== */
 .ub-form-group {
   margin-bottom: 12px;
@@ -286,13 +223,13 @@
 .ub-flag-pill {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   height: 48px;
   background: #FFFFFF;
   border: 1.5px solid var(--ub-border);
   border-radius: 12px;
-  padding: 0 12px;
-  font-size: 14px;
+  padding: 0 14px;
+  font-size: 14.5px;
   font-weight: 700;
   color: var(--ub-ink);
   white-space: nowrap;
@@ -302,11 +239,11 @@
 
 /* Terms single line */
 .ub-terms-text {
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 500;
   color: var(--ub-muted);
   margin-top: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   line-height: 1.35;
 }
 
@@ -353,8 +290,7 @@
 }
 
 /* ==============================================================================
-   5. OTP VERIFICATION VIEW
-   Exact to Flutter phone_verify_screen.dart & ProductionCode/phone_verify.html
+   4. OTP VERIFICATION VIEW
    ============================================================================== */
 .ub-otp-meta {
   margin-bottom: 14px;
@@ -364,7 +300,7 @@
   font-size: 13px;
   color: var(--ub-muted);
   font-weight: 500;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .ub-otp-phone-row {
@@ -462,20 +398,21 @@
   margin-bottom: 12px;
 }
 
-/* Trust footnote */
+/* Clean Trust footnote (No Emojis) */
 .ub-trust-footnote {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-top: 14px;
-  font-size: 11.5px;
+  gap: 12px;
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--ub-muted);
   text-align: center;
 }
 
 /* ==============================================================================
-   6. SUCCESS CARD (Frosted Spring Pop-in)
+   5. SUCCESS CARD
    ============================================================================== */
 .ub-success-view {
   text-align: center;
