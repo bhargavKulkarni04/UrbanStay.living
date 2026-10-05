@@ -1,0 +1,526 @@
+/* ==============================================================================
+   URBANSTAY — OFFICIAL MASTER AUTH MODAL (STRICT ENTERPRISE DESIGN SYSTEM)
+   1-to-1 fidelity with Flutter: role_selector_screen.dart & phone_verify_screen.dart
+   Design Tokens:
+   --green: #08A63F
+   --green-dark: #068237
+   --green-light: #EBF8EE
+   --ink: #111111
+   --muted: #6B7280
+   --border: #E5E7EB
+   --font: 'Outfit', sans-serif
+   ============================================================================== */
+
+:root {
+  --ub-green: #08A63F;
+  --ub-green-dark: #068237;
+  --ub-green-light: #EBF8EE;
+  --ub-green-glow: rgba(8, 166, 63, 0.14);
+  --ub-ink: #111111;
+  --ub-muted: #6B7280;
+  --ub-light-muted: #9CA3AF;
+  --ub-border: #E5E7EB;
+  --ub-bg-card: #FFFFFF;
+  --ub-bg-alt: #F8F9FA;
+  --ub-font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Frosted Backdrop */
+.ub-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+}
+
+.ub-modal-backdrop.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal Card Container */
+.ub-modal-card {
+  position: relative;
+  background: var(--ub-bg-card);
+  width: 100%;
+  max-width: 440px;
+  border-radius: 24px;
+  border: 1.2px solid var(--ub-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16), 0 4px 16px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  font-family: var(--ub-font);
+  color: var(--ub-ink);
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ub-modal-backdrop.is-active .ub-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+/* Head Bar */
+.ub-modal-head {
+  padding: 18px 22px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--ub-border);
+  background: #FFFFFF;
+}
+
+.ub-modal-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.ub-modal-brand .logo-u { color: var(--ub-ink); }
+.ub-modal-brand .logo-s { color: var(--ub-green); }
+
+.ub-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--ub-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ub-modal-close:hover {
+  background: #F3F4F6;
+  color: var(--ub-ink);
+}
+
+/* Scrollable Body */
+.ub-modal-body {
+  padding: 20px 22px 24px;
+  overflow-y: auto;
+}
+
+/* ==============================================================================
+   1. ORGANIC ROLE SELECTOR HEADER (TENANT VS OWNER)
+   Exact replicate of Flutter role_selector_screen.dart & ProductionCode/auth_preview.html
+   ============================================================================== */
+.ub-scurve-header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--ub-bg-alt);
+  border-radius: 20px;
+  border: 1px solid var(--ub-border);
+  padding: 4px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.ub-role-tab {
+  border: none;
+  background: transparent;
+  padding: 12px 10px;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--ub-font);
+}
+
+.ub-role-tab-sub {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ub-muted);
+  margin-bottom: 2px;
+  transition: color 0.2s;
+}
+
+.ub-role-tab-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--ub-light-muted);
+  transition: color 0.2s;
+}
+
+.ub-role-tab.active {
+  background: #FFFFFF;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.ub-role-tab.active .ub-role-tab-sub {
+  color: var(--ub-ink);
+}
+
+.ub-role-tab.active .ub-role-tab-title {
+  color: var(--ub-green);
+}
+
+/* ==============================================================================
+   2. HERO GREETING (Exact to Flutter _buildHeroGreeting)
+   ============================================================================== */
+.ub-hero-greeting {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.ub-hero-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  line-height: 1.15;
+  color: var(--ub-ink);
+  margin-bottom: 4px;
+}
+
+.ub-hero-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ub-muted);
+  line-height: 1.4;
+}
+
+/* ==============================================================================
+   3. SEGMENTED AUTH MODE PILL (Sign In vs Register Property)
+   Exact to Flutter _buildAuthModePill
+   ============================================================================== */
+.ub-mode-pill {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #F3F4F6;
+  border-radius: 14px;
+  padding: 4px;
+  margin-bottom: 16px;
+  gap: 4px;
+}
+
+.ub-mode-pill-btn {
+  border: none;
+  background: transparent;
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: var(--ub-font);
+  color: var(--ub-muted);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+}
+
+.ub-mode-pill-btn.active {
+  background: #FFFFFF;
+  color: var(--ub-ink);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* ==============================================================================
+   4. FORM INPUT FIELDS
+   ============================================================================== */
+.ub-form-group {
+  margin-bottom: 12px;
+}
+
+.ub-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ub-ink);
+  margin-bottom: 5px;
+  letter-spacing: -0.1px;
+}
+
+.ub-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1.5px solid var(--ub-border);
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+  font-family: var(--ub-font);
+  color: var(--ub-ink);
+  background: #FFFFFF;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ub-input::placeholder {
+  color: var(--ub-light-muted);
+  font-weight: 400;
+}
+
+.ub-input:focus {
+  border-color: var(--ub-green);
+  box-shadow: 0 0 0 3px var(--ub-green-glow);
+}
+
+/* Phone Input with +91 Country Badge */
+.ub-phone-row {
+  display: flex;
+  gap: 8px;
+}
+
+.ub-flag-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 48px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--ub-border);
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ub-ink);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* Terms single line */
+.ub-terms-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ub-muted);
+  margin-top: 6px;
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+
+.ub-terms-text a {
+  color: var(--ub-green);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Primary Emerald Green CTA */
+.ub-btn-submit {
+  width: 100%;
+  height: 50px;
+  padding: 0 16px;
+  background: var(--ub-green);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  font-family: var(--ub-font);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(8, 166, 63, 0.35);
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ub-btn-submit:hover {
+  background: var(--ub-green-dark);
+  box-shadow: 0 6px 18px rgba(8, 166, 63, 0.42);
+}
+
+.ub-btn-submit:active {
+  transform: scale(0.99);
+}
+
+.ub-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==============================================================================
+   5. OTP VERIFICATION VIEW
+   Exact to Flutter phone_verify_screen.dart & ProductionCode/phone_verify.html
+   ============================================================================== */
+.ub-otp-meta {
+  margin-bottom: 14px;
+}
+
+.ub-otp-meta-title {
+  font-size: 13px;
+  color: var(--ub-muted);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.ub-otp-phone-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ub-otp-phone-bold {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: var(--ub-ink);
+}
+
+.ub-otp-edit-btn {
+  background: none;
+  border: none;
+  color: var(--ub-green);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-family: var(--ub-font);
+}
+
+/* 6 Auto-Advancing Digit Input Boxes */
+.ub-otp-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 16px 0 12px;
+}
+
+.ub-otp-digit {
+  width: 100%;
+  height: 52px;
+  text-align: center;
+  font-size: 21px;
+  font-weight: 800;
+  font-family: var(--ub-font);
+  border: 1.5px solid var(--ub-border);
+  border-radius: 12px;
+  background: #FFFFFF;
+  outline: none;
+  color: var(--ub-ink);
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ub-otp-digit:focus {
+  border-color: var(--ub-green);
+  box-shadow: 0 0 0 3px var(--ub-green-glow);
+}
+
+/* Resend Row */
+.ub-resend-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ub-muted);
+  margin-bottom: 14px;
+}
+
+.ub-resend-btn {
+  background: none;
+  border: none;
+  color: var(--ub-green);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--ub-font);
+  text-decoration: underline;
+}
+
+.ub-resend-btn:disabled {
+  color: var(--ub-light-muted);
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+/* Error message banner */
+.ub-error-banner {
+  background: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  color: #DC2626;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* Trust footnote */
+.ub-trust-footnote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 11.5px;
+  color: var(--ub-muted);
+  text-align: center;
+}
+
+/* ==============================================================================
+   6. SUCCESS CARD (Frosted Spring Pop-in)
+   ============================================================================== */
+.ub-success-view {
+  text-align: center;
+  padding: 16px 0 8px;
+}
+
+.ub-success-icon-wrap {
+  width: 72px;
+  height: 72px;
+  background: var(--ub-green);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  box-shadow: 0 8px 24px rgba(8, 166, 63, 0.38);
+  margin-bottom: 16px;
+  animation: ubSpringIn 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes ubSpringIn {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.ub-success-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: var(--ub-ink);
+  margin-bottom: 6px;
+}
+
+.ub-success-desc {
+  font-size: 13.5px;
+  color: var(--ub-muted);
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.ub-success-indicator {
+  width: 32px;
+  height: 4px;
+  background: var(--ub-green);
+  border-radius: 999px;
+  margin: 16px auto 0;
+}
