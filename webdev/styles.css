@@ -17,7 +17,7 @@
   --max: 1440px;
   --gutter: clamp(20px, 4vw, 48px);
   --section: 180px;
-  --font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* ---- MARQUEE SPEED ----------------------------------------
      Time it takes ONE card to travel across. Lower = faster.
@@ -327,30 +327,25 @@ p {
 }
 
 .logo {
-  font-size: clamp(24px, 2.1vw, 30px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  white-space: nowrap;
   display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  flex-shrink: 0;
-  display: inline-block;
+  flex-direction: column;
+  line-height: 0.94;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .logo .u {
   color: var(--green);
+  font-size: clamp(19px, 1.7vw, 23px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
 }
 
 .logo .s {
   color: var(--ink);
+  font-size: clamp(19px, 1.7vw, 23px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
 }
 
 .nav-links {

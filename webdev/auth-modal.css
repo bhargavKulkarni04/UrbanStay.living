@@ -22,7 +22,7 @@
   --ub-border: #E5E7EB;
   --ub-bg-card: #FFFFFF;
   --ub-bg-alt: #F8F9FA;
-  --ub-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ub-font: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Frosted Backdrop */
@@ -81,16 +81,24 @@
 }
 
 .ub-modal-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 21px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 0.94;
 }
 
-.ub-modal-brand .logo-u { color: var(--ub-green); }
-.ub-modal-brand .logo-s { color: var(--ub-ink); }
+.ub-modal-brand .logo-u {
+  color: var(--ub-green);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.ub-modal-brand .logo-s {
+  color: var(--ub-ink);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
 
 .ub-modal-close {
   background: transparent;
