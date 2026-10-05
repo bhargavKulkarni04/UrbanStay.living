@@ -54,12 +54,20 @@
           }
         }
 
-        // 3. Dispatch real SMS via Fast2SMS
+        // 3. Dispatch real SMS via Cloudflare Serverless Function (with direct Fast2SMS fallback)
         try {
-          const smsUrl = `https://www.fast2sms.com/dev/bulkV2?authorization=${FAST2SMS_KEY}&route=otp&variables_values=${activeOtpCode}&numbers=${phone}`;
+          const cfRes = await fetch('/api/send-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone, otp: activeOtpCode })
+          });
+          if (!cfRes.ok) {
+            throw new Error('Fallback to direct');
+          }
+        } catch (_) {
+          const smsMsg = encodeURIComponent(`Your UrbanStay verification OTP code is ${activeOtpCode}`);
+          const smsUrl = `https://www.fast2sms.com/dev/bulkV2?authorization=${FAST2SMS_KEY}&route=q&message=${smsMsg}&language=english&flash=0&numbers=${phone}`;
           fetch(smsUrl, { method: 'GET', mode: 'no-cors' }).catch(() => {});
-        } catch (smsErr) {
-          console.warn('[UrbanStay] Fast2SMS dispatch queued:', smsErr);
         }
 
         // In case Fast2SMS is processing domain verification, store in session
