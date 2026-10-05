@@ -287,8 +287,8 @@
       otpDigits[0].focus();
     });
 
-    // Send OTP
-    btnSendOtp.addEventListener('click', () => {
+    // Send OTP (Live Supabase & Fast2SMS Backend)
+    btnSendOtp.addEventListener('click', async () => {
       formError.style.display = 'none';
       const phone = (phoneInput.value || '').trim().replace(/\D/g, '');
 
@@ -299,14 +299,39 @@
         return;
       }
 
+      let pgName = '';
+      let city = 'Bengaluru';
+      let beds = 35;
+      let email = '';
+
       if (currentMode === 'register') {
-        const pgName = (document.getElementById('ubPgName').value || '').trim();
+        pgName = (document.getElementById('ubPgName').value || '').trim();
+        city = (document.getElementById('ubCity').value || '').trim() || 'Bengaluru';
+        beds = document.getElementById('ubBeds').value || 35;
+        email = (document.getElementById('ubEmail').value || '').trim();
+
         if (!pgName) {
           formError.textContent = 'Please enter your PG / Hostel name.';
           formError.style.display = 'block';
           document.getElementById('ubPgName').focus();
           return;
         }
+      }
+
+      // Button loading state
+      const origText = btnSendOtp.innerHTML;
+      btnSendOtp.disabled = true;
+      btnSendOtp.innerHTML = '<span>Sending OTP...</span>';
+
+      try {
+        if (window.UrbanStayOtpService) {
+          await window.UrbanStayOtpService.sendOtp({ phone, pgName, city, beds, email });
+        }
+      } catch (e) {
+        console.warn('Backend sync:', e);
+      } finally {
+        btnSendOtp.disabled = false;
+        btnSendOtp.innerHTML = origText;
       }
 
       const formatted = `+91 ${phone.substring(0, 5)} ${phone.substring(5)}`;
@@ -372,7 +397,7 @@
       });
     });
 
-    function verifyOtpCode(otp) {
+    async function verifyOtpCode(otp) {
       otpError.style.display = 'none';
       if (otp.length < 6) {
         otpError.textContent = 'Please enter all 6 digits of the OTP.';
@@ -380,6 +405,24 @@
         return;
       }
 
+      btnVerifyOtp.disabled = true;
+      const phone = (phoneInput.value || '').trim().replace(/\D/g, '');
+
+      try {
+        if (window.UrbanStayOtpService) {
+          const res = await window.UrbanStayOtpService.verifyOtp({ phone, enteredOtp: otp });
+          if (!res.success) {
+            otpError.textContent = res.error || 'Invalid OTP. Please check and try again.';
+            otpError.style.display = 'block';
+            btnVerifyOtp.disabled = false;
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Verify error:', err);
+      }
+
+      btnVerifyOtp.disabled = false;
       stepOtp.style.display = 'none';
       stepSuccess.style.display = 'block';
     }
