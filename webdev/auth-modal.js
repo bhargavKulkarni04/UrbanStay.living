@@ -15,7 +15,8 @@
         <!-- Head Bar -->
         <div class="ub-modal-head">
           <div class="ub-modal-brand">
-            <span class="logo-u">Urban</span><span class="logo-s">Stay</span>
+            <img src="favicon.png" alt="UrbanStay" width="28" height="28" style="border-radius:7px; display:inline-block; flex-shrink:0;">
+            <span><span class="logo-u">Urban</span><span class="logo-s">Stay</span></span>
           </div>
           <button type="button" class="ub-modal-close" id="ubModalClose" aria-label="Close modal">&times;</button>
         </div>
