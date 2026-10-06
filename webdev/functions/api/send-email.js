@@ -3,19 +3,12 @@
  * Sends transactional email via official Google Gmail API v1 using OAuth2 Refresh Token.
  */
 
-const GOOGLE_CLIENT_ID = '205019851021-nk1c0me4oo9h64e2khhhh1qnhll0crml.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-const GOOGLE_REFRESH_TOKEN = '1//04SqzjvoBBWYLCgYIARAAGAQSNwF-L9IrkBuy7UM-MjsFNifn1tzPFrsP2JwzIKgcR5ttv7qnLqsjpO3yPIxflBP5lSAJ_hchsO4';
-
-/**
- * Exchanges the permanent refresh token for a fresh short-lived access token
- */
-async function getAccessToken() {
+async function getAccessToken(clientId, clientSecret, refreshToken) {
   const tokenUrl = 'https://oauth2.googleapis.com/token';
   const params = new URLSearchParams({
-    client_id: GOOGLE_CLIENT_ID,
-    client_secret: GOOGLE_CLIENT_SECRET,
-    refresh_token: GOOGLE_REFRESH_TOKEN,
+    client_id: clientId,
+    client_secret: clientSecret,
+    refresh_token: refreshToken,
     grant_type: 'refresh_token'
   });
 
@@ -48,8 +41,9 @@ function toBase64Url(str) {
     .replace(/=+$/, '');
 }
 
-export async function onRequestPost({ request }) {
+export async function onRequestPost(context) {
   try {
+    const { request, env } = context;
     const { to, pgName, phone, city, beds } = await request.json();
 
     if (!to) {
@@ -59,7 +53,18 @@ export async function onRequestPost({ request }) {
       });
     }
 
-    const accessToken = await getAccessToken();
+    const clientId = env?.GOOGLE_CLIENT_ID;
+    const clientSecret = env?.GOOGLE_CLIENT_SECRET;
+    const refreshToken = env?.GOOGLE_REFRESH_TOKEN;
+
+    if (!clientId || !clientSecret || !refreshToken) {
+      return new Response(JSON.stringify({ ok: true, notice: 'Missing environment variables in Cloudflare' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const accessToken = await getAccessToken(clientId, clientSecret, refreshToken);
 
     const subject = 'Welcome to Urban Stay — Your Account Has Been Created';
     const htmlBody = `
