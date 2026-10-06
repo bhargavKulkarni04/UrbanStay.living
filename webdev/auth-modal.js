@@ -130,21 +130,51 @@
             </button>
           </div>
 
-          <!-- STEP 3: SUCCESS STATE -->
+          <!-- STEP 3: SUCCESS CONFIRMATION STATE -->
           <div id="ubStepSuccess" style="display:none;">
-            <div class="ub-success-view">
-              <div class="ub-success-icon-wrap">
-                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
+            <div class="ub-success-card">
+              <!-- Premium Multi-ring Green Confirmation Indicator -->
+              <div class="ub-confirm-indicator-wrap">
+                <div class="ub-confirm-ring-outer"></div>
+                <div class="ub-confirm-ring-inner"></div>
+                <div class="ub-confirm-badge">
+                  <svg class="ub-confirm-check" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
               </div>
-              <h3 class="ub-success-title">OTP Verified!</h3>
-              <p class="ub-success-desc">
-                Phone number verified successfully.<br>Your property record is registered.
+
+              <!-- Partner Verification Pill -->
+              <div class="ub-verified-pill">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08A63F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Account Verified</span>
+              </div>
+
+              <!-- Required Enterprise Headlines & Body -->
+              <h3 class="ub-confirm-title">Welcome to Urban Stay</h3>
+              <div class="ub-confirm-subtitle">Your account has been successfully created.</div>
+              <p class="ub-confirm-desc">
+                Thank you for registering with Urban Stay. We’ve received your details, and our representative will get in touch with you shortly to help you get started.
               </p>
-              <div class="ub-success-indicator"></div>
-              <button type="button" class="ub-btn-submit" id="ubBtnDone" style="margin-top: 24px;">
-                <span>Continue to Dashboard</span>
+
+              <!-- Email Sent Notification Note -->
+              <div class="ub-confirm-email-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#08A63F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span>Confirmation email sent to your registered inbox</span>
+              </div>
+
+              <!-- Action CTA -->
+              <button type="button" class="ub-btn-submit ub-btn-confirm-done" id="ubBtnDone">
+                <span>Continue</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
               </button>
             </div>
           </div>

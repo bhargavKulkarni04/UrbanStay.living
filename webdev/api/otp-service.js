@@ -14,6 +14,7 @@
   let currentLeadId = null;
   let activeOtpCode = null;
   let activePhone = null;
+  let lastLeadData = null;
 
   window.UrbanStayOtpService = {
     /**
@@ -22,6 +23,7 @@
     async sendOtp({ phone, pgName, city, beds, email }) {
       try {
         activePhone = phone;
+        lastLeadData = { phone, pgName, city, beds, email };
 
         // 1. Generate secure 6-digit numeric OTP
         activeOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -108,6 +110,21 @@
             },
             body: JSON.stringify({ status: 'OTP_VERIFIED' })
           });
+        }
+
+        // Trigger Welcome Email via official Gmail API
+        if (lastLeadData && lastLeadData.email) {
+          fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: lastLeadData.email,
+              pgName: lastLeadData.pgName,
+              city: lastLeadData.city,
+              beds: lastLeadData.beds,
+              phone: lastLeadData.phone
+            })
+          }).catch((err) => console.warn('[UrbanStay] Email dispatch warning:', err));
         }
 
         // Clean up session
