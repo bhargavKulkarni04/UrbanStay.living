@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms and Conditions — Urban Stay</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #08A63F;
+      --ink: #111111;
+      --muted: #4B5563;
+      --border: #E5E7EB;
+      --bg: #FFFFFF;
+      --bg-soft: #F9FAFB;
+      --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Simple Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: inline-flex;
+      flex-direction: column;
+      line-height: 0.94;
+      text-decoration: none;
+      font-family: 'Ubuntu', sans-serif;
+    }
+    .brand .logo-u {
+      color: var(--green);
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .brand .logo-s {
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .back-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-link:hover {
+      color: var(--ink);
+    }
+    /* Main Content */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 13.5px;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 36px 0 12px;
+      color: var(--ink);
+      border-top: 1px solid #F3F4F6;
+      padding-top: 24px;
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 20px 0 8px;
+      color: var(--ink);
+    }
+    p {
+      margin-bottom: 14px;
+      color: #374151;
+    }
+    ul, ol {
+      margin: 10px 0 16px 24px;
+      color: #374151;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .toc {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+    }
+    .toc-title {
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .toc ol {
+      margin: 0 0 0 20px;
+      font-size: 14px;
+    }
+    .toc li {
+      margin-bottom: 4px;
+    }
+    .toc a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .toc a:hover {
+      color: var(--green);
+      text-decoration: underline;
+    }
+    .contact-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+      padding: 28px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 12px;
+    }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer-links a:hover {
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <span class="logo-u">Urban</span>
+        <span class="logo-s">Stay</span>
+      </a>
+      <a href="index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1>Terms and Conditions</h1>
+    <div class="meta">Last Updated: October 7, 2026</div>
+
+    <p><strong>AGREEMENT TO OUR LEGAL TERMS</strong></p>
+    <p>We are Urban Stay ("Company," "we," "us," "our"), a company registered in India at <strong>39/A, Gokul Nivas, Old Jewargi Road, Ghabrey Layout, Kalaburagi, Karnataka 585102, India</strong>.</p>
+    <p>We operate the mobile application Urban Stay (the "App"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").</p>
+    <p>UrbanStay provides a digital property operations and rent management software platform for PG and hostel owners to manage room allocation, tenant check-ins, automated rent dues, and property financial ledgers.</p>
+    <p>You can contact us by phone at <strong>+91 8618818322</strong>, email at <strong>info@urbanstay.living</strong>, or by mail to 39/A, Gokul Nivas, Old Jewargi Road, Ghabrey Layout, Kalaburagi, Karnataka 585102, India.</p>
+    <p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("you"), and Urban Stay, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. <strong>IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</strong></p>
+    <p>The Services are intended for users who are at least 18 years old. Persons under the age of 18 are not permitted to use or register for the Services.</p>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <div class="toc-title">Table of Contents</div>
+      <ol>
+        <li><a href="#sec-1">Our Services</a></li>
+        <li><a href="#sec-2">Intellectual Property Rights</a></li>
+        <li><a href="#sec-3">User Representations</a></li>
+        <li><a href="#sec-4">User Registration</a></li>
+        <li><a href="#sec-5">Purchases and Payment</a></li>
+        <li><a href="#sec-6">Subscriptions</a></li>
+        <li><a href="#sec-7">Prohibited Activities</a></li>
+        <li><a href="#sec-8">User Generated Contributions</a></li>
+        <li><a href="#sec-9">Contribution License</a></li>
+        <li><a href="#sec-10">Mobile Application License</a></li>
+        <li><a href="#sec-11">Third-Party Websites and Content</a></li>
+        <li><a href="#sec-12">Services Management</a></li>
+        <li><a href="#sec-13">Privacy Policy</a></li>
+        <li><a href="#sec-14">Copyright Infringements</a></li>
+        <li><a href="#sec-15">Term and Termination</a></li>
+        <li><a href="#sec-16">Modifications and Interruptions</a></li>
+        <li><a href="#sec-17">Governing Law</a></li>
+        <li><a href="#sec-18">Dispute Resolution</a></li>
+        <li><a href="#sec-19">Corrections</a></li>
+        <li><a href="#sec-20">Disclaimer</a></li>
+        <li><a href="#sec-21">Limitations of Liability</a></li>
+        <li><a href="#sec-22">Indemnification</a></li>
+        <li><a href="#sec-23">User Data</a></li>
+        <li><a href="#sec-24">Electronic Communications, Transactions, and Signatures</a></li>
+        <li><a href="#sec-25">Miscellaneous</a></li>
+        <li><a href="#sec-26">Contact Us</a></li>
+      </ol>
+    </div>
+
+    <h2 id="sec-1">1. OUR SERVICES</h2>
+    <p>The information provided when using the Services is not intended for distribution to or use by any person or entity in any jurisdiction or country where such distribution or use would be contrary to law or regulation or which would subject us to any registration requirement within such jurisdiction or country.</p>
+
+    <h2 id="sec-2">2. INTELLECTUAL PROPERTY RIGHTS</h2>
+    <p>We are the owner or the licensee of all intellectual property rights in our Services, including all source code, databases, functionality, software, website designs, audio, video, text, photographs, and graphics in the Services (collectively, the "Content"), as well as the trademarks, service marks, and logos contained therein (the "Marks").</p>
+    <p>Subject to your compliance with these Legal Terms, we grant you a non-exclusive, non-transferable, revocable license to access the Services solely for your personal, non-commercial use or internal business purpose.</p>
+
+    <h2 id="sec-3">3. USER REPRESENTATIONS</h2>
+    <p>By using the Services, you represent and warrant that: (1) all registration information you submit will be true, accurate, current, and complete; (2) you will maintain the accuracy of such information; (3) you have the legal capacity and agree to comply with these Legal Terms; (4) you are not a minor in the jurisdiction in which you reside; (5) you will not access the Services through automated or non-human means; and (6) your use of the Services will not violate any applicable law or regulation.</p>
+
+    <h2 id="sec-4">4. USER REGISTRATION</h2>
+    <p>You may be required to register to use the Services. You agree to keep your password confidential and will be responsible for all use of your account and password. We reserve the right to remove or reclaim a username you select if we determine it is inappropriate.</p>
+
+    <h2 id="sec-5">5. PURCHASES AND PAYMENT</h2>
+    <p>We accept the following forms of payment:</p>
+    <ul>
+      <li>UPI (Google Pay, PhonePe, Paytm, BHIM)</li>
+      <li>Net Banking</li>
+      <li>Credit / Debit Cards (Visa, Mastercard, RuPay)</li>
+    </ul>
+    <p>You agree to provide current, complete, and accurate purchase and account information for all purchases made via the Services. All payments shall be in INR (Indian Rupees).</p>
+
+    <h2 id="sec-6">6. SUBSCRIPTIONS</h2>
+    <h3>Billing and Renewal</h3>
+    <p>Your subscription continues and automatically renews monthly based on your active bed capacity (at our standard rate of ₹15 per bed per month), unless canceled by you. You consent to charging your payment method on a recurring basis without requiring prior approval for each recurring charge until you cancel.</p>
+    <h3>Free Trial</h3>
+    <p>We offer a 30-day free trial to new users. At the end of the free trial period, users will not be charged automatically. Premium features will be temporarily paused until the property owner selects their bed capacity and completes payment.</p>
+    <h3>Cancellation</h3>
+    <p>You can cancel your subscription at any time by logging into your account. Your cancellation will take effect at the end of the current paid term. If you have any questions, please email us at <strong>info@urbanstay.living</strong>.</p>
+
+    <h2 id="sec-7">7. PROHIBITED ACTIVITIES</h2>
+    <p>You may not access or use the Services for any purpose other than that for which we make the Services available. As a user of the Services, you agree not to:</p>
+    <ul>
+      <li>Systematically retrieve data or other content from the Services to compile a database without written permission.</li>
+      <li>Trick, defraud, or mislead us and other users.</li>
+      <li>Circumvent or disable security-related features of the Services.</li>
+      <li>Use the Services as part of any effort to compete with us.</li>
+      <li>Sell or otherwise transfer your profile.</li>
+      <li>Use the Services to advertise or offer to sell unauthorized goods and services.</li>
+    </ul>
+
+    <h2 id="sec-8">8. USER GENERATED CONTRIBUTIONS</h2>
+    <p>The Services may provide functionality where you create, submit, post, or display content including room details, maintenance tickets, photos, and verification documents. You represent and warrant that your contributions do not violate third-party rights, law, or public order.</p>
+
+    <h2 id="sec-9">9. CONTRIBUTION LICENSE</h2>
+    <p>You retain full ownership of all your contributions. You grant us a non-exclusive license to host, use, copy, and display your contributions solely for operating and providing the Services to you.</p>
+
+    <h2 id="sec-10">10. MOBILE APPLICATION LICENSE</h2>
+    <p>If you access the Services via the App, we grant you a revocable, non-exclusive, non-transferable, limited right to install and use the App on wireless electronic devices owned or controlled by you.</p>
+
+    <h2 id="sec-11">11. THIRD-PARTY WEBSITES AND CONTENT</h2>
+    <p>The Services may contain links to third-party websites or content. We do not investigate, monitor, or check third-party websites for accuracy or appropriateness, and we are not responsible for any third-party content.</p>
+
+    <h2 id="sec-12">12. SERVICES MANAGEMENT</h2>
+    <p>We reserve the right, but not the obligation, to monitor the Services for violations of these Legal Terms and take appropriate legal action against anyone who violates them.</p>
+
+    <h2 id="sec-13">13. PRIVACY POLICY</h2>
+    <p>We care about data privacy and security. Please review our <a href="privacy.html" style="color: var(--green); font-weight: 600;">Privacy Policy</a>. By using the Services, you agree to be bound by our Privacy Policy, which is incorporated into these Legal Terms.</p>
+
+    <h2 id="sec-14">14. COPYRIGHT INFRINGEMENTS</h2>
+    <p>We respect the intellectual property rights of others. If you believe that any material available on or through the Services infringes upon any copyright you own, please notify us immediately at <strong>info@urbanstay.living</strong>.</p>
+
+    <h2 id="sec-15">15. TERM AND TERMINATION</h2>
+    <p>These Legal Terms shall remain in full force and effect while you use the Services. We reserve the right to deny access to and use of the Services to any person for breach of any representation, warranty, or covenant contained in these Legal Terms.</p>
+
+    <h2 id="sec-16">16. MODIFICATIONS AND INTERRUPTIONS</h2>
+    <p>We reserve the right to change, modify, or remove the contents of the Services at any time. We will not be liable to you or any third party for any modification, price change, suspension, or discontinuance of the Services.</p>
+
+    <h2 id="sec-17">17. GOVERNING LAW</h2>
+    <p>These Legal Terms shall be governed by and defined following the laws of India. Urban Stay and yourself irrevocably consent that the courts of India shall have exclusive jurisdiction to resolve any dispute.</p>
+
+    <h2 id="sec-18">18. DISPUTE RESOLUTION</h2>
+    <p><strong>Informal Negotiations:</strong> The Parties agree to first attempt to negotiate any Dispute informally for at least thirty (30) days before initiating arbitration.</p>
+    <p><strong>Binding Arbitration:</strong> If the dispute is not resolved through informal negotiation, it shall be settled by binding arbitration in accordance with Indian arbitration laws. The number of arbitrators shall be one (1). The seat and legal place of arbitration shall be <strong>Bengaluru, Karnataka, India</strong>. The language of proceedings shall be English.</p>
+
+    <h2 id="sec-19">19. CORRECTIONS</h2>
+    <p>There may be information on the Services that contains typographical errors, inaccuracies, or omissions. We reserve the right to correct any errors and update information at any time without prior notice.</p>
+
+    <h2 id="sec-20">20. DISCLAIMER</h2>
+    <p>THE SERVICES ARE PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU AGREE THAT YOUR USE OF THE SERVICES WILL BE AT YOUR SOLE RISK.</p>
+
+    <h2 id="sec-21">21. LIMITATIONS OF LIABILITY</h2>
+    <p>IN NO EVENT WILL WE BE LIABLE TO YOU FOR ANY DIRECT, INDIRECT, CONSEQUENTIAL, EXEMPLARY, INCIDENTAL, OR PUNITIVE DAMAGES. NOTWITHSTANDING ANYTHING TO THE CONTRARY CONTAINED HEREIN, OUR LIABILITY TO YOU WILL AT ALL TIMES BE LIMITED TO THE AMOUNT PAID, IF ANY, BY YOU TO US DURING THE THREE (3) MONTH PERIOD PRIOR TO ANY CAUSE OF ACTION ARISING.</p>
+
+    <h2 id="sec-22">22. INDEMNIFICATION</h2>
+    <p>You agree to defend, indemnify, and hold us harmless from and against any loss, damage, liability, claim, or demand arising out of your use of the Services or breach of these Legal Terms.</p>
+
+    <h2 id="sec-23">23. USER DATA</h2>
+    <p>We will maintain certain data that you transmit to the Services for the purpose of managing the performance of the Services. You are solely responsible for all data that you transmit or that relates to any activity you have undertaken using the Services.</p>
+
+    <h2 id="sec-24">24. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</h2>
+    <p>Visiting the Services, sending us emails, and completing online forms constitute electronic communications. You consent to receive electronic communications, and you agree to the use of electronic signatures, contracts, and notices.</p>
+
+    <h2 id="sec-25">25. MISCELLANEOUS</h2>
+    <p>These Legal Terms and any policies posted by us constitute the entire agreement and understanding between you and us. Our failure to exercise or enforce any right or provision of these Legal Terms shall not operate as a waiver of such right or provision.</p>
+
+    <h2 id="sec-26">26. CONTACT US</h2>
+    <p>In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us at:</p>
+    <div class="contact-box">
+      <strong>Urban Stay</strong><br>
+      39/A, Gokul Nivas, Old Jewargi Road, Ghabrey Layout<br>
+      Kalaburagi, Karnataka 585102, India<br>
+      Phone: <strong>+91 8618818322</strong><br>
+      Email: <strong>info@urbanstay.living</strong>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="terms.html">Terms and Conditions</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="refund.html">Cancellation &amp; Refund Policy</a>
+      <a href="index.html">Home</a>
+    </div>
+    <p>&copy; 2026 Urban Stay. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
