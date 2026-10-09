@@ -548,32 +548,45 @@ bool _isEatingDinner = true;    // Headcount toggle switch
 
 ---
 
-### 15. `saas_subscriptions` (B2B Bed Licensing)
-* **Matches Code File**: `mobile_app/lib/features/owner_billing/presentation/screens/owner_saas_billing_screen.dart` (Lines 25–65)
+### 15. `saas_subscriptions` & `saas_invoices` (B2B Bed Licensing & Receipts)
+* **Matches Code File**: `mobile_app/lib/features/owner_billing/presentation/screens/owner_saas_billing_screen.dart`
 
 #### Exact Dart Code Variables:
 ```dart
-// owner_saas_billing_screen.dart (Lines 25-65)
-'Micro Scale' (≤35 Beds):     basePrice = 899.0
-'Mid Scale' (36-100 Beds):    basePrice = 1999.0
-'Multi-PG Network' (101-500): basePrice = 9999.0
-gstRate = 0.18;               // 18% GST itemized
-sacCode = '998315';           // SAC Code 998315 (Software as a Service)
+// owner_saas_billing_screen.dart
+pricePerBed = 15.0;            // ₹15 / bed / month
+platformFee = 79.0;            // ₹79 platform fee
+totalDue = (beds * 15) + 79;   // Dynamic monthly software license
+sacCode = '998315';            // SAC Code 998315 (Software as a Service)
 ```
 
-#### Database Table Schema:
-| Column | Type | Constraints | Exact Code Source / Description |
+#### Database Table Schemas:
+**`saas_subscriptions`**:
+| Column | Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | `UUID` | **PRIMARY KEY**, `gen_random_uuid()` | Subscription Identifier |
-| `owner_id` | `UUID` | **FK** $\rightarrow$ `users(id)` ON DELETE CASCADE | PG Owner |
-| `plan_tier` | `VARCHAR(30)` | **NOT NULL** | Check: `'Micro Scale'`, `'Mid Scale'`, `'Multi-PG Network'` |
-| `max_beds` | `INT` | **NOT NULL** | Quota: `35`, `100`, `500` |
-| `base_price` | `NUMERIC(10,2)`| **NOT NULL** | `899.00`, `1999.00`, `9999.00` |
-| `gst_amount` | `NUMERIC(10,2)`| **NOT NULL** | 18% GST (e.g. `161.82` on ₹899) |
-| `total_price` | `NUMERIC(10,2)`| **NOT NULL** | Total billed (e.g. `1060.82`) |
-| `sac_code` | `VARCHAR(10)` | Default: `'998315'`| Mapped from `sacCode` |
-| `razorpay_sub_id`| `VARCHAR(60)`| `NULLABLE` | Razorpay subscription ID |
-| `status` | `VARCHAR(20)` | Default: `'ACTIVE'`| Check: `'ACTIVE'`, `'PAST_DUE'`, `'CANCELLED'` |
+| `property_id` | `UUID` | **FK** $\rightarrow$ `properties(id)` ON DELETE CASCADE | Associated Property |
+| `total_beds` | `INT` | **NOT NULL**, Default: `35` | Bed quota / count |
+| `price_per_bed` | `NUMERIC(10,2)`| **NOT NULL**, Default: `15.00` | ₹15/bed rate |
+| `platform_fee` | `NUMERIC(10,2)`| **NOT NULL**, Default: `79.00` | Platform services |
+| `total_due` | `NUMERIC(10,2)`| **NOT NULL**, Default: `604.00` | Billed amount |
+| `sac_code` | `VARCHAR(10)` | Default: `'998315'` | SAC Code |
+| `status` | `VARCHAR(20)` | Default: `'active'` | `'active'`, `'trial'`, `'past_due'` |
+| `trial_ends_at` | `TIMESTAMPTZ` | | Free trial expiration |
+| `next_billing_date`| `TIMESTAMPTZ` | | Next auto-debit date |
+
+**`saas_invoices`**:
+| Column | Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **PRIMARY KEY**, `gen_random_uuid()` | Invoice Record Identifier |
+| `invoice_number` | `TEXT` | **UNIQUE**, **NOT NULL** | e.g. `'US-2026-0891'` |
+| `property_id` | `UUID` | **FK** $\rightarrow$ `properties(id)` ON DELETE CASCADE | Associated Property |
+| `amount` | `NUMERIC(10,2)`| **NOT NULL** | Total paid amount |
+| `status` | `VARCHAR(20)` | Default: `'paid'` | Payment status |
+| `payment_mode` | `TEXT` | Default: `'UPI AutoPay'` | Payment channel |
+| `utr_number` | `TEXT` | `NULLABLE` | Cashfree transaction ref / UTR |
+| `billing_period` | `TEXT` | | e.g. `'1 Aug 2026 – 31 Aug 2026'` |
+| `created_at` | `TIMESTAMPTZ` | Default: `NOW()` | Payment timestamp |
 
 ---
 
