@@ -6,3 +6,5 @@ node_modules/
 .system_generated/
 mobile_app/
 *.apk
+supabase/
+database_KT/
