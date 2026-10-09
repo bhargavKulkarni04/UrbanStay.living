@@ -6,9 +6,9 @@
 (function () {
   'use strict';
 
-  const SUPABASE_URL = 'https://unkwhlpboyumsykhgoqx.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_MrTSiJiEUwHgohXS6jpXPQ_3QWlpV1x';
-  const FAST2SMS_KEY = '18xHJqeBWdF26p9MvnjuVbhytkrCfDOZPN7oQEgTaiwXIY3lLAxGPj69fKyqEJuRAsvBaL8p42UzDNwC';
+  const SUPABASE_URL = window.ENV?.SUPABASE_URL || '';
+  const SUPABASE_ANON_KEY = window.ENV?.SUPABASE_ANON_KEY || '';
+  const FAST2SMS_KEY = window.ENV?.FAST2SMS_KEY || '';
 
   // Current session storage for active OTP verification
   let currentLeadId = null;
