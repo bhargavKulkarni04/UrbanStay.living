@@ -6,5 +6,6 @@ node_modules/
 .system_generated/
 mobile_app/
 *.apk
-supabase/
+supabase/*
+!supabase/migrations/
 database_KT/
