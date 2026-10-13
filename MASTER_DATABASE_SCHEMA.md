@@ -50,6 +50,49 @@ To eliminate expensive multi-table joins on low-bandwidth 4G Indian mobile netwo
 
 ---
 
+## 🔄 The 3-Layer Synchronization Standard (Supabase ↔ Flutter Code)
+
+Whenever a column/header is added, deleted, or altered in any Supabase table, update these **3 exact layers** on your local machine to keep the entire system in 100% sync:
+
+```
+┌────────────────────────────────────────────────────────┐
+│  STEP 1: SUPABASE TABLE COLUMN CHANGED / ADDED        │
+└──────────────────────────┬─────────────────────────────┘
+                           │
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│  LAYER 1: The Dart Model File                         │
+│  mobile_app/lib/core/models/<table_name>_model.dart    │
+│  • Add class field: final String newColumn;            │
+│  • Map in fromJson(): newColumn: json['new_column']    │
+│  • Map in toJson(): 'new_column': newColumn            │
+└──────────────────────────┬─────────────────────────────┘
+                           │
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│  LAYER 2: The Service Data Layer                       │
+│  mobile_app/lib/core/services/supabase_service.dart   │
+│  • Pass onConflict: '...' if using unique constraints  │
+│  • Update .order(...) or .filter(...) queries          │
+└──────────────────────────┬─────────────────────────────┘
+                           │
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│  LAYER 3: The UI Presentation Screen                   │
+│  mobile_app/lib/features/<feature>/.../..._screen.dart │
+│  • Link TextField controllers / Display badges         │
+│  • Validate input data before passing to service layer │
+└────────────────────────────────────────────────────────┘
+```
+
+### Quick Verification Checklist:
+1. **Model**: Does `toJson()` send the exact column name as spelled in Supabase?
+2. **Service**: If upserting, does `onConflict: 'col1,col2'` match the table's `UNIQUE` constraint?
+3. **Screen**: Does the UI handle empty/null values gracefully?
+4. **Docs**: Is the column added to this `MASTER_DATABASE_SCHEMA.md` and `supabase/migrations/`?
+
+---
+
 ## Pillar 1: Auth, Profiles & Leads
 
 ### 1. `profiles` (Auth & Directory)
@@ -381,13 +424,16 @@ To eliminate expensive multi-table joins on low-bandwidth 4G Indian mobile netwo
 | `id` | `UUID` | **PRIMARY KEY**, Default: `gen_random_uuid()` | Menu entry ID |
 | `property_id` | `UUID` | REFERENCES `properties(id)` ON DELETE CASCADE | Property ID |
 | `property_name` | `TEXT` | Default: `''` | Property name snapshot |
-| `cycle_weeks` | `INT` | Default: `2` | Cycle length (1 to 4 weeks) |
+| `cycle_weeks` | `INT` | Default: `4` | Cycle length (1, 2, 3, or 4 weeks) |
 | `week_number` | `INT` | Default: `1` | Week in cycle (1 to 4) |
 | `day_of_week` | `TEXT` | **NOT NULL** | `'MON'`, `'TUE'`, `'WED'`, `'THU'`, `'FRI'`, `'SAT'`, `'SUN'` |
 | `breakfast` | `TEXT` | Default: `''` | Breakfast items |
 | `lunch` | `TEXT` | Default: `''` | Lunch items |
 | `dinner` | `TEXT` | Default: `''` | Dinner items |
 | `updated_at` | `TIMESTAMPTZ`| Default: `NOW()` | Last modified timestamp |
+
+* **Unique Constraint**: `CONSTRAINT food_menus_property_week_day_unique UNIQUE (property_id, week_number, day_of_week)`
+* **Indexes**: `idx_food_menus_property_id ON (property_id)`, `idx_food_menus_prop_week ON (property_id, week_number)`
 
 ---
 

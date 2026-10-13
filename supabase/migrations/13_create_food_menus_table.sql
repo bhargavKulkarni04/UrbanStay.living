@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.food_menus (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     property_id UUID NOT NULL REFERENCES public.properties(id) ON DELETE CASCADE,
     property_name TEXT DEFAULT '',
-    cycle_weeks INT NOT NULL DEFAULT 2,          -- 1, 2, 3, or 4 week repeating cycle
+    cycle_weeks INT NOT NULL DEFAULT 4,          -- 1, 2, 3, or 4 week repeating cycle
     week_number INT NOT NULL DEFAULT 1,          -- Week 1, Week 2, Week 3, Week 4
     day_of_week TEXT NOT NULL,                  -- 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
     breakfast TEXT DEFAULT '',
@@ -20,5 +20,20 @@ CREATE TABLE IF NOT EXISTS public.food_menus (
     CONSTRAINT food_menus_property_week_day_unique UNIQUE (property_id, week_number, day_of_week)
 );
 
--- Index for rapid lookups by property
+-- Idempotent column additions for existing tables
+ALTER TABLE public.food_menus 
+ADD COLUMN IF NOT EXISTS cycle_weeks INT NOT NULL DEFAULT 4,
+ADD COLUMN IF NOT EXISTS week_number INT NOT NULL DEFAULT 1;
+
+-- Ensure constraint allows multi-week rotation per day
+ALTER TABLE public.food_menus 
+DROP CONSTRAINT IF EXISTS food_menus_property_id_day_of_week_key,
+DROP CONSTRAINT IF EXISTS food_menus_property_day_unique,
+DROP CONSTRAINT IF EXISTS food_menus_property_week_day_unique;
+
+ALTER TABLE public.food_menus 
+ADD CONSTRAINT food_menus_property_week_day_unique UNIQUE (property_id, week_number, day_of_week);
+
+-- Indexes for rapid lookups
 CREATE INDEX IF NOT EXISTS idx_food_menus_property_id ON public.food_menus(property_id);
+CREATE INDEX IF NOT EXISTS idx_food_menus_prop_week ON public.food_menus(property_id, week_number);
