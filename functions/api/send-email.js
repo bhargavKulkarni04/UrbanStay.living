@@ -53,10 +53,100 @@ function encodeRfc2047(str) {
   return `=?utf-8?B?${btoa(binary)}?=`;
 }
 
-export async function onRequestPost(context) {
+/**
+ * Admin emails that receive instant failure alerts
+ */
+const ALERT_RECIPIENTS = ['info@urbanstay.living', 'bhargavkulkarni04@gmail.com'];
+
+/**
+ * Sends an automated failure alert email to UrbanStay administrators
+ */
+async function sendErrorAlert({ errorMsg, to, phone, pgName, city, env, accessToken, clientId, clientSecret, refreshToken }) {
   try {
-    const { request, env } = context;
-    const { to, pgName, phone, city, beds } = await request.json();
+    let token = accessToken;
+    if (!token && clientId && clientSecret && refreshToken) {
+      try {
+        token = await getAccessToken(clientId, clientSecret, refreshToken);
+      } catch (tokenErr) {
+        console.error('Could not obtain token for alert email:', tokenErr);
+      }
+    }
+
+    if (!token) {
+      console.error('No Google access token available to dispatch alert email.');
+      return;
+    }
+
+    const senderEmail = (env?.SENDER_EMAIL || env?.GOOGLE_EMAIL || 'info@urbanstay.living').trim();
+    const alertSubject = `[URGENT] UrbanStay Email Failure: ${phone || to || 'Lead'}`;
+    const alertHtml = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #F4F6F9; padding: 24px; margin: 0;">
+  <div style="max-width: 520px; margin: 0 auto; background: #FFFFFF; border-radius: 14px; border: 1px solid #E5E7EB; padding: 24px 28px; box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
+    <div style="display: inline-block; background-color: #FEE2E2; color: #991B1B; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px;">
+      System Alert
+    </div>
+    <h3 style="color: #DC2626; margin: 0 0 10px; font-size: 19px; font-weight: 800; letter-spacing: -0.01em;">
+      ⚠️ Email Dispatch Failure
+    </h3>
+    <p style="font-size: 14px; color: #4B5563; line-height: 1.5; margin: 0 0 16px;">
+      An error occurred while dispatching a transactional email on <strong>urbanstay.living</strong>.
+    </p>
+    
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; background-color: #F9FAFB; border-radius: 10px; border: 1px solid #E5E7EB;">
+      <tr><td style="padding: 9px 14px; color: #6B7280; font-weight: 600;">Error Message:</td><td style="padding: 9px 14px; color: #DC2626; font-weight: 700; text-align: right;">${errorMsg || 'Unknown error'}</td></tr>
+      <tr><td style="padding: 9px 14px; color: #6B7280; font-weight: 600;">Target Lead Email:</td><td style="padding: 9px 14px; color: #111; font-weight: 600; text-align: right;">${to || 'N/A'}</td></tr>
+      <tr><td style="padding: 9px 14px; color: #6B7280; font-weight: 600;">Lead Phone:</td><td style="padding: 9px 14px; color: #111; font-weight: 600; text-align: right;">+91 ${phone || 'N/A'}</td></tr>
+      <tr><td style="padding: 9px 14px; color: #6B7280; font-weight: 600;">PG Name:</td><td style="padding: 9px 14px; color: #111; font-weight: 600; text-align: right;">${pgName || 'N/A'}</td></tr>
+      <tr><td style="padding: 9px 14px; color: #6B7280; font-weight: 600;">City:</td><td style="padding: 9px 14px; color: #111; font-weight: 600; text-align: right;">${city || 'N/A'}</td></tr>
+      <tr><td style="padding: 9px 14px; color: #6B7280; font-weight: 600;">Timestamp:</td><td style="padding: 9px 14px; color: #6B7280; text-align: right;">${new Date().toISOString()}</td></tr>
+    </table>
+    <p style="font-size: 11px; color: #9CA3AF; margin: 0; text-align: center;">
+      UrbanStay Technologies Pvt. Ltd. &bull; Automated Health Monitor
+    </p>
+  </div>
+</body>
+</html>
+    `;
+
+    for (const adminEmail of ALERT_RECIPIENTS) {
+      const emailLines = [
+        `From: "UrbanStay Monitor" <${senderEmail}>`,
+        `To: ${adminEmail}`,
+        `Subject: ${encodeRfc2047(alertSubject)}`,
+        'MIME-Version: 1.0',
+        'Content-Type: text/html; charset=utf-8',
+        '',
+        alertHtml
+      ];
+      const rawEmail = emailLines.join('\r\n');
+      await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ raw: toBase64Url(rawEmail) })
+      }).catch(err => console.error(`Failed to send alert to ${adminEmail}:`, err));
+    }
+  } catch (err) {
+    console.error('sendErrorAlert execution failed:', err);
+  }
+}
+
+export async function onRequestPost(context) {
+  let to, pgName, phone, city, beds, clientId, clientSecret, refreshToken, accessToken;
+  const { request, env } = context;
+
+  try {
+    const body = await request.json().catch(() => ({}));
+    to = body.to;
+    pgName = body.pgName;
+    phone = body.phone;
+    city = body.city;
+    beds = body.beds;
 
     if (!to) {
       return new Response(JSON.stringify({ error: 'Recipient email is required' }), {
@@ -66,25 +156,15 @@ export async function onRequestPost(context) {
     }
     const clean = (s) => (s ? String(s).trim().replace(/^["']|["']$/g, '') : '');
 
-    const clientId = clean(env?.GOOGLE_CLIENT_ID || env?.GMAIL_CLIENT_ID || env?.CLIENT_ID);
-    const clientSecret = clean(env?.GOOGLE_CLIENT_SECRET || env?.GMAIL_CLIENT_SECRET || env?.CLIENT_SECRET);
-    const refreshToken = clean(env?.GOOGLE_REFRESH_TOKEN || env?.GMAIL_REFRESH_TOKEN || env?.REFRESH_TOKEN);
+    clientId = clean(env?.GOOGLE_CLIENT_ID || env?.GMAIL_CLIENT_ID || env?.CLIENT_ID);
+    clientSecret = clean(env?.GOOGLE_CLIENT_SECRET || env?.GMAIL_CLIENT_SECRET || env?.CLIENT_SECRET);
+    refreshToken = clean(env?.GOOGLE_REFRESH_TOKEN || env?.GMAIL_REFRESH_TOKEN || env?.REFRESH_TOKEN);
 
     if (!clientId || !clientSecret || !refreshToken) {
-      return new Response(JSON.stringify({
-        error: 'Missing Gmail credentials in Cloudflare environment variables.',
-        details: {
-          hasClientId: !!clientId,
-          hasClientSecret: !!clientSecret,
-          hasRefreshToken: !!refreshToken
-        }
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-      });
+      throw new Error('Missing Gmail credentials in Cloudflare environment variables (checked GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN).');
     }
 
-    const accessToken = await getAccessToken(clientId, clientSecret, refreshToken);
+    accessToken = await getAccessToken(clientId, clientSecret, refreshToken);
 
     const subject = 'Welcome to Urban Stay — Your Account Has Been Created';
     const htmlBody = `
@@ -241,6 +321,21 @@ export async function onRequestPost(context) {
 
   } catch (err) {
     console.error('Send email error:', err);
+
+    // Trigger instant error alert email to info@urbanstay.living and bhargavkulkarni04@gmail.com
+    await sendErrorAlert({
+      errorMsg: err.message,
+      to,
+      phone,
+      pgName,
+      city,
+      env,
+      accessToken,
+      clientId,
+      clientSecret,
+      refreshToken
+    });
+
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
       headers: {
