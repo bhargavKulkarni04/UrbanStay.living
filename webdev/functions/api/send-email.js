@@ -41,6 +41,18 @@ function toBase64Url(str) {
     .replace(/=+$/, '');
 }
 
+/**
+ * Encodes an email header (e.g. Subject) according to RFC 2047
+ */
+function encodeRfc2047(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return `=?utf-8?B?${btoa(binary)}?=`;
+}
+
 export async function onRequestPost(context) {
   try {
     const { request, env } = context;
@@ -53,14 +65,23 @@ export async function onRequestPost(context) {
       });
     }
 
-    const clientId = env?.GOOGLE_CLIENT_ID;
-    const clientSecret = env?.GOOGLE_CLIENT_SECRET;
-    const refreshToken = env?.GOOGLE_REFRESH_TOKEN;
+    const clean = (s) => (s ? String(s).trim().replace(/^["']|["']$/g, '') : '');
+
+    const clientId = clean(env?.GOOGLE_CLIENT_ID || env?.GMAIL_CLIENT_ID || env?.CLIENT_ID);
+    const clientSecret = clean(env?.GOOGLE_CLIENT_SECRET || env?.GMAIL_CLIENT_SECRET || env?.CLIENT_SECRET);
+    const refreshToken = clean(env?.GOOGLE_REFRESH_TOKEN || env?.GMAIL_REFRESH_TOKEN || env?.REFRESH_TOKEN);
 
     if (!clientId || !clientSecret || !refreshToken) {
-      return new Response(JSON.stringify({ ok: true, notice: 'Missing environment variables in Cloudflare' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
+      return new Response(JSON.stringify({
+        error: 'Missing Gmail credentials in Cloudflare environment variables.',
+        details: {
+          hasClientId: !!clientId,
+          hasClientSecret: !!clientSecret,
+          hasRefreshToken: !!refreshToken
+        }
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
     }
 
@@ -178,10 +199,12 @@ export async function onRequestPost(context) {
 </html>
     `;
 
-    // Construct MIME message
+    // Construct MIME message with RFC 5322 From header
+    const senderEmail = clean(env?.SENDER_EMAIL || env?.GOOGLE_EMAIL) || 'info@urbanstay.living';
     const emailLines = [
+      `From: "UrbanStay" <${senderEmail}>`,
       `To: ${to}`,
-      `Subject: =?utf-8?B?${btoa(unescape(encodeURIComponent(subject)))}?=`,
+      `Subject: ${encodeRfc2047(subject)}`,
       'MIME-Version: 1.0',
       'Content-Type: text/html; charset=utf-8',
       '',
@@ -204,7 +227,9 @@ export async function onRequestPost(context) {
     const sendData = await sendRes.json();
 
     if (!sendRes.ok) {
-      throw new Error(sendData.error ? sendData.error.message : 'Gmail API send error');
+      const errMsg = sendData.error?.message || (typeof sendData.error === 'string' ? sendData.error : JSON.stringify(sendData.error || 'Gmail API send error'));
+      console.error('Gmail API send error:', errMsg);
+      throw new Error(errMsg);
     }
 
     return new Response(JSON.stringify({ success: true, messageId: sendData.id }), {
