@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
 
   try {
     const body = await request.json().catch(() => ({}));
-    
+
     const amount = Number(body.amount) || 11.00;
     const customerId = (body.customer_id || 'owner_bhargav_' + Date.now()).substring(0, 45);
     const customerPhone = body.phone || '9876543210';
@@ -62,11 +62,11 @@ export async function onRequestPost(context) {
 
     // Auto-detect whether to try Sandbox or Production first
     const explicitlySandbox = env.CF_ENVIRONMENT === 'sandbox' || appId.toUpperCase().startsWith('TEST');
-    const primaryHost = explicitlySandbox 
-      ? 'https://sandbox.cashfree.com/pg/orders' 
+    const primaryHost = explicitlySandbox
+      ? 'https://sandbox.cashfree.com/pg/orders'
       : 'https://api.cashfree.com/pg/orders';
-    const fallbackHost = explicitlySandbox 
-      ? 'https://api.cashfree.com/pg/orders' 
+    const fallbackHost = explicitlySandbox
+      ? 'https://api.cashfree.com/pg/orders'
       : 'https://sandbox.cashfree.com/pg/orders';
 
     let activeEnv = explicitlySandbox ? 'sandbox' : 'production';

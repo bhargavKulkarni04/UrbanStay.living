@@ -69,7 +69,7 @@
         } catch (_) {
           const smsMsg = encodeURIComponent(`Your UrbanStay verification OTP code is ${activeOtpCode}`);
           const smsUrl = `https://www.fast2sms.com/dev/bulkV2?authorization=${FAST2SMS_KEY}&route=q&message=${smsMsg}&language=english&flash=0&numbers=${phone}`;
-          fetch(smsUrl, { method: 'GET', mode: 'no-cors' }).catch(() => {});
+          fetch(smsUrl, { method: 'GET', mode: 'no-cors' }).catch(() => { });
         }
 
         // In case Fast2SMS is processing domain verification, store in session

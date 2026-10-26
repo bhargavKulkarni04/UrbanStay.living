@@ -161,4 +161,43 @@ In `owner_rooms_screen.dart`, clicking "Give Move-Out Notice" had hardcoded "(30
 
 ---
 
+## 🔒 8. GITHUB CHECKPOINT & REVERT BASELINES (PUSHED 21 OCT 2026)
+
+Before modifying any tenant files, a full backup was committed and pushed to GitHub:
+
+### A. Mobile App Repository (`UrbanStay-App`)
+* **Branch**: `feat/owner-settings-ledger-sync-19oct`
+* **Commit Hash**: `f2b5baf`
+* **Commit Message**: `feat: dynamic notice period, owner_notices hub, wifi and expense fixes`
+* **Files Committed**:
+  - `mobile_app/lib/features/owner_notices/presentation/screens/owner_notices_screen.dart` (New file)
+  - `mobile_app/lib/features/owner_rooms/presentation/screens/owner_rooms_screen.dart`
+  - `mobile_app/lib/features/owner_settings/presentation/screens/owner_settings_screen.dart`
+  - `mobile_app/lib/features/owner_expenses/presentation/screens/owner_expenses_screen.dart`
+  - `mobile_app/lib/core/state/owner_app_state.dart`
+  - `mobile_app/lib/core/models/property_model.dart`
+  - `mobile_app/pubspec.yaml`
+
+### B. Root Workspace Repository (`UrbanStay.living`)
+* **Branch**: `feat/supabase-live-integration`
+* **Commit Hash**: `533af8c`
+* **Commit Message**: `docs: add day 21 end-to-end master context log`
+* **Files Committed**:
+  - `day_21_context/day21thcontext.md`
+
+### 🌿 Active Working Branch for Tenant Module:
+* **New Branch Created**: `feat/tenant-checkin-supabase-wiring`
+* Created off the stable commit `f2b5baf`.
+* Any new changes for Tenant Check-in and Supabase wiring will be safely isolated on this branch.
+
+### 🛡️ Instant Revert Safety Command:
+If any tenant modifications ever need to be completely rolled back to the clean checkpoint:
+```powershell
+cd c:\Users\bharg\OneDrive\Desktop\UrbanStay\mobile_app
+git reset --hard f2b5baf
+```
+
+---
+
 *Document compiled and preserved for permanent workspace memory.* 🕉️✨
+

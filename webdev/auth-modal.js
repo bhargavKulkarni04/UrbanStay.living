@@ -346,6 +346,8 @@
           document.getElementById('ubPgName').focus();
           return;
         }
+      } else {
+        pgName = 'Login User';
       }
 
       // Button loading state
